@@ -110,34 +110,47 @@ section{padding:clamp(72px,9vw,120px) 0}
 .acc .body .pr{display:flex;align-items:center;gap:24px;margin-top:20px;font-weight:600;font-size:20px}
 .acc .ph{aspect-ratio:9/5;border-radius:4px;background:var(--paper2);display:grid;place-items:center;color:var(--ink5)}
 /* calculator */
-.calc{display:grid;gap:16px}@media (min-width:1000px){.calc{grid-template-columns:1fr 520px}}
-.calc .in{background:var(--card);border-radius:4px;padding:36px 40px 40px;display:grid;gap:32px}
+.calc{display:grid;gap:16px;align-items:start}@media (min-width:1000px){.calc{grid-template-columns:1fr 480px}.calc .out{position:sticky;top:96px}}
+.calc>*{min-width:0}
+.calc .in{background:var(--card);border-radius:4px;padding:36px 40px 40px;display:grid;gap:36px}
 .calc .out{background:var(--dark);color:#fff;border-radius:4px;padding:36px 40px 40px;display:grid;gap:24px;align-content:start}
 @media (max-width:599px){.calc .in,.calc .out{padding:28px 20px 32px}}
-.field{display:grid;gap:12px}.field>.mono{color:var(--ink5)}
+.field{display:grid;gap:14px}.field>.mono{color:var(--ink5)}
+.field h3{font-size:22px;font-weight:600}
 .seg{display:flex;padding:4px;background:var(--paper);border-radius:2px;gap:4px}
 .seg button{flex:1;padding:12px;border-radius:2px;font-weight:500;color:var(--ink7);transition:background var(--base),color var(--base)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-.slider{display:grid;gap:10px}.slider .v{display:flex;justify-content:space-between;align-items:baseline}.slider .v b{font-size:28px;font-weight:600;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
-.slider input{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:2px;background:linear-gradient(var(--acc),var(--acc)) 0/var(--p,35%) 100% no-repeat var(--paper2);margin:8px 0}
-.slider input::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:2px;background:var(--card);border:2px solid var(--ink);cursor:pointer;transition:box-shadow var(--fast)}
-.slider input::-moz-range-thumb{width:16px;height:16px;border-radius:2px;background:var(--card);border:2px solid var(--ink);cursor:pointer}
-.slider input:hover::-webkit-slider-thumb{box-shadow:0 0 0 6px var(--acc1)}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chips button{padding:10px 16px;border:1px solid var(--line);border-radius:2px;font-size:14px;transition:all var(--fast)}
-.chips button:hover{border-color:var(--ink)}.chips button[aria-pressed="true"]{background:var(--acc1);border-color:var(--acc)}
-.checks{display:grid;gap:4px}.checks label{display:flex;align-items:center;gap:12px;padding:6px 0;cursor:pointer}
-.checks input{appearance:none;width:20px;height:20px;border:1.5px solid var(--ink3);border-radius:2px;display:grid;place-items:center;transition:all var(--fast);flex:none}
-.checks input:checked{background:var(--acc);border-color:var(--acc)}.checks input:checked::after{content:"";width:9px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:translateY(-1px) rotate(-45deg)}
-.lines{display:grid}.lines div{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid #233A72;color:#A9B6D0;transition:background var(--reveal)}
-.lines div.flash{background:rgba(26,92,255,.18)}
-.lines span:last-child{color:#fff;font-variant-numeric:tabular-nums}.lines span.ok{color:#5CD48E}
-.total{display:flex;justify-content:space-between;align-items:end;padding-top:8px}.total .mono{color:#5B6B8C}
-.total b{font-size:56px;line-height:1;font-weight:500;letter-spacing:-.03em;font-variant-numeric:tabular-nums;display:inline-flex}
-.total b span{display:inline-block;transition:transform var(--slow) var(--std),opacity var(--slow)}
-.total b span.roll{animation:roll var(--slow) var(--std)}
+.stepper{display:inline-flex;align-items:stretch;height:56px;border:1px solid var(--line);border-radius:2px;background:var(--card);width:max-content;max-width:100%}
+.stepper button{width:52px;font-size:22px;color:var(--ink7);transition:background var(--fast)}.stepper button:hover{background:var(--paper)}
+.stepper input{width:140px;min-width:0;border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);text-align:center;font:inherit;font-size:24px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);background:transparent;-moz-appearance:textfield}
+.stepper.s{height:40px}.stepper.s button{width:38px;font-size:18px}.stepper.s input{width:84px;font-size:16px}
+.stepper input::-webkit-inner-spin-button,.stepper input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.stepper input:focus{outline:2px solid var(--acc);outline-offset:-2px}
+.opts{display:grid;gap:8px}@media (min-width:640px){.opts{grid-template-columns:1fr 1fr}}
+.opt{display:grid;gap:14px;align-content:start;padding:18px 20px;border:1px solid var(--line);border-radius:4px;background:var(--card);transition:border-color var(--fast),background var(--fast)}
+.opt:hover{border-color:var(--ink3)}.opt.on{border-color:var(--acc);background:var(--acc1)}
+.opt label{display:grid;grid-template-columns:20px 1fr;gap:4px 14px;cursor:pointer}
+.opt label input{grid-row:span 3;margin-top:2px}
+.opt label.plain{grid-template-columns:1fr;cursor:default}.opt label.plain~.q{padding-left:0}
+.calcbar{position:sticky;bottom:12px;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;background:var(--dark);color:#fff;border-radius:4px;box-shadow:0 8px 24px rgba(10,23,54,.25)}.calcbar>div{display:grid;gap:2px}.calcbar span{color:#A9B6D0;font-size:13px;white-space:nowrap}.calcbar b{white-space:nowrap;font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}.calcbar a{color:#5C8DFF;font-size:14px;white-space:nowrap}@media (min-width:1000px){.calcbar{display:none}}
+.opt b{font-weight:600}.opt small{color:var(--ink5);font-size:14px;line-height:1.4}.opt .pr{color:var(--acc6)}
+.opt .q{display:none;align-items:center;gap:12px;padding-left:34px;flex-wrap:wrap}.opt.on .q{display:flex}.opt .q .mono{color:var(--ink5)}
+.opt input[type=checkbox],.opt input[type=radio]{appearance:none;width:20px;height:20px;border:1.5px solid var(--ink3);border-radius:2px;display:grid;place-items:center;transition:all var(--fast);background:var(--card)}
+.opt input[type=radio]{border-radius:50%}
+.opt input[type=checkbox]:checked{background:var(--acc);border-color:var(--acc)}.opt input[type=checkbox]:checked::after{content:"";width:9px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:translateY(-1px) rotate(-45deg)}
+.opt input[type=radio]:checked{border:6px solid var(--acc)}
+.opt input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+#storeField[hidden]{display:none}
+.out .sum{display:grid;gap:10px}.out .sum b{font-size:clamp(44px,5vw,60px);line-height:1;font-weight:500;letter-spacing:-.03em;font-variant-numeric:tabular-nums;display:inline-flex}
+.out .sum b span{display:inline-block}.out .sum b span.roll{animation:roll var(--slow) var(--std)}
 @keyframes roll{0%{transform:translateY(60%);opacity:0}100%{transform:none;opacity:1}}
-.out .btn{width:100%}.out .btn>span{flex:1;justify-content:center}.out .note{font-size:14px;color:#5B6B8C}
+.out .sum p{color:#A9B6D0;font-size:14px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}.stats div{display:grid;gap:10px;padding:16px 18px;background:var(--dark8);border:1px solid var(--dark7);border-radius:4px}
+.stats span{color:#A9B6D0;font-size:14px}.stats b{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+.lines{display:grid}.lines div{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid #233A72;color:#A9B6D0}
+.lines span:last-child{color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}.lines .empty{color:#5B6B8C}
+.out .acts{display:grid;gap:8px}.out .btn{width:100%}.out .btn>span{flex:1;justify-content:center}.out .note{font-size:14px;color:#5B6B8C}
+.btn.line{border:1px solid #233A72;color:#fff;background:transparent}.btn.line:hover{background:#12244F}.btn.line[aria-pressed="true"]{border-color:var(--acc);background:rgba(26,92,255,.18)}
 /* agency block */
 .agency{background:var(--acc);color:#fff}
 .agency .sec-head .lead{color:#fff;opacity:.88}
@@ -247,21 +260,23 @@ footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between
 </div></section>
 
 <section class="paper" id="calc"><div class="wrap">
- <div class="sec-head rv"><div class="l"><span class="tag"><b>02</b><i>Калькулятор</i></span><h2>Посчитайте полную стоимость единицы товара — со всеми расходами</h2></div><p class="lead muted">Показываем то, что обычно всплывает на третий месяц: приёмку, маркировку, логистику и хранение.</p></div>
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>02</b><i>Калькулятор</i></span><h2>Посчитайте стоимость партии по прайсу</h2></div><p class="lead muted">Укажите количество и отметьте нужные операции — сразу увидите цену за единицу и за всю партию.</p></div>
  <div class="calc">
-  <div class="in">
-   <div class="field"><span class="mono">Модель работы</span><div class="seg" id="model"><button aria-pressed="true" data-m="fbs">FBS</button><button aria-pressed="false" data-m="fbo">FBO</button><button aria-pressed="false" data-m="store">Только хранение</button></div></div>
-   <div class="field slider"><span class="mono">Габариты единицы, см (сумма сторон)</span><div class="v"><b id="dimV">65</b><span class="mono muted">3 — 360</span></div><input type="range" id="dim" min="3" max="360" value="65" aria-label="Сумма сторон, см"></div>
-   <div class="field slider"><span class="mono">Заказов в месяц</span><div class="v"><b id="qtyV">1 500</b><span class="mono muted">50 — 10 000+</span></div><input type="range" id="qty" min="50" max="10000" step="50" value="1500" aria-label="Заказов в месяц"></div>
-   <div class="field"><span class="mono">Тип товара</span><div class="chips" id="type"><button aria-pressed="true" data-k="1">Одежда</button><button aria-pressed="false" data-k="1.1">Косметика</button><button aria-pressed="false" data-k="1.15">Электроника</button><button aria-pressed="false" data-k="1.3">Хрупкое</button><button aria-pressed="false" data-k="1.05">Честный знак</button><button aria-pressed="false" data-k="1.8">КГТ</button></div></div>
-   <div class="field"><span class="mono">Дополнительно</span><div class="checks"><label><input type="checkbox" id="pick" checked>Нужен забор товара от поставщика</label><label><input type="checkbox" id="chz">Есть маркировка «Честный знак»</label><label><input type="checkbox" id="pack">Нужна фирменная упаковка</label></div></div>
+  <div class="in" id="calcIn">
+   <div class="field"><h3>Параметры партии</h3><span class="mono">Количество единиц</span><div class="stepper" data-for="units"><button type="button" data-d="-1" aria-label="Меньше">−</button><input type="number" id="units" min="1" max="1000000" value="100" inputmode="numeric" aria-label="Количество единиц в партии"><button type="button" data-d="1" aria-label="Больше">+</button></div></div>
+   <div class="field"><h3>Разгрузка товара</h3><div class="opts" id="unload"></div></div>
+   <div class="field"><h3>Приёмка товара</h3><div class="opts" id="accept"></div></div>
+   <div class="field"><h3>Работа с товаром</h3><div class="opts" id="work"></div></div>
+   <div class="field" id="storeField" hidden><h3>Хранение</h3><div class="opts"><div class="opt on"><label class="plain"><b>Объём единицы, литров</b><small>0,07 ₽ за литр в сутки, первые 14 дней бесплатно</small></label><div class="q"><div class="stepper s"><button type="button" data-d="-1" aria-label="Меньше">−</button><input type="number" id="liters" min="0.1" step="0.1" value="2" aria-label="Литров на единицу"><button type="button" data-d="1" aria-label="Больше">+</button></div></div></div><div class="opt on"><label class="plain"><b>Срок хранения, дней</b><small>Считаем только платные дни</small></label><div class="q"><div class="stepper s"><button type="button" data-d="-1" aria-label="Меньше">−</button><input type="number" id="days" min="1" value="30" aria-label="Дней хранения"><button type="button" data-d="1" aria-label="Больше">+</button></div></div></div></div></div>
+   <div class="calcbar" aria-hidden="true"><div><span>Итого</span><b id="barTotal"></b></div><div><span>За единицу</span><b id="barPer"></b></div><a href="#calcOut">Детали ↓</a></div>
   </div>
-  <div class="out">
-   <span class="mono" style="color:#A9B6D0">Из чего складывается цена</span>
-   <div class="lines" id="lines"><div><span>Приёмка</span><span class="ok">0 ₽</span></div><div><span>Хранение до 3 месяцев</span><span class="ok">включено</span></div><div><span>Сборка и упаковка</span><span id="l1">14,20 ₽</span></div><div><span>Маркировка</span><span id="l2">3,50 ₽</span></div><div><span>Логистика до СЦ маркетплейса</span><span id="l3">12,00 ₽</span></div><div><span>Минимальный чек в месяц</span><span class="ok">нет</span></div></div>
-   <div class="total"><div><div style="color:#A9B6D0;font-size:14px">За 1 единицу под ключ</div><div class="mono" id="monthly">≈ 44 550 ₽ в месяц</div></div><b id="total"></b></div>
-   <a class="btn primary" href="#contact"><span>Получить точный расчёт</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a>
-   <p class="note">Расчёт ориентировочный. Точную цену менеджер подтвердит за 10 минут и зафиксирует в приложении к договору.</p>
+  <div class="out" id="calcOut">
+   <span class="mono" style="color:#A9B6D0">Итог по прайсу</span>
+   <div class="sum"><b id="total"></b><p id="sumNote"></p></div>
+   <div class="stats"><div><span>На 1 ед.</span><b id="perUnit"></b></div><div><span>Вся партия</span><b id="batch"></b></div><div><span>Со скидкой 10%</span><b id="disc"></b></div><div><span>Операций выбрано</span><b id="ops"></b></div></div>
+   <div class="lines" id="lines"></div>
+   <div class="acts"><a class="btn primary" href="#contact"><span>Получить точный расчёт</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a><button type="button" class="btn line" id="addStore" aria-pressed="false"><span>Добавить хранение</span></button></div>
+   <p class="note">Расчёт по базовому прайсу. Скидка 10% — на первую партию. Точную цену менеджер подтвердит за 10 минут и зафиксирует в приложении к договору.</p>
   </div>
  </div>
 </div></section>
@@ -348,21 +363,34 @@ $('#flowMode').addEventListener('click',e=>{const b=e.target.closest('button');i
 /* faq */
 const FAQ=[['Есть ли минимальный объём или минимальный чек?','Нет. Работаем от первой партии. Минимального ежемесячного платежа нет — платите только за операции, которые мы выполнили.'],['Что выгоднее — FBS или FBO?','Зависит от оборачиваемости и габаритов. Для товаров с быстрыми продажами выгоднее FBO, для широкого ассортимента с неравномерным спросом — FBS. Менеджер сравнит обе схемы на ваших цифрах за 15 минут.'],['Кто отвечает за брак, пересорт и утерю?','Мы. Утерю и брак по нашей вине возмещаем по закупочной цене, штрафы маркетплейса за пересорт компенсируем. Это пункты SLA в договоре.'],['Можете забрать товар с рынка, из ТК или из Китая?','Да. Заберём с рынка, со склада поставщика или из транспортной компании. По поставкам из Китая работаем с партнёрами-перевозчиками.'],['Работаете с маркировкой «Честный знак»?','Да: принимаем товар с кодами, наносим маркировку, вводим в оборот и передаём данные в систему. Подключение и выпуск кодов делает наше агентство.'],['Сколько стоит и сколько длится разработка интернет-магазина?','Это услуга агентства «Бренд Digital»: от 350 000 ₽ и от трёх недель, с интеграцией остатков и заказов с фулфилментом.']];
 $('#faqList').innerHTML=FAQ.map((f,i)=>`<details${i?'':' open'}><summary><span class="num mono">0${i+1}</span><span>${f[0]}</span><span class="pl"></span></summary><div class="a">${f[1]}</div></details>`).join('');single($('#faqList'));
-/* calculator */
-let model='fbs',k=1;const dim=$('#dim'),qty=$('#qty');
-const money=v=>v.toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2})+' ₽';
+/* calculator: by quantity, as in the price list */
+const OPS={
+ unload:{type:'checkbox',items:[['box','Короб','Мест в приходе',50,'за место',10],['bale','Баул','Мест в приходе',70,'за место',5],['pallet','Паллет','Паллет в приходе',300,'за паллет',1]]},
+ accept:{type:'radio',items:[['scan','Приёмка по штрихкоду','Сканирование и сверка по штрихкоду',7,'за ед.',null,true],['manual','Приёмка без штрихкода','Ручная приёмка товара на склад',5,'за ед.']]},
+ work:{type:'checkbox',items:[['mark','Маркировка','Стикер со штрихкодом или кодом «Честного знака»',5,'за ед.',0,true],['qcv','Проверка на брак визуальная','Быстрый внешний осмотр товара',10,'за ед.',0],['qcf','Проверка на брак тщательная','Детальная проверка товара по ТЗ',20,'за ед.',0],['insert','Вложение','Вкладыш, инструкция, промоматериал',6,'за ед.',0],['shrink','Термоусадка','Дополнительная упаковка товара',8,'за ед.',0],['press','Пресс с запайщиком','Плотная упаковка для отдельных категорий',50,'за ед.',0]]}};
+const STORE_RATE=.07,FREE_DAYS=14,DISC=.1;
+const money=v=>(Math.round(v*100)/100).toLocaleString('ru-RU',{maximumFractionDigits:2})+' ₽';
 const rollTo=(el,txt)=>{const old=el.textContent;if(old===txt)return;el.innerHTML=[...txt].map((ch,i)=>`<span class="${old[i]!==ch?'roll':''}">${ch===' '?'&nbsp;':ch}</span>`).join('')};
-const flash=id=>{const d=$('#'+id).closest('div');d.classList.add('flash');setTimeout(()=>d.classList.remove('flash'),600)};
-const calc=()=>{const d=+dim.value,q=+qty.value;dim.style.setProperty('--p',((d-3)/357*100)+'%');qty.style.setProperty('--p',((q-50)/9950*100)+'%');$('#dimV').textContent=d;$('#qtyV').textContent=fmt(q);
- const size=1+Math.max(0,d-60)/120,vol=q>5000?.85:q>2000?.92:1;
- const pick=model==='fbs'?14.2*size*k*vol:model==='fbo'?9*size*k*vol:0;const mark=($('#chz').checked?4.5:3.5)+($('#pack').checked?6:0);const log=model==='store'?0:(model==='fbs'?12:7.5)*size;
- const prev=[$('#l1').textContent,$('#l2').textContent,$('#l3').textContent];
- $('#l1').textContent=money(pick);$('#l2').textContent=money(mark);$('#l3').textContent=money(log);
- ['l1','l2','l3'].forEach((id,i)=>{if(prev[i]!==$('#'+id).textContent)flash(id)});
- const total=pick+mark+log+($('#pick').checked?0.4:0);rollTo($('#total'),money(total));$('#monthly').textContent='≈ '+fmt(total*q)+' ₽ в месяц'};
-$('#model').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;model=b.dataset.m;$$('#model button').forEach(x=>x.setAttribute('aria-pressed',x===b));calc()});
-$('#type').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;k=+b.dataset.k;$$('#type button').forEach(x=>x.setAttribute('aria-pressed',x===b));calc()});
-[dim,qty,$('#pick'),$('#chz'),$('#pack')].forEach(el=>el.addEventListener('input',calc));calc();
+const unitsEl=$('#units');const units=()=>Math.max(1,Math.round(+unitsEl.value||0));
+const stepper=(id,val,min)=>`<div class="stepper s"><button type="button" data-d="-1" aria-label="Меньше">−</button><input type="number" id="${id}" min="${min}" value="${val}" inputmode="numeric"><button type="button" data-d="1" aria-label="Больше">+</button></div>`;
+for(const [g,{type,items}] of Object.entries(OPS))$('#'+g).innerHTML=items.map(([k,name,sub,price,per,qty,on])=>`<div class="opt${on?' on':''}"><label><input type="${type}" name="${g}" value="${k}"${on?' checked':''}><b>${name}</b><small>${sub}</small><small class="pr mono">${price} ₽ ${per}</small></label>${qty!==null&&qty!==undefined?`<div class="q"><span class="mono">${g==='unload'?'Количество':'Единиц'}</span>${stepper('q-'+k,qty||100,g==='unload'?1:1)}</div>`:''}</div>`).join('');
+/* per-operation quantities follow the batch size until the visitor edits them */
+const touched=new Set();
+const syncQty=()=>{for(const [k,,,,,qty] of OPS.work.items){const el=$('#q-'+k);if(el&&!touched.has(k))el.value=units()}};
+const calc=()=>{const n=units(),rows=[];let ops=0;
+ for(const [g,{items}] of Object.entries(OPS))for(const [k,name,,price,per,qty] of items){const inp=$(`#${g} input[value="${k}"]`);inp.closest('.opt').classList.toggle('on',inp.checked);if(!inp.checked)continue;
+  const q=g==='accept'?n:Math.max(0,Math.round(+$('#q-'+k).value||0));if(!q)continue;ops++;rows.push([`${name}: ${fmt(q)} × ${money(price)}`,q*price])}
+ if($('#addStore').getAttribute('aria-pressed')==='true'){const l=Math.max(0,+$('#liters').value||0),d=Math.max(0,Math.round(+$('#days').value||0)),paid=Math.max(0,d-FREE_DAYS);ops++;rows.push([`Хранение: ${fmt(n)} ед. × ${String(l).replace('.',',')} л × ${paid} дн. × 0,07 ₽`,n*l*paid*STORE_RATE])}
+ const total=rows.reduce((a,r)=>a+r[1],0),per=total/n;
+ rollTo($('#total'),money(total));$('#sumNote').textContent=`${fmt(n)} ед. · ${money(per)} за единицу · со скидкой 10%: ${money(total*(1-DISC))}`;
+ $('#barTotal').textContent=money(total);$('#barPer').textContent=money(per);$('#perUnit').textContent=money(per);$('#batch').textContent=money(total);$('#disc').textContent=money(total*(1-DISC));$('#ops').textContent=ops;
+ $('#lines').innerHTML=rows.length?rows.map(r=>`<div><span>${r[0]}</span><span>${money(r[1])}</span></div>`).join(''):'<div><span class="empty">Отметьте операции слева</span><span></span></div>'};
+const calcEl=$('#calcIn');
+calcEl.addEventListener('click',e=>{const b=e.target.closest('.stepper button');if(!b)return;const inp=b.parentElement.querySelector('input'),st=+(inp.step||1)||1,min=+(inp.min||0);inp.value=Math.max(min,Math.round((+inp.value+(+b.dataset.d)*st)*10)/10);inp.dispatchEvent(new Event('input',{bubbles:true}))});
+calcEl.addEventListener('input',e=>{const t=e.target;if(t===unitsEl)syncQty();else if(t.id&&t.id.startsWith('q-'))touched.add(t.id.slice(2));calc()});
+calcEl.addEventListener('change',e=>{const t=e.target;if(t.name==='work'&&t.checked){if(t.value==='qcv')$('#work input[value="qcf"]').checked=false;if(t.value==='qcf')$('#work input[value="qcv"]').checked=false}calc()});
+$('#addStore').addEventListener('click',e=>{const b=e.currentTarget,on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.querySelector('span').textContent=on?'Убрать хранение':'Добавить хранение';$('#storeField').hidden=!on;if(on&&innerWidth<1000)$('#storeField').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});calc()});
+syncQty();calc();
 /* brief button demo */
 $('#briefBtn').addEventListener('click',e=>{e.preventDefault();const b=e.currentTarget;b.setAttribute('aria-busy','true');b.querySelector('h3').textContent='Открываем форму…';setTimeout(()=>{b.removeAttribute('aria-busy');b.querySelector('h3').textContent='Заявка принята · ответим за 10 минут';b.querySelector('p').textContent='Форма — на следующем этапе вёрстки; здесь показано состояние после отправки.'},900)});
 /* clock */
