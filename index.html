@@ -116,7 +116,7 @@ section{padding:clamp(72px,9vw,120px) 0}
 .calc .out{background:var(--dark);color:#fff;border-radius:4px;padding:36px 40px 40px;display:grid;gap:24px;align-content:start}
 @media (max-width:599px){.calc .in,.calc .out{padding:28px 20px 32px}}
 .field{display:grid;gap:14px}.field>.mono{color:var(--ink5)}
-.field h3{font-size:22px;font-weight:600}
+.field h3{font-size:22px;font-weight:600}.field .hint{color:var(--ink5);font-size:14px;margin-top:-4px}
 .seg{display:flex;padding:4px;background:var(--paper);border-radius:2px;gap:4px}
 .seg button{flex:1;padding:12px;border-radius:2px;font-weight:500;color:var(--ink7);transition:background var(--base),color var(--base)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
@@ -302,10 +302,11 @@ footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between
  <div class="sec-head rv"><div class="l"><span class="tag"><b>04</b><i>Калькулятор</i></span><h2>Посчитайте стоимость партии по прайсу</h2></div><p class="lead muted">Укажите количество и отметьте нужные операции — сразу увидите цену за единицу и за всю партию.</p></div>
  <div class="calc">
   <div class="in" id="calcIn">
-   <div class="field"><h3>Параметры партии</h3><span class="mono">Количество единиц</span><div class="stepper" data-for="units"><button type="button" data-d="-1" aria-label="Меньше">−</button><input type="number" id="units" min="1" max="1000000" value="100" inputmode="numeric" aria-label="Количество единиц в партии"><button type="button" data-d="1" aria-label="Больше">+</button></div></div>
-   <div class="field"><h3>Разгрузка товара</h3><div class="opts" id="unload"></div></div>
-   <div class="field"><h3>Приёмка товара</h3><div class="opts" id="accept"></div></div>
+   <div class="field"><h3>Параметры партии</h3><span class="mono">Количество единиц</span><div class="stepper" data-for="units"><button type="button" data-d="-1" aria-label="Меньше">−</button><input type="number" id="units" min="1" max="1000000" value="100" inputmode="numeric" aria-label="Количество единиц в партии"><button type="button" data-d="1" aria-label="Больше">+</button></div><small class="hint">В стоимость заложена приёмка — 5 ₽ за единицу</small></div>
+   <div class="field"><h3>Разгрузка товара</h3><small class="hint">Считаем по коробам или по паллетам — выберите один вариант</small><div class="opts" id="unload"></div></div>
    <div class="field"><h3>Работа с товаром</h3><div class="opts" id="work"></div></div>
+   <div class="field"><h3>FBS под ключ</h3><small class="hint">Обработка и стикерование заказа. Доставка и упаковка считаются отдельно</small><div class="opts" id="fbs"></div></div>
+   <div class="field"><h3>FBO</h3><small class="hint">Сборка заказа в короб. Короб и доставка считаются отдельно</small><div class="opts" id="fbo"></div></div>
    <div class="field" id="storeField" hidden><h3>Хранение</h3><div class="opts"><div class="opt on"><label class="plain"><b>Объём единицы, литров</b><small>0,07 ₽ за литр в сутки, первые 14 дней бесплатно</small></label><div class="q"><div class="stepper s"><button type="button" data-d="-1" aria-label="Меньше">−</button><input type="number" id="liters" min="0.1" step="0.1" value="2" aria-label="Литров на единицу"><button type="button" data-d="1" aria-label="Больше">+</button></div></div></div><div class="opt on"><label class="plain"><b>Срок хранения, дней</b><small>Считаем только платные дни</small></label><div class="q"><div class="stepper s"><button type="button" data-d="-1" aria-label="Меньше">−</button><input type="number" id="days" min="1" value="30" aria-label="Дней хранения"><button type="button" data-d="1" aria-label="Больше">+</button></div></div></div></div></div>
    <div class="calcbar" aria-hidden="true"><div><span>Итого</span><b id="barTotal"></b></div><div><span>За единицу</span><b id="barPer"></b></div><a href="#calcOut">Детали ↓</a></div>
   </div>
@@ -414,9 +415,11 @@ const FAQ=[['Есть ли минимальный объём или минима
 $('#faqList').innerHTML=FAQ.map((f,i)=>`<details${i?'':' open'}><summary><span class="num mono">0${i+1}</span><span>${f[0]}</span><span class="pl"></span></summary><div class="a">${f[1]}</div></details>`).join('');single($('#faqList'));
 /* calculator: by quantity, as in the price list */
 const OPS={
- unload:{type:'checkbox',items:[['box','Короб','Мест в приходе',50,'за место',10],['bale','Баул','Мест в приходе',70,'за место',5],['pallet','Паллет','Паллет в приходе',300,'за паллет',1]]},
- accept:{type:'radio',items:[['scan','Приёмка по штрихкоду','Сканирование и сверка по штрихкоду',7,'за ед.',null,true],['manual','Приёмка без штрихкода','Ручная приёмка товара на склад',5,'за ед.']]},
- work:{type:'checkbox',items:[['mark','Маркировка','Стикер со штрихкодом или кодом «Честного знака»',5,'за ед.',0,true],['qcv','Проверка на брак визуальная','Быстрый внешний осмотр товара',10,'за ед.',0],['qcf','Проверка на брак тщательная','Детальная проверка товара по ТЗ',20,'за ед.',0],['insert','Вложение','Вкладыш, инструкция, промоматериал',6,'за ед.',0],['shrink','Термоусадка','Дополнительная упаковка товара',8,'за ед.',0],['press','Пресс с запайщиком','Плотная упаковка для отдельных категорий',50,'за ед.',0]]}};
+ unload:{type:'radio',items:[['box','Короб','Количество коробов в приходе',35,'за короб',10,true],['pallet','Паллет','Количество паллет в приходе',160,'за паллет',1]]},
+ work:{type:'checkbox',items:[['mark','Маркировка','Стикер со штрихкодом или кодом «Честного знака»',5,'за ед.',0,true],['kit','Сборка комплектов','Собираем наборы из нескольких товаров',5,'за ед.',0],['bag','Укладка в пакет или короб','Индивидуальная упаковка каждой единицы',5,'за ед.',0],['insert','Вложение','Вкладыш, инструкция, промоматериал',5,'за ед.',0]]},
+ fbs:{type:'checkbox',excl:true,items:[['fbs','Товар без «Честного знака»','Обработка и стикерование заказа',10,'за ед.',0],['fbschz','Товар с «Честным знаком»','Обработка и стикерование заказа с кодом маркировки',15,'за ед.',0]]},
+ fbo:{type:'checkbox',items:[['fbo','Сборка товаров','Сборка заказа в короб для поставки на склад маркетплейса',5,'за ед.',0]]}};
+const ACCEPT=5,LBL={box:'Разгрузка коробов',pallet:'Разгрузка паллет',fbs:'FBS, товар без ЧЗ',fbschz:'FBS, товар с ЧЗ',fbo:'FBO, сборка товаров'};
 const STORE_RATE=.07,FREE_DAYS=14,DISC=.1;
 const money=v=>(Math.round(v*100)/100).toLocaleString('ru-RU',{maximumFractionDigits:2})+' ₽';
 const rollTo=(el,txt)=>{const old=el.textContent;if(old===txt)return;el.innerHTML=[...txt].map((ch,i)=>`<span class="${old[i]!==ch?'roll':''}">${ch===' '?'&nbsp;':ch}</span>`).join('')};
@@ -425,10 +428,10 @@ const stepper=(id,val,min)=>`<div class="stepper s"><button type="button" data-d
 for(const [g,{type,items}] of Object.entries(OPS))$('#'+g).innerHTML=items.map(([k,name,sub,price,per,qty,on])=>`<div class="opt${on?' on':''}"><label><input type="${type}" name="${g}" value="${k}"${on?' checked':''}><b>${name}</b><small>${sub}</small><small class="pr mono">${price} ₽ ${per}</small></label>${qty!==null&&qty!==undefined?`<div class="q"><span class="mono">${g==='unload'?'Количество':'Единиц'}</span>${stepper('q-'+k,qty||100,g==='unload'?1:1)}</div>`:''}</div>`).join('');
 /* per-operation quantities follow the batch size until the visitor edits them */
 const touched=new Set();
-const syncQty=()=>{for(const [k,,,,,qty] of OPS.work.items){const el=$('#q-'+k);if(el&&!touched.has(k))el.value=units()}};
-const calc=()=>{const n=units(),rows=[];let ops=0;
+const syncQty=()=>{for(const [g,{items}] of Object.entries(OPS))if(g!=='unload')for(const [k] of items){const el=$('#q-'+k);if(el&&!touched.has(k))el.value=units()}};
+const calc=()=>{const n=units(),rows=[[`Приёмка: ${fmt(n)} × ${money(ACCEPT)}`,n*ACCEPT]];let ops=1;
  for(const [g,{items}] of Object.entries(OPS))for(const [k,name,,price,per,qty] of items){const inp=$(`#${g} input[value="${k}"]`);inp.closest('.opt').classList.toggle('on',inp.checked);if(!inp.checked)continue;
-  const q=g==='accept'?n:Math.max(0,Math.round(+$('#q-'+k).value||0));if(!q)continue;ops++;rows.push([`${name}: ${fmt(q)} × ${money(price)}`,q*price])}
+  const q=Math.max(0,Math.round(+$('#q-'+k).value||0));if(!q)continue;ops++;rows.push([`${LBL[k]||name}: ${fmt(q)} × ${money(price)}`,q*price])}
  if($('#addStore').getAttribute('aria-pressed')==='true'){const l=Math.max(0,+$('#liters').value||0),d=Math.max(0,Math.round(+$('#days').value||0)),paid=Math.max(0,d-FREE_DAYS);ops++;rows.push([`Хранение: ${fmt(n)} ед. × ${String(l).replace('.',',')} л × ${paid} дн. × 0,07 ₽`,n*l*paid*STORE_RATE])}
  const total=rows.reduce((a,r)=>a+r[1],0),per=total/n;
  rollTo($('#total'),money(total));$('#sumNote').textContent=`${fmt(n)} ед. · ${money(per)} за единицу · со скидкой 10%: ${money(total*(1-DISC))}`;
@@ -437,7 +440,7 @@ const calc=()=>{const n=units(),rows=[];let ops=0;
 const calcEl=$('#calcIn');
 calcEl.addEventListener('click',e=>{const b=e.target.closest('.stepper button');if(!b)return;const inp=b.parentElement.querySelector('input'),st=+(inp.step||1)||1,min=+(inp.min||0);inp.value=Math.max(min,Math.round((+inp.value+(+b.dataset.d)*st)*10)/10);inp.dispatchEvent(new Event('input',{bubbles:true}))});
 calcEl.addEventListener('input',e=>{const t=e.target;if(t===unitsEl)syncQty();else if(t.id&&t.id.startsWith('q-'))touched.add(t.id.slice(2));calc()});
-calcEl.addEventListener('change',e=>{const t=e.target;if(t.name==='work'&&t.checked){if(t.value==='qcv')$('#work input[value="qcf"]').checked=false;if(t.value==='qcf')$('#work input[value="qcv"]').checked=false}calc()});
+calcEl.addEventListener('change',e=>{const t=e.target;if(t.checked&&OPS[t.name]&&OPS[t.name].excl)$$(`#${t.name} input[name="${t.name}"]`).forEach(x=>{if(x!==t)x.checked=false});calc()});
 $('#addStore').addEventListener('click',e=>{const b=e.currentTarget,on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.querySelector('span').textContent=on?'Убрать хранение':'Добавить хранение';$('#storeField').hidden=!on;if(on&&innerWidth<1000)$('#storeField').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});calc()});
 syncQty();calc();
 /* brief button demo */
