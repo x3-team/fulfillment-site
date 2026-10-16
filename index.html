@@ -151,6 +151,25 @@ section{padding:clamp(72px,9vw,120px) 0}
 .lines span:last-child{color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}.lines .empty{color:#5B6B8C}
 .out .acts{display:grid;gap:8px}.out .btn{width:100%}.out .btn>span{flex:1;justify-content:center}.out .note{font-size:14px;color:#5B6B8C}
 .btn.line{border:1px solid #233A72;color:#fff;background:transparent}.btn.line:hover{background:#12244F}.btn.line[aria-pressed="true"]{border-color:var(--acc);background:rgba(26,92,255,.18)}
+/* seller pains: who / speed / why */
+.who{display:grid;gap:16px}@media (min-width:900px){.who{grid-template-columns:repeat(3,1fr)}}
+.who article{display:grid;gap:14px;align-content:start;padding:28px 28px 32px;background:var(--paper);border-radius:4px;border:1px solid transparent;transition:border-color var(--base),transform var(--base) var(--std)}
+.who article:hover{border-color:var(--acc);transform:translateY(-4px)}
+.who svg.il{width:100%;max-width:220px;height:auto;justify-self:center;margin:4px 0 8px}
+.who .chip{justify-self:start;padding:6px 10px;border-radius:2px;background:var(--acc1);color:var(--acc6)}
+.who h3{font-size:24px;font-weight:600}.who p{color:var(--ink5)}
+.speed{display:grid;gap:16px}@media (min-width:900px){.speed{grid-template-columns:repeat(3,1fr)}}
+.speed article{position:relative;overflow:hidden;display:grid;gap:14px;align-content:start;padding:28px 28px 32px;background:var(--dark);color:#fff;border-radius:4px}
+.speed .r{display:flex;justify-content:space-between;align-items:center;color:#A9B6D0}
+.speed .ic{width:44px;height:44px;display:grid;place-items:center;border-radius:2px;background:var(--acc);color:#fff}
+.speed .big{font-size:clamp(44px,5vw,64px);line-height:1;font-weight:600;letter-spacing:-.03em;margin-top:28px}.speed .big small{font-size:.42em;font-weight:500;letter-spacing:0;color:#A9B6D0;margin-left:6px}
+.speed h3{font-size:22px;font-weight:600}.speed p{color:#A9B6D0}
+.speed .bar{height:4px;background:var(--dark7);border-radius:2px;overflow:hidden;margin-top:6px}.speed .bar i{display:block;height:100%;background:var(--acc);width:0;transition:width 1.4s var(--emph)}.speed .rv.in .bar i,.speed article.in .bar i{width:var(--w)}
+.why{display:grid;gap:16px}@media (min-width:800px){.why{grid-template-columns:1fr 1fr}}
+.why article{display:grid;grid-template-columns:auto 1fr;gap:8px 24px;align-items:start;padding:28px 28px 32px;background:var(--paper);border-radius:4px}
+.why .ic{grid-row:span 2;width:64px;height:64px;display:grid;place-items:center;border-radius:4px;background:var(--card);color:var(--acc);border:1px solid var(--line)}
+.why .ic svg{width:32px;height:32px}.why h3{font-size:22px;font-weight:600;align-self:center}.why p{color:var(--ink5)}
+@media (max-width:599px){.who article,.speed article,.why article{padding:24px 20px 28px}.why article{grid-template-columns:1fr}.why .ic{grid-row:auto}}
 /* agency block */
 .agency{background:var(--acc);color:#fff}
 .agency .sec-head .lead{color:#fff;opacity:.88}
@@ -246,8 +265,19 @@ footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between
  <aside class="strip" aria-hidden="true"><ul id="stripList"></ul></aside>
 </div></section>
 
-<section class="white" id="services"><div class="wrap">
- <div class="sec-head rv"><div class="l"><span class="tag"><b>01</b><i>Услуги</i></span><h2>Что мы делаем</h2></div><p class="lead muted">Всё, что происходит с товаром: от забора у поставщика до отгрузки на маркетплейс.</p></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="ibox" viewBox="0 0 40 44"><path d="M20 1 39 10.5 20 20 1 10.5Z" fill="#E1ECFC"/><path d="M1 10.5 20 20v23L1 33.5Z" fill="#fff"/><path d="M20 20 39 10.5v23L20 43Z" fill="#C9D9F5"/><path d="M14 4 33 13.5" stroke="#1A5CFF" stroke-width="3"/><path d="M24.5 27.5 34.5 22.5v6l-10 5Z" fill="#1A5CFF"/><path d="M20 1 39 10.5v23L20 43 1 33.5v-23ZM1 10.5 20 20l19-9.5M20 20v23" fill="none" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/></symbol>
+<symbol id="ipal" viewBox="0 0 120 40"><path d="M60 2 118 20 60 38 2 20Z" fill="#AFC3E6" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><path d="M2 20v6l58 18 58-18v-6L60 38Z" fill="#233A72"/></symbol></defs></svg>
+<section class="white" id="who"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>01</b><i>Кому подходим</i></span><h2>Берём на себя склад на любом этапе роста</h2></div><p class="lead muted">Неважно, первая это поставка или сотая: вы занимаетесь продажами, мы — всем, что происходит с товаром.</p></div>
+ <div class="who">
+  <article class="rv"><svg class="il" viewBox="0 0 160 110" aria-hidden="true"><use href="#ipal" x="30" y="72" width="100" height="34"/><use href="#ibox" x="56" y="38" width="48" height="53"/></svg><span class="chip mono">Первые продажи</span><h3>Начинающим селлерам</h3><p>Подготовим первую поставку по требованиям WB и Ozon и объясним каждый шаг. Не нужно самому разбираться в регламентах приёмки и маркировки.</p></article>
+  <article class="rv"><svg class="il" viewBox="0 0 160 110" aria-hidden="true"><use href="#ipal" x="20" y="74" width="120" height="34"/><use href="#ibox" x="36" y="38" width="44" height="48"/><use href="#ibox" x="76" y="42" width="44" height="48"/><use href="#ibox" x="56" y="10" width="44" height="48"/></svg><span class="chip mono">Склад дома не вывозит</span><h3>Растущим магазинам</h3><p>Забираем рутину: приёмку, маркировку и сборку FBS. Освободившееся время уходит на ассортимент и рекламу, а не на коробки.</p></article>
+  <article class="rv"><svg class="il" viewBox="0 0 160 110" aria-hidden="true"><use href="#ipal" x="10" y="76" width="140" height="34"/><use href="#ibox" x="22" y="50" width="40" height="44"/><use href="#ibox" x="60" y="50" width="40" height="44"/><use href="#ibox" x="98" y="50" width="40" height="44"/><use href="#ibox" x="41" y="27" width="40" height="44"/><use href="#ibox" x="79" y="27" width="40" height="44"/><use href="#ibox" x="60" y="4" width="40" height="44"/></svg><span class="chip mono">Сезон и большие объёмы</span><h3>Крупным брендам</h3><p>Индивидуальный прайс, выделенный менеджер и отчёты по каждому артикулу. В сезон добавляем смены, а не сроки.</p></article>
+ </div>
+</div></section>
+
+<section class="paper" id="services"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>02</b><i>Услуги</i></span><h2>Что мы делаем</h2></div><p class="lead muted">Всё, что происходит с товаром: от забора у поставщика до отгрузки на маркетплейс.</p></div>
  <div class="acc" id="acc">
   <p class="grp mono">Фулфилмент</p>
   <details open><summary><span class="num mono">(1)</span><h3>FBS</h3><span class="pl"></span></summary><div class="body"><div><p class="lead">Храним товар у себя и отгружаем по заказам с маркетплейсов. Деньги не заморожены на складах маркетплейса, остатки видны онлайн.</p><div class="pr">от 18 ₽ за заказ <a class="btn ghost m" href="#calc"><span>Посчитать</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a></div></div><div class="ph mono">Фото · FBS</div></div></details>
@@ -259,8 +289,17 @@ footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between
  </div>
 </div></section>
 
+<section class="white" id="speed"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>03</b><i>Скорость</i></span><h2>Товар быстрее попадает на полку маркетплейса</h2></div><p class="lead muted">Пока товар лежит на складе, он не продаётся. Поэтому мы считаем часы, а не дни.</p></div>
+ <div class="speed">
+  <article class="rv"><div class="r"><span class="mono">Приёмка</span><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></span></div><div class="big">Д+0</div><div class="bar"><i style="--w:25%"></i></div><h3>Принимаем в день поставки</h3><p>Пересчёт и проверка на брак в день приезда машины, акт с фото расхождений сразу в личном кабинете.</p></article>
+  <article class="rv"><div class="r"><span class="mono">Обработка</span><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg></span></div><div class="big">от 2<small>часов</small></div><div class="bar"><i style="--w:55%"></i></div><h3>Маркировка и упаковка без очереди</h3><p>Готовим партию к отгрузке за несколько часов, а не за неделю. Товар не простаивает между приёмкой и продажей.</p></article>
+  <article class="rv"><div class="r"><span class="mono">FBS</span><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v9H2zM13 10h4l4 3v3h-8"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg></span></div><div class="big">2<small>раза в день</small></div><div class="bar"><i style="--w:100%"></i></div><h3>Отгружаем FBS в 12:00 и 21:00</h3><p>Заказы, пришедшие до отсечки, уезжают в тот же день. Рейтинг магазина не страдает от просрочек.</p></article>
+ </div>
+</div></section>
+
 <section class="paper" id="calc"><div class="wrap">
- <div class="sec-head rv"><div class="l"><span class="tag"><b>02</b><i>Калькулятор</i></span><h2>Посчитайте стоимость партии по прайсу</h2></div><p class="lead muted">Укажите количество и отметьте нужные операции — сразу увидите цену за единицу и за всю партию.</p></div>
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>04</b><i>Калькулятор</i></span><h2>Посчитайте стоимость партии по прайсу</h2></div><p class="lead muted">Укажите количество и отметьте нужные операции — сразу увидите цену за единицу и за всю партию.</p></div>
  <div class="calc">
   <div class="in" id="calcIn">
    <div class="field"><h3>Параметры партии</h3><span class="mono">Количество единиц</span><div class="stepper" data-for="units"><button type="button" data-d="-1" aria-label="Меньше">−</button><input type="number" id="units" min="1" max="1000000" value="100" inputmode="numeric" aria-label="Количество единиц в партии"><button type="button" data-d="1" aria-label="Больше">+</button></div></div>
@@ -281,6 +320,16 @@ footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between
  </div>
 </div></section>
 
+<section class="white" id="why"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>05</b><i>Почему с нами спокойно</i></span><h2>Что меняется, когда товар у нас</h2></div><p class="lead muted">Четыре вещи, на которые селлеры чаще всего жалуются у прошлых подрядчиков, и как мы их решаем.</p></div>
+ <div class="why">
+  <article class="rv"><span class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16a8 8 0 1 1 16 0"/><path d="M12 16l4-5"/><path d="M4 20h16"/></svg></span><h3>Поставки не тормозят</h3><p>Слоты на склады маркетплейсов бронируем заранее, товар готовим к отгрузке за сутки. Никаких «ждём, пока освободится смена».</p></article>
+  <article class="rv"><span class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg></span><h3>Подстраиваемся под товар</h3><p>Нет жёсткого шаблона: упаковку, вложения и проверку настраиваем под категорию и требования площадки.</p></article>
+  <article class="rv"><span class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5v11M6 5v11M9.5 5v11M13 5v5"/><circle cx="16.5" cy="15.5" r="3.5"/><path d="M19 18l2.5 2.5"/></svg></span><h3>Каждая единица на виду</h3><p>Остатки, приёмки и отгрузки онлайн в личном кабинете. Всегда видно, где товар и что с ним происходит.</p></article>
+  <article class="rv"><span class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 12l2 2 4-4"/></svg></span><h3>Отвечаем как партнёр</h3><p>Персональный менеджер в мессенджере, в рабочее время отвечает за 10 минут. Материальная ответственность прописана в договоре.</p></article>
+ </div>
+</div></section>
+
 <section class="agency" id="agency"><div class="wrap">
  <div class="sec-head rv"><div class="l"><span class="mono">[ Агентство · Бренд Digital ]</span><h2>Сервисы для селлеров — в нашем digital-агентстве</h2></div><p class="lead">Всё, что не относится к фулфилменту, делает команда «Бренд Digital»: магазин, маркетинг, контент и интеграции. Работаем в связке со складом — заказы и остатки синхронизируются сами.</p></div>
  <div class="tiles" id="tiles"></div>
@@ -288,12 +337,12 @@ footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between
 </div></section>
 
 <section class="white" id="process"><div class="wrap">
- <div class="sec-head rv"><div class="l"><span class="tag"><b>07</b><i>Как начать</i></span><h2>От заявки до первой отгрузки — 3 дня</h2></div><div class="seg" id="flowMode" role="group" aria-label="Схема работы"><button type="button" aria-pressed="true" data-m="fbs">FBS</button><button type="button" aria-pressed="false" data-m="fbo">FBO</button><button type="button" aria-pressed="false" data-m="store">Хранение</button></div></div>
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>06</b><i>Как начать</i></span><h2>От заявки до первой отгрузки — 3 дня</h2></div><div class="seg" id="flowMode" role="group" aria-label="Схема работы"><button type="button" aria-pressed="true" data-m="fbs">FBS</button><button type="button" aria-pressed="false" data-m="fbo">FBO</button><button type="button" aria-pressed="false" data-m="store">Хранение</button></div></div>
  <ol class="flow rv" id="flow" aria-live="polite"></ol>
 </div></section>
 
 <section class="paper" id="faq"><div class="wrap faq">
- <div class="l rv"><span class="tag"><b>08</b><i>Вопросы</i></span><h2>Частые вопросы</h2><p class="muted">Не нашли свой вопрос? Спросите в заявке — ответим лично.</p><a class="btn ghost" href="https://t.me/" target="_blank" rel="noopener"><span>Задать вопрос в Telegram</span></a></div>
+ <div class="l rv"><span class="tag"><b>07</b><i>Вопросы</i></span><h2>Частые вопросы</h2><p class="muted">Не нашли свой вопрос? Спросите в заявке — ответим лично.</p><a class="btn ghost" href="https://t.me/" target="_blank" rel="noopener"><span>Задать вопрос в Telegram</span></a></div>
  <div id="faqList"></div>
 </div></section>
 
