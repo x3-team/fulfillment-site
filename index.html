@@ -104,7 +104,7 @@ section{padding:clamp(72px,9vw,120px) 0}
 .acc summary:hover h3{color:var(--acc6);transform:translateX(8px)}.acc summary:hover .num{color:var(--ink)}
 .acc summary .pl{position:relative;width:28px;height:28px}.acc summary .pl::before,.acc summary .pl::after{content:"";position:absolute;left:5px;top:13px;width:18px;height:2px;background:var(--ink);border-radius:1px;transition:transform var(--base) var(--std),background var(--base)}
 .acc summary .pl::after{transform:rotate(90deg)}
-.acc details[open] summary .num{color:var(--acc)}.acc details[open] summary .pl::after{transform:rotate(0)}.acc details[open] summary .pl::before,.acc details[open] summary .pl::after{background:var(--acc)}
+.acc details.on summary .num{color:var(--acc)}.acc details.on summary .pl::after{transform:rotate(0)}.acc details.on summary .pl::before,.acc details.on summary .pl::after{background:var(--acc)}
 .acc .body{display:grid;gap:24px;padding:0 0 32px 0}
 @media (min-width:900px){.acc .body{grid-template-columns:72px 1fr 360px;gap:32px}.acc .body>:first-child{grid-column:2}}
 .acc .body .pr{display:flex;align-items:center;gap:24px;margin-top:20px;font-weight:600;font-size:20px}
@@ -227,10 +227,16 @@ section{padding:clamp(72px,9vw,120px) 0}
 .faq details{border-top:1px solid var(--line);padding:24px 0}
 .faq summary{list-style:none;display:grid;grid-template-columns:40px 1fr 24px;gap:24px;align-items:center;cursor:pointer;font-weight:600;font-size:20px;transition:color var(--fast)}
 .faq summary::-webkit-details-marker{display:none}.faq summary:hover{color:var(--acc6)}
-.faq summary .num{color:var(--ink5)}.faq details[open] summary .num{color:var(--acc)}
+.faq summary .num{color:var(--ink5)}.faq details.on summary .num{color:var(--acc)}
 .faq summary .pl{position:relative;width:24px;height:24px}.faq summary .pl::before,.faq summary .pl::after{content:"";position:absolute;left:5px;top:11px;width:14px;height:2px;background:var(--ink);border-radius:1px;transition:transform var(--base) var(--std),background var(--base)}.faq summary .pl::after{transform:rotate(90deg)}
-.faq details[open] summary .pl::after{transform:rotate(0)}.faq details[open] summary .pl::before,.faq details[open] summary .pl::after{background:var(--acc)}
+.faq details.on summary .pl::after{transform:rotate(0)}.faq details.on summary .pl::before,.faq details.on summary .pl::after{background:var(--acc)}
 .faq .a{padding:14px 0 0 64px;color:var(--ink7)}
+.acc .body,.faq .a{transform-origin:top}
+.acc details .body>*{transition:opacity var(--slow) var(--emph),transform var(--slow) var(--emph)}
+.acc details:not(.on) .body>*{opacity:0;transform:translateY(-12px)}
+.acc details .body>:nth-child(2){transition-delay:.06s}
+.faq details .a{transition:opacity var(--slow) var(--emph),transform var(--slow) var(--emph)}
+.faq details:not(.on) .a{opacity:0;transform:translateY(-8px)}
 /* final */
 .final{background:var(--dark);color:#fff}
 .final h2{font-size:clamp(40px,6vw,76px);letter-spacing:-.03em;line-height:1.05;max-width:16ch;margin:28px 0 24px}
@@ -434,7 +440,17 @@ const fitStrip=()=>{const sc=$('#screen').getBoundingClientRect(),hr=$('#hero').
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target)}),{threshold:.2});$$('.rv').forEach(el=>io.observe(el));
 const count=el=>{const to=+el.dataset.count,dec=+(el.dataset.dec||0),suf=el.dataset.suffix||'',t0=performance.now(),D=reduce?1:1200;const f=now=>{const p=Math.min(1,(now-t0)/D),v=to*(1-Math.pow(1-p,3));el.textContent=v.toLocaleString('ru-RU',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)};
 /* accordions: one open */
-const single=c=>c.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)c.querySelectorAll('details').forEach(o=>{if(o!==d)o.open=false})}));single($('#acc'));
+const EASE='cubic-bezier(.22,.8,.24,1)';
+const slide=(d,open,keep)=>{const b=d.querySelector('summary').nextElementSibling;d._a&&d._a.cancel();d.classList.toggle('on',open);
+  if(reduce){d.open=open;return}
+  const from=d.open?b.offsetHeight:0;d.open=true;const to=open?b.scrollHeight:0;
+  b.style.overflow='hidden';const a=d._a=b.animate({height:[from+'px',to+'px']},{duration:open?520:420,easing:EASE});
+  a.onfinish=()=>{b.style.overflow='';d._a=null;if(!open)d.open=false};
+  a.oncancel=()=>{b.style.overflow=''};};
+const single=c=>c.querySelectorAll('details').forEach(d=>{d.classList.toggle('on',d.open);d.querySelector('summary').addEventListener('click',e=>{e.preventDefault();
+  const s=e.currentTarget,y0=s.getBoundingClientRect().top,open=!d.classList.contains('on');
+  slide(d,open);if(open)c.querySelectorAll('details.on').forEach(o=>{if(o!==d)slide(o,false)});
+  if(reduce)return;const t0=performance.now(),pin=()=>{const dy=s.getBoundingClientRect().top-y0;if(Math.abs(dy)>.5)window.scrollBy({top:dy,behavior:'instant'});if(performance.now()-t0<560)requestAnimationFrame(pin)};requestAnimationFrame(pin);})});single($('#acc'));
 /* tiles */
 const TILES=[['01','Интернет-магазин под ключ','Дизайн, каталог, оплата и доставка — остатки берутся из фулфилмента.'],['02','Интернет-маркетинг','SEO, контекстная и таргетированная реклама для своего магазина.'],['03','Контент для маркетплейсов','Фото, инфографика, rich-контент и тексты карточек.'],['04','Продвижение на маркетплейсах','Реклама внутри WB и Ozon, отзывы и рейтинг.'],['05','Интеграции и API','1С, МойСклад, CRM, платежи и службы доставки.'],['06','Подключение кабинетов','Регистрация и настройка WB, Ozon и Яндекс Маркета.'],['07','«Честный знак»','Подключение к системе, ЭДО и выпуск кодов маркировки.'],['08','Аналитика и юнит-экономика','Выручка, комиссии и логистика по каждому артикулу.']];
 $('#tiles').innerHTML=TILES.map(t=>`<a class="tile" href="https://brand-digital.ru/?utm_source=fulfillment" target="_blank" rel="noopener"><div class="r"><span class="mono">${t[0]}</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 14L14 4M6 4h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4>${t[1]}</h4><p>${t[2]}</p></a>`).join('');
