@@ -121,7 +121,7 @@ section{padding:clamp(72px,9vw,120px) 0}
 .acc summary:hover h3{color:var(--acc6);transform:translateX(8px)}.acc summary:hover .num{color:var(--ink)}
 .acc summary .pl{position:relative;width:28px;height:28px}.acc summary .pl::before,.acc summary .pl::after{content:"";position:absolute;left:5px;top:13px;width:18px;height:2px;background:var(--ink);border-radius:1px;transition:transform var(--base) var(--std),background var(--base)}
 .acc summary .pl::after{transform:rotate(90deg)}
-.acc details[open] summary .num{color:var(--acc)}.acc details[open] summary .pl::after{transform:rotate(0)}.acc details[open] summary .pl::before,.acc details[open] summary .pl::after{background:var(--acc)}
+.acc details.on summary .num{color:var(--acc)}.acc details.on summary .pl::after{transform:rotate(0)}.acc details.on summary .pl::before,.acc details.on summary .pl::after{background:var(--acc)}
 .acc .body{display:grid;gap:24px;padding:0 0 32px 0}
 @media (min-width:900px){.acc .body{grid-template-columns:72px 1fr 360px;gap:32px}.acc .body>:first-child{grid-column:2}}
 .acc .body ul{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}.acc .body li{padding:6px 10px;border-radius:2px;background:var(--acc1);color:var(--acc6)}
@@ -181,9 +181,9 @@ section{padding:clamp(72px,9vw,120px) 0}
 .faq details{border-top:1px solid var(--line);padding:24px 0}
 .faq summary{list-style:none;display:grid;grid-template-columns:40px 1fr 24px;gap:24px;align-items:center;cursor:pointer;font-weight:600;font-size:20px;transition:color var(--fast)}
 .faq summary::-webkit-details-marker{display:none}.faq summary:hover{color:var(--acc6)}
-.faq summary .num{color:var(--ink5)}.faq details[open] summary .num{color:var(--acc)}
+.faq summary .num{color:var(--ink5)}.faq details.on summary .num{color:var(--acc)}
 .faq summary .pl{position:relative;width:24px;height:24px}.faq summary .pl::before,.faq summary .pl::after{content:"";position:absolute;left:5px;top:11px;width:14px;height:2px;background:var(--ink);border-radius:1px;transition:transform var(--base) var(--std),background var(--base)}.faq summary .pl::after{transform:rotate(90deg)}
-.faq details[open] summary .pl::after{transform:rotate(0)}.faq details[open] summary .pl::before,.faq details[open] summary .pl::after{background:var(--acc)}
+.faq details.on summary .pl::after{transform:rotate(0)}.faq details.on summary .pl::before,.faq details.on summary .pl::after{background:var(--acc)}
 .faq .a{padding:14px 0 0 64px;color:var(--ink7)}
 @media (max-width:599px){.faq summary{grid-template-columns:28px 1fr 24px;gap:12px;font-size:18px}.faq .a{padding-left:40px}}
 /* final */

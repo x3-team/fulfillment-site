@@ -505,10 +505,14 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return
 const count=el=>{const to=+el.dataset.count,dec=+(el.dataset.dec||0),suf=el.dataset.suffix||'',t0=performance.now(),D=reduce?1:1200;const f=now=>{const p=Math.min(1,(now-t0)/D),v=to*(1-Math.pow(1-p,3));el.textContent=v.toLocaleString('ru-RU',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)};
 /* accordions: one open */
 const EASE='cubic-bezier(.22,.8,.24,1)';
-const slide=(d,open,keep)=>{const b=d.querySelector('summary').nextElementSibling;d._a&&d._a.cancel();d.classList.toggle('on',open);
+const slide=(d,open)=>{const b=d.querySelector('summary').nextElementSibling;d.classList.toggle('on',open);
   if(reduce){d.open=open;return}
-  const from=d.open?b.offsetHeight:0;d.open=true;const to=open?b.scrollHeight:0;
-  b.style.overflow='hidden';const a=d._a=b.animate({height:[from+'px',to+'px']},{duration:open?520:420,easing:EASE});
+  // start from what is on screen right now, even mid-animation
+  const cs=getComputedStyle(b),h0=d.open?b.offsetHeight:0,t0=d.open?cs.paddingTop:'0px',b0=d.open?cs.paddingBottom:'0px';
+  if(d._a){d._a.cancel();d._a=null}
+  d.open=true;const nat=getComputedStyle(b),pt=nat.paddingTop,pb=nat.paddingBottom,h1=open?b.offsetHeight:0;
+  // padding animates too, otherwise it stays behind and snaps at the end
+  b.style.overflow='hidden';const a=d._a=b.animate([{height:h0+'px',paddingTop:t0,paddingBottom:b0},{height:h1+'px',paddingTop:open?pt:'0px',paddingBottom:open?pb:'0px'}],{duration:open?460:360,easing:open?EASE:'cubic-bezier(.4,0,.2,1)'});
   a.onfinish=()=>{b.style.overflow='';d._a=null;if(!open)d.open=false};
   a.oncancel=()=>{b.style.overflow=''};};
 const single=(c,multi)=>c.querySelectorAll('details').forEach(d=>{d.classList.toggle('on',d.open);d.querySelector('summary').addEventListener('click',e=>{e.preventDefault();
