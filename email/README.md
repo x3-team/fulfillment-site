@@ -15,3 +15,17 @@
 Пока ключи пустые, форма работает в демо-режиме: показывает «Расчёт у менеджера», а данные заявки пишет только в консоль браузера.
 
 Переменные шаблона: `name`, `phone`, `phone_link`, `email`, `total`, `per_unit`, `discount`, `units`, `ops`, `lines_html` (строки расчёта, вставляется как HTML: `{{{lines_html}}}`), `lines_text`, `sent_at`, `page`.
+
+## Заявка с сайта агентства (`agency/`)
+
+Форма «Обсудить проект» на сайте агентства работает так же. Можно использовать тот же Service ID и Public Key, но нужен отдельный шаблон:
+- **Subject:** `Заявка в агентство: {{topic}} · {{name}}`
+- **To Email:** адрес, куда приходят заявки агентства
+- **Reply To:** `{{email}}`
+- **Content:** целиком `agency-request.html`.
+
+Ключи вписать в `agency/index.html` в `const LEAD={service:'…',template:'…',key:'…'}`. Пока они пустые, форма работает в демо-режиме.
+
+Переменные шаблона: `name`, `phone`, `phone_link`, `email`, `topic`, `services`, `services_html` (`{{{services_html}}}`), `shop`, `shop_html` (`{{{shop_html}}}`), `sent_at`, `page`.
+
+Открыть форму с другой страницы: ссылка на `agency/#lead` или `agency/#lead=Тема|Услуга,Услуга` (услуги — подписи чипов в форме).

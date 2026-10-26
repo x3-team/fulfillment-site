@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>Заявка в агентство — Бренд Digital</title>
+<!-- Шаблон письма менеджеру для EmailJS. Переменные в {{ }} подставляет EmailJS,
+     {{{services_html}}} и {{{shop_html}}} — блоки, собранные сайтом (тройные скобки: вставка HTML). -->
+</head>
+<body style="margin:0;padding:0;background:#F4F8FE;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">{{name}} · {{phone}} · {{topic}}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F4F8FE;">
+<tr><td align="center" style="padding:32px 12px;">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;">
+
+ <!-- шапка -->
+ <tr><td style="padding:0 0 20px;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+   <td style="padding-right:12px;">
+    <table role="presentation" cellpadding="0" cellspacing="2" border="0"><tr>
+     <td width="11" height="11" style="background:#1A5CFF;font-size:0;line-height:0;">&nbsp;</td><td width="11" height="11" style="background:#1A5CFF;font-size:0;line-height:0;">&nbsp;</td></tr><tr>
+     <td width="11" height="11" style="background:#1A5CFF;font-size:0;line-height:0;">&nbsp;</td><td width="11" height="11" style="background:#0A1736;font-size:0;line-height:0;">&nbsp;</td></tr></table>
+   </td>
+   <td style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:17px;font-weight:bold;color:#0A1736;">Бренд<br>Digital</td>
+  </tr></table>
+ </td></tr>
+
+ <!-- тема -->
+ <tr><td style="background:#1A5CFF;border-radius:4px 4px 0 0;padding:32px 36px 28px;">
+  <div style="font-family:'Courier New',monospace;font-size:12px;line-height:16px;letter-spacing:1px;text-transform:uppercase;color:#E3EDFF;">Новая заявка · {{sent_at}}</div>
+  <div style="font-family:Arial,Helvetica,sans-serif;font-size:26px;line-height:32px;font-weight:bold;color:#FFFFFF;padding-top:14px;">{{name}} хочет обсудить проект</div>
+  <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:22px;color:#E3EDFF;padding-top:6px;">Заявка с сайта агентства. Посмотрите магазин клиента до звонка.</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:24px;border-top:1px solid #5C8DFF;">
+   <tr><td style="padding-top:20px;font-family:Arial,Helvetica,sans-serif;">
+    <div style="font-size:13px;line-height:18px;color:#E3EDFF;">Тема заявки</div>
+    <div style="font-size:30px;line-height:36px;font-weight:bold;color:#FFFFFF;letter-spacing:-1px;">{{topic}}</div>
+   </td></tr>
+  </table>
+ </td></tr>
+
+ <!-- запрос -->
+ <tr><td style="background:#FFFFFF;padding:28px 36px 4px;">
+  <div style="font-family:'Courier New',monospace;font-size:12px;line-height:16px;letter-spacing:1px;text-transform:uppercase;color:#5B6B8C;padding-bottom:12px;">Что нужно</div>
+  <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:22px;">{{{services_html}}}</div>
+  <div style="font-family:'Courier New',monospace;font-size:12px;line-height:16px;letter-spacing:1px;text-transform:uppercase;color:#5B6B8C;padding:18px 0 8px;">Магазин или артикулы</div>
+  <div style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:22px;color:#0A1736;">{{{shop_html}}}</div>
+ </td></tr>
+
+ <!-- контакты -->
+ <tr><td style="background:#FFFFFF;padding:28px 36px 32px;">
+  <div style="font-family:'Courier New',monospace;font-size:12px;line-height:16px;letter-spacing:1px;text-transform:uppercase;color:#5B6B8C;padding-bottom:12px;">Контакты</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+   <tr><td style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;color:#5B6B8C;padding:10px 0;border-top:1px solid #E1ECFC;width:110px;">Имя</td><td style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:22px;color:#0A1736;font-weight:bold;padding:10px 0;border-top:1px solid #E1ECFC;">{{name}}</td></tr>
+   <tr><td style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;color:#5B6B8C;padding:10px 0;border-top:1px solid #E1ECFC;">Телефон</td><td style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:22px;padding:10px 0;border-top:1px solid #E1ECFC;"><a href="tel:{{phone_link}}" style="color:#1A5CFF;font-weight:bold;text-decoration:none;">{{phone}}</a></td></tr>
+   <tr><td style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;color:#5B6B8C;padding:10px 0;border-top:1px solid #E1ECFC;border-bottom:1px solid #E1ECFC;">Почта</td><td style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:22px;padding:10px 0;border-top:1px solid #E1ECFC;border-bottom:1px solid #E1ECFC;"><a href="mailto:{{email}}" style="color:#1A5CFF;font-weight:bold;text-decoration:none;">{{email}}</a></td></tr>
+  </table>
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-top:20px;"><tr>
+   <td style="background:#1A5CFF;border-radius:2px;"><a href="tel:{{phone_link}}" style="display:inline-block;padding:14px 22px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:20px;font-weight:bold;color:#FFFFFF;text-decoration:none;">Позвонить клиенту</a></td>
+   <td width="10"></td>
+   <td style="border:1px solid #A9B6D0;border-radius:2px;"><a href="mailto:{{email}}?subject=%D0%91%D1%80%D0%B5%D0%BD%D0%B4%20Digital%20%E2%80%94%20%D0%B2%D0%B0%D1%88%D0%B0%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B0" style="display:inline-block;padding:13px 22px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:20px;font-weight:bold;color:#0A1736;text-decoration:none;">Ответить на почту</a></td>
+  </tr></table>
+ </td></tr>
+
+ <!-- подвал -->
+ <tr><td style="height:10px;background:#0A1736;border-radius:0 0 4px 4px;font-size:0;line-height:0;">&nbsp;</td></tr>
+ <tr><td style="padding:20px 4px 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:18px;color:#5B6B8C;">Заявка с сайта «Бренд Digital»: <a href="{{page}}" style="color:#5B6B8C;">{{page}}</a><br>Ответ на это письмо уйдёт клиенту на {{email}}.</td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>
