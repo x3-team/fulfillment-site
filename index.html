@@ -276,6 +276,35 @@ body{padding-bottom:56px}
 .dock a:hover{background:#fff;color:var(--acc)}.dock a:hover i{background:var(--acc);color:#fff;transform:rotate(45deg)}
 .calcbar{bottom:68px}
 @media (max-width:479px){.dock p{display:none}.dock .wrap{justify-content:center}.dock a{flex:1;justify-content:space-between}}
+/* lead form: the only form on the site, opened from the calculator */
+html.modal{overflow:hidden}
+.lead-dlg{width:min(960px,calc(100vw - 32px));max-width:none;max-height:calc(100svh - 32px);padding:0;border:0;border-radius:4px;background:var(--card);color:var(--ink);box-shadow:0 24px 64px rgba(10,23,54,.35);overflow:auto;overscroll-behavior:contain}
+.lead-dlg::backdrop{background:rgba(10,23,54,.62);backdrop-filter:blur(2px)}
+.lead-dlg[open]{animation:dlgIn var(--slow) var(--emph)}@keyframes dlgIn{from{opacity:0;transform:translateY(16px)}}
+.lead-dlg .x{position:absolute;top:16px;right:16px;z-index:2;width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:2px;background:var(--card);transition:background var(--base) var(--std),color var(--base) var(--std)}.lead-dlg .x:hover{background:var(--ink);color:#fff}
+.lead-g{display:grid}@media (min-width:860px){.lead-g{grid-template-columns:400px 1fr}}
+.lead-sum{background:var(--dark);color:#fff;padding:36px 36px 32px;display:grid;gap:20px;align-content:start}
+.lead-sum .mono{color:#A9B6D0}.lead-sum .t{font-size:clamp(36px,4.4vw,48px);font-weight:600;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.lead-sum .kv{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#233A72;border:1px solid #233A72;border-radius:2px}.lead-sum .kv div{background:var(--dark);padding:12px 14px;display:grid;gap:4px}.lead-sum .kv span{font-size:13px;color:#A9B6D0}.lead-sum .kv b{font-weight:600;font-variant-numeric:tabular-nums}
+.lead-sum details summary{cursor:pointer;color:#A9B6D0;font-size:14px;list-style:none}.lead-sum details summary::-webkit-details-marker{display:none}.lead-sum details summary:after{content:" ↓"}.lead-sum details[open] summary:after{content:" ↑"}
+.lead-sum .lines{margin-top:8px;font-size:14px}.lead-sum .lines div{padding:10px 0}
+.lead-sum .edit{font-size:14px;color:#5C8DFF;justify-self:start}.lead-sum .edit:hover{color:#fff}
+.lead-f{padding:36px 40px 40px;display:grid;gap:20px;align-content:start}
+.lead-f h2{font-size:clamp(28px,3vw,36px);letter-spacing:-.02em;line-height:1.1;margin:0;padding-right:48px}
+.lead-f>p{color:var(--ink5);margin:-8px 0 4px}
+.fld{display:grid;gap:8px}.fld .mono{color:var(--ink5)}
+.fld input{height:56px;padding:0 18px;border:1px solid var(--line);border-radius:2px;background:var(--paper);font:inherit;font-size:17px;color:var(--ink);transition:border-color var(--fast) var(--std),background var(--fast) var(--std)}
+.fld input::placeholder{color:#A9B6D0}.fld input:hover{border-color:var(--ink3)}.fld input:focus{outline:0;border-color:var(--acc);background:#fff;box-shadow:0 0 0 3px var(--acc1)}
+.fld.bad input{border-color:#E5484D;background:#FFF5F5}.fld .err{display:none;font-size:13px;color:#C62F34}.fld.bad .err{display:block}
+.lead-f .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.lead-f .btn{width:100%;justify-content:space-between}.lead-f .btn>span{flex:1;justify-content:center}
+.lead-f .agree{font-size:13px;color:var(--ink5);margin:0}.lead-f .agree a{text-decoration:underline}
+.lead-f .fail{display:none;margin:0;padding:12px 14px;border-radius:2px;background:#FFF5F5;color:#C62F34;font-size:14px}.lead-f.failed .fail{display:block}
+.lead-ok{display:none;padding:56px 40px;align-content:center;gap:16px;justify-items:start}.lead-ok .ic{width:56px;height:56px;display:grid;place-items:center;background:#2BB673;border-radius:2px}
+.lead-ok h2{font-size:clamp(28px,3vw,36px);letter-spacing:-.02em;margin:8px 0 0}.lead-ok p{color:var(--ink5);margin:0;max-width:44ch}
+.lead-dlg.sent .lead-f{display:none}.lead-dlg.sent .lead-ok{display:grid}
+@media (max-width:859px){.lead-sum{padding:28px 20px 24px;gap:16px}.lead-sum .t{font-size:36px}.lead-f,.lead-ok{padding:28px 20px 32px}.lead-dlg .x{top:12px;right:12px;background:transparent;border-color:#233A72;color:#fff}.lead-dlg.sent .x{color:var(--ink);border-color:var(--line)}}
+@media (max-width:479px){.lead-dlg{width:100vw;max-height:100svh;height:100svh;border-radius:0}}
 </style>
 </head>
 <body>
@@ -359,8 +388,8 @@ body{padding-bottom:56px}
    <div class="sum"><b id="total"></b><p id="sumNote"></p></div>
    <div class="stats"><div><span>На 1 ед.</span><b id="perUnit"></b></div><div><span>Вся партия</span><b id="batch"></b></div><div><span>Со скидкой 10%</span><b id="disc"></b></div><div><span>Операций выбрано</span><b id="ops"></b></div></div>
    <div class="lines" id="lines"></div>
-   <div class="acts"><a class="btn primary" href="#contact"><span>Получить точный расчёт</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a><button type="button" class="btn line" id="addStore" aria-pressed="false"><span>Добавить хранение</span></button></div>
-   <p class="note">Расчёт по базовому прайсу. Скидка 10% — на первую партию. Точную цену менеджер подтвердит за 10 минут и зафиксирует в приложении к договору.</p>
+   <div class="acts"><button type="button" class="btn primary" id="leadBtn" aria-haspopup="dialog"><span>Получить точный расчёт</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></button><button type="button" class="btn line" id="addStore" aria-pressed="false"><span>Добавить хранение</span></button></div>
+   <p class="note">Расчёт по базовому прайсу. Скидка 10% — на первую партию. Оставьте контакты — менеджер подтвердит точную цену и зафиксирует её в приложении к договору.</p>
   </div>
  </div>
 </div></section>
@@ -398,12 +427,12 @@ body{padding-bottom:56px}
  <div class="art" aria-hidden="true"><svg class="il" viewBox="-63 -48 195 153" role="img" aria-label="Готово к отгрузке"><polygon points="43.8,-41.5 75.8,-41.5 75.8,-9.5" fill="none"/><polygon points="53.7,43.0 125.6,84.5 99.6,99.5 27.7,58.0" fill="#0A1736" opacity=".07"/><polygon points="-26.0,15.0 0.0,30.0 0.0,27.0 -26.0,12.0" fill="#233A72" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="26.0,15.0 0.0,30.0 0.0,27.0 26.0,12.0" fill="#233A72" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0.0,-3.0 26.0,12.0 0.0,27.0 -26.0,12.0" fill="#AFC3E6" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="-57.2,33.0 -31.2,48.0 -31.2,45.0 -57.2,30.0" fill="#233A72" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="-5.2,33.0 -31.2,48.0 -31.2,45.0 -5.2,30.0" fill="#233A72" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="-31.2,15.0 -5.2,30.0 -31.2,45.0 -57.2,30.0" fill="#AFC3E6" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="5.2,33.0 31.2,48.0 31.2,45.0 5.2,30.0" fill="#233A72" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="57.2,33.0 31.2,48.0 31.2,45.0 57.2,30.0" fill="#233A72" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="31.2,15.0 57.2,30.0 31.2,45.0 5.2,30.0" fill="#AFC3E6" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="-23.4,12.0 0.0,25.5 0.0,2.5 -23.4,-11.0" fill="#FFFFFF" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="23.4,12.0 0.0,25.5 0.0,2.5 23.4,-11.0" fill="#C9D9F5" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0.0,-24.5 23.4,-11.0 0.0,2.5 -23.4,-11.0" fill="#E1ECFC" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><line x1="11.7" y1="-17.7" x2="-11.7" y2="-4.2" stroke="#1A5CFF" stroke-width="2.6"/><polygon points="18.7,8.9 8.2,15.0 8.2,8.6 18.7,2.5" fill="#1A5CFF"/><polygon points="-18.2,-11.0 0.0,-0.5 0.0,-15.5 -18.2,-26.0" fill="#FFFFFF" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="18.2,-11.0 0.0,-0.5 0.0,-15.5 18.2,-26.0" fill="#C9D9F5" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0.0,-36.5 18.2,-26.0 0.0,-15.5 -18.2,-26.0" fill="#E1ECFC" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><line x1="9.1" y1="-31.2" x2="-9.1" y2="-20.7" stroke="#1A5CFF" stroke-width="2.6"/><polygon points="-54.6,30.0 -31.2,43.5 -31.2,20.5 -54.6,7.0" fill="#FFFFFF" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="-7.8,30.0 -31.2,43.5 -31.2,20.5 -7.8,7.0" fill="#C9D9F5" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="-31.2,-6.5 -7.8,7.0 -31.2,20.5 -54.6,7.0" fill="#E1ECFC" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><line x1="-19.5" y1="0.3" x2="-42.9" y2="13.8" stroke="#1A5CFF" stroke-width="2.6"/><polygon points="-12.5,27.0 -23.0,33.0 -23.0,26.6 -12.5,20.5" fill="#1A5CFF"/><polygon points="7.8,30.0 31.2,43.5 31.2,20.5 7.8,7.0" fill="#FFFFFF" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="54.6,30.0 31.2,43.5 31.2,20.5 54.6,7.0" fill="#C9D9F5" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="31.2,-6.5 54.6,7.0 31.2,20.5 7.8,7.0" fill="#E1ECFC" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><line x1="42.9" y1="0.3" x2="19.5" y2="13.8" stroke="#1A5CFF" stroke-width="2.6"/><polygon points="49.9,27.0 39.4,33.0 39.4,26.6 49.9,20.5" fill="#1A5CFF"/><polygon points="-49.4,7.0 -31.2,17.5 -31.2,2.5 -49.4,-8.0" fill="#FFFFFF" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="-13.0,7.0 -31.2,17.5 -31.2,2.5 -13.0,-8.0" fill="#C9D9F5" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="-31.2,-18.5 -13.0,-8.0 -31.2,2.5 -49.4,-8.0" fill="#E1ECFC" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><line x1="-22.1" y1="-13.2" x2="-40.3" y2="-2.8" stroke="#1A5CFF" stroke-width="2.6"/><polygon points="13.0,7.0 31.2,17.5 31.2,2.5 13.0,-8.0" fill="#FFFFFF" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="49.4,7.0 31.2,17.5 31.2,2.5 49.4,-8.0" fill="#C9D9F5" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="31.2,-18.5 49.4,-8.0 31.2,2.5 13.0,-8.0" fill="#E1ECFC" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><line x1="40.3" y1="-13.2" x2="22.1" y2="-2.8" stroke="#1A5CFF" stroke-width="2.6"/><polygon points="36.4,51.5 101.3,89.0 101.3,84.5 36.4,47.0" fill="#0A1736" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="116.9,80.0 101.3,89.0 101.3,84.5 116.9,75.5" fill="#0A1736" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="52.0,38.0 116.9,75.5 101.3,84.5 36.4,47.0" fill="#0A1736" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="31.2,47.0 78.8,74.5 78.8,39.5 31.2,12.0" fill="#FFFFFF" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="101.3,61.5 78.8,74.5 78.8,39.5 101.3,26.5" fill="#C9D9F5" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="53.7,-1.0 101.3,26.5 78.8,39.5 31.2,12.0" fill="#E1ECFC" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="31.2,45.0 78.8,72.5 78.8,68.5 31.2,41.0" fill="#1A5CFF"/><polygon points="81.0,74.8 99.2,85.2 99.2,58.2 81.0,47.8" fill="#1A5CFF" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="119.9,73.2 99.2,85.2 99.2,58.2 119.9,46.2" fill="#1246D6" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="101.8,35.8 119.9,46.2 99.2,58.2 81.0,47.8" fill="#4D82FF" stroke="#0A1736" stroke-width="1.2" stroke-linejoin="round"/><polygon points="117.4,60.8 101.8,69.8 101.8,59.8 117.4,50.8" fill="#BFD4FA"/><polygon points="83.9,62.5 92.6,67.5 92.6,58.5 83.9,53.5" fill="#BFD4FA"/><polygon points="49.5,58.4 49.4,56.9 49.0,55.4 48.4,53.9 47.5,52.4 46.5,51.1 45.4,49.9 44.2,49.1 43.0,48.6 41.8,48.4 40.8,48.5 40.0,49.0 39.3,49.8 38.9,50.9 38.8,52.2 38.9,53.7 39.3,55.2 40.0,56.7 40.8,58.2 41.8,59.5 43.0,60.7 44.2,61.5 45.4,62.0 46.5,62.2 47.5,62.1 48.4,61.6 49.0,60.8 49.4,59.7" fill="#0A1736"/><polygon points="46.5,60.1 46.4,58.7 46.0,57.2 45.3,55.6 44.5,54.1 43.5,52.8 42.3,51.7 41.1,50.8 39.9,50.3 38.8,50.1 37.8,50.3 36.9,50.8 36.3,51.6 35.9,52.6 35.8,54.0 35.9,55.4 36.3,56.9 36.9,58.5 37.8,60.0 38.8,61.3 39.9,62.4 41.1,63.2 42.3,63.8 43.5,64.0 44.5,63.8 45.3,63.3 46.0,62.5 46.4,61.5" fill="#1E2B4D" stroke="#0A1736" stroke-width="1" stroke-linejoin="round"/><polygon points="43.8,58.7 43.8,58.0 43.6,57.2 43.2,56.4 42.8,55.6 42.3,54.9 41.7,54.3 41.0,53.9 40.4,53.6 39.8,53.5 39.3,53.6 38.9,53.8 38.5,54.2 38.3,54.8 38.3,55.5 38.3,56.2 38.5,57.0 38.9,57.8 39.3,58.6 39.8,59.3 40.4,59.9 41.0,60.3 41.7,60.6 42.3,60.7 42.8,60.6 43.2,60.4 43.6,60.0 43.8,59.4" fill="#D3E0F3"/><polygon points="42.0,57.8 42.0,57.5 41.9,57.2 41.8,56.9 41.6,56.6 41.4,56.3 41.2,56.1 41.0,55.9 40.7,55.8 40.5,55.8 40.3,55.8 40.1,55.9 40.0,56.1 39.9,56.3 39.9,56.5 39.9,56.8 40.0,57.1 40.1,57.4 40.3,57.7 40.5,58.0 40.7,58.2 41.0,58.4 41.2,58.5 41.4,58.5 41.6,58.5 41.8,58.4 41.9,58.2 42.0,58.0" fill="#233A72"/><polygon points="61.7,65.4 61.5,63.9 61.1,62.4 60.5,60.9 59.6,59.4 58.6,58.1 57.5,56.9 56.3,56.1 55.1,55.6 54.0,55.4 52.9,55.5 52.1,56.0 51.5,56.8 51.1,57.9 50.9,59.2 51.1,60.7 51.5,62.2 52.1,63.7 52.9,65.2 54.0,66.5 55.1,67.7 56.3,68.5 57.5,69.0 58.6,69.2 59.6,69.1 60.5,68.6 61.1,67.8 61.5,66.7" fill="#0A1736"/><polygon points="58.6,67.1 58.5,65.7 58.1,64.2 57.5,62.6 56.6,61.1 55.6,59.8 54.5,58.7 53.3,57.9 52.1,57.3 50.9,57.1 49.9,57.3 49.1,57.8 48.4,58.6 48.0,59.6 47.9,61.0 48.0,62.4 48.4,63.9 49.1,65.5 49.9,67.0 50.9,68.3 52.1,69.4 53.3,70.2 54.5,70.8 55.6,71.0 56.6,70.8 57.5,70.3 58.1,69.5 58.5,68.5" fill="#1E2B4D" stroke="#0A1736" stroke-width="1" stroke-linejoin="round"/><polygon points="56.0,65.7 55.9,65.0 55.7,64.2 55.4,63.4 54.9,62.6 54.4,61.9 53.8,61.3 53.2,60.9 52.6,60.6 52.0,60.5 51.4,60.6 51.0,60.8 50.7,61.2 50.5,61.8 50.4,62.5 50.5,63.2 50.7,64.0 51.0,64.8 51.4,65.6 52.0,66.3 52.6,66.9 53.2,67.3 53.8,67.6 54.4,67.7 54.9,67.6 55.4,67.4 55.7,67.0 55.9,66.4" fill="#D3E0F3"/><polygon points="54.2,64.8 54.1,64.5 54.1,64.2 53.9,63.9 53.8,63.6 53.6,63.3 53.3,63.1 53.1,62.9 52.8,62.8 52.6,62.8 52.4,62.8 52.2,62.9 52.1,63.1 52.0,63.3 52.0,63.5 52.0,63.8 52.1,64.1 52.2,64.4 52.4,64.7 52.6,65.0 52.8,65.2 53.1,65.4 53.3,65.5 53.6,65.5 53.8,65.5 53.9,65.4 54.1,65.2 54.1,65.0" fill="#233A72"/><polygon points="97.6,86.1 97.5,84.7 97.1,83.2 96.4,81.6 95.6,80.1 94.6,78.8 93.4,77.7 92.2,76.8 91.0,76.3 89.9,76.1 88.9,76.3 88.0,76.8 87.4,77.6 87.0,78.6 86.9,80.0 87.0,81.4 87.4,82.9 88.0,84.5 88.9,86.0 89.9,87.3 91.0,88.4 92.2,89.2 93.4,89.8 94.6,90.0 95.6,89.8 96.4,89.3 97.1,88.5 97.5,87.5" fill="#0A1736"/><polygon points="94.6,87.9 94.4,86.4 94.0,84.9 93.4,83.4 92.5,81.9 91.5,80.6 90.4,79.4 89.2,78.6 88.0,78.1 86.9,77.9 85.9,78.0 85.0,78.5 84.4,79.3 84.0,80.4 83.8,81.7 84.0,83.2 84.4,84.7 85.0,86.2 85.9,87.7 86.9,89.0 88.0,90.2 89.2,91.0 90.4,91.5 91.5,91.7 92.5,91.6 93.4,91.1 94.0,90.3 94.4,89.2" fill="#1E2B4D" stroke="#0A1736" stroke-width="1" stroke-linejoin="round"/><polygon points="91.9,86.5 91.8,85.7 91.6,84.9 91.3,84.1 90.9,83.3 90.3,82.6 89.7,82.1 89.1,81.6 88.5,81.3 87.9,81.2 87.4,81.3 86.9,81.6 86.6,82.0 86.4,82.6 86.3,83.2 86.4,84.0 86.6,84.8 86.9,85.6 87.4,86.4 87.9,87.1 88.5,87.6 89.1,88.1 89.7,88.4 90.3,88.5 90.9,88.4 91.3,88.1 91.6,87.7 91.8,87.1" fill="#D3E0F3"/><polygon points="90.1,85.5 90.1,85.2 90.0,84.9 89.9,84.6 89.7,84.3 89.5,84.1 89.3,83.8 89.0,83.7 88.8,83.6 88.6,83.5 88.4,83.5 88.2,83.6 88.1,83.8 88.0,84.0 88.0,84.3 88.0,84.6 88.1,84.9 88.2,85.2 88.4,85.5 88.6,85.7 88.8,86.0 89.0,86.1 89.3,86.2 89.5,86.3 89.7,86.3 89.9,86.2 90.0,86.0 90.1,85.8" fill="#233A72"/><g transform="translate(46,-40)"><rect width="28" height="28" rx="2" fill="#2BB673"/><g fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="scale(1.00)"><path d="M8 14.5l4 4 8-9"/></g></g></svg></div>
  <span class="tag acc"><b>08</b><i>Контакты</i></span>
  <h2>Рассчитаем стоимость за 15 минут</h2>
- <p class="lead">Каждому селлеру считаем по-своему: смотрим габариты, объёмы и схему работы. Менеджер пришлёт расчёт по каждой строке прайса и проект договора.</p>
+ <p class="lead">Посчитайте партию в калькуляторе и нажмите «Получить точный расчёт». Менеджер сверит габариты, объёмы и схему работы и пришлёт расчёт по каждой строке прайса и проект договора.</p>
  <div class="channels">
-  <a class="ch" href="#" id="briefBtn"><div class="r"><span class="mono">01</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></div><h3>Заполнить форму</h3><p>Оставьте контакт в короткой форме. Рассмотрим заявку в течение дня и напишем в удобном мессенджере.</p></a>
+  <a class="ch" href="#calc"><div class="r"><span class="mono">01</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></div><h3>Посчитать в калькуляторе</h3><p>Отметьте операции, увидите цену за единицу и отправьте расчёт менеджеру. Ответим в течение дня.</p></a>
   <a class="ch" href="https://t.me/" target="_blank" rel="noopener"><div class="r"><span class="mono">02</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></div><h3>Написать в Telegram</h3><p>Напишите менеджеру напрямую. В рабочее время отвечаем в течение 10 минут.</p></a>
  </div>
- <div class="banner"><div><h3>Консультация с руководителем</h3><p>Разберём ваш товар и подберём схему, которая снизит стоимость единицы.</p></div><a class="btn light" href="#"><span>Записаться</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a></div>
+ <div class="banner"><div><h3>Консультация с руководителем</h3><p>Отправьте расчёт из калькулятора — руководитель разберёт ваш товар и подберёт схему, которая снизит стоимость единицы.</p></div><a class="btn light" href="#calc"><span>К калькулятору</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a></div>
 </div></section>
 </main>
 <div class="tape"></div>
@@ -425,9 +454,38 @@ body{padding-bottom:56px}
   <div class="sub"><span class="mono">Услуги</span><a href="#services">Все услуги</a><a href="#services">FBS</a><a href="#services">FBO</a><a href="#services">Хранение</a><a href="#services">Маркировка и упаковка</a><a href="#services">Возвраты</a></div>
   <div class="sub"><span class="mono">Агентство · Бренд Digital ↗</span><a href="agency/#services" target="_blank" rel="noopener">Интернет-магазины</a><a href="agency/#services" target="_blank" rel="noopener">Маркетинг и продвижение</a><a href="agency/#services" target="_blank" rel="noopener">Контент для маркетплейсов</a><a href="agency/#services" target="_blank" rel="noopener">Интеграции и «Честный знак»</a></div>
  </div>
- <div class="acts"><a href="#calc"><div><h3>Рассчитать стоимость</h3><p>Менеджер пришлёт расчёт по каждой строке прайса</p></div><em class="btn primary m" style="width:44px"><em style="border:0;width:44px"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></em></a><a href="#contact"><div><h3>Записаться на экскурсию</h3><p>Покажем приёмку, упаковку и хранение вашего типа товара</p></div><em class="btn primary m" style="width:44px"><em style="border:0;width:44px"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></em></a></div>
+ <div class="acts"><a href="#calc"><div><h3>Рассчитать стоимость</h3><p>Посчитайте партию и получите точный расчёт от менеджера</p></div><em class="btn primary m" style="width:44px"><em style="border:0;width:44px"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></em></a><a href="#contact"><div><h3>Записаться на экскурсию</h3><p>Покажем приёмку, упаковку и хранение вашего типа товара</p></div><em class="btn primary m" style="width:44px"><em style="border:0;width:44px"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></em></a></div>
 </div></div>
 
+<dialog class="lead-dlg" id="leadDlg" aria-labelledby="leadTtl">
+ <button type="button" class="x" data-close aria-label="Закрыть"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3 3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+ <div class="lead-g">
+  <div class="lead-sum">
+   <span class="mono">Ваш расчёт</span>
+   <div class="t" id="lTotal"></div>
+   <div class="kv"><div><span>Единиц в партии</span><b id="lUnits"></b></div><div><span>За единицу</span><b id="lPer"></b></div><div><span>Со скидкой 10%</span><b id="lDisc"></b></div><div><span>Операций</span><b id="lOps"></b></div></div>
+   <details id="lDet"><summary>Строки расчёта</summary><div class="lines" id="lLines"></div></details>
+   <button type="button" class="edit" data-close>← Изменить параметры</button>
+  </div>
+  <form class="lead-f" id="leadForm" novalidate>
+   <h2 id="leadTtl">Получить точный расчёт</h2>
+   <p>Отправим ваш расчёт менеджеру. Он сверит габариты и объёмы и пришлёт точную цену и проект договора.</p>
+   <label class="fld" data-f="name"><span class="mono">Имя</span><input name="name" autocomplete="name" placeholder="Как к вам обращаться" maxlength="80" required><span class="err">Напишите, как к вам обращаться</span></label>
+   <label class="fld" data-f="phone"><span class="mono">Телефон</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 (900) 000-00-00" maxlength="18" required><span class="err">Нужен номер из 10 цифр после +7</span></label>
+   <label class="fld" data-f="email"><span class="mono">Почта</span><input name="email" type="email" autocomplete="email" inputmode="email" placeholder="name@company.ru" maxlength="120" required><span class="err">Проверьте адрес почты</span></label>
+   <label class="hp" aria-hidden="true">Компания<input name="company" tabindex="-1" autocomplete="off"></label>
+   <p class="fail" role="alert">Не получилось отправить заявку. Попробуйте ещё раз или напишите нам в Telegram.</p>
+   <button type="submit" class="btn primary" id="leadSend"><span>Отправить расчёт</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></button>
+   <p class="agree">Нажимая кнопку, вы соглашаетесь с <a href="#">политикой конфиденциальности</a>.</p>
+  </form>
+  <div class="lead-ok" role="status">
+   <div class="ic"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M8 14.5l4 4 8-9" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+   <h2>Расчёт у менеджера</h2>
+   <p id="lOkTxt">Свяжемся с вами в течение рабочего дня и пришлём точную цену и проект договора.</p>
+   <button type="button" class="btn dark m" data-close><span>Вернуться на сайт</span></button>
+  </div>
+ </div>
+</dialog>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function(){
@@ -489,11 +547,12 @@ for(const [g,{type,items}] of Object.entries(OPS))$('#'+g).innerHTML=items.map((
 /* per-operation quantities follow the batch size until the visitor edits them */
 const touched=new Set();
 const syncQty=()=>{for(const [g,{items}] of Object.entries(OPS))if(g!=='unload')for(const [k] of items){const el=$('#q-'+k);if(el&&!touched.has(k))el.value=units()}};
+let CALC=null;
 const calc=()=>{const n=units(),rows=[[`Приёмка: ${fmt(n)} × ${money(ACCEPT)}`,n*ACCEPT]];let ops=1;
  for(const [g,{items}] of Object.entries(OPS))for(const [k,name,,price,per,qty] of items){const inp=$(`#${g} input[value="${k}"]`);inp.closest('.opt').classList.toggle('on',inp.checked);if(!inp.checked)continue;
   const q=Math.max(0,Math.round(+$('#q-'+k).value||0));if(!q)continue;ops++;rows.push([`${LBL[k]||name}: ${fmt(q)} × ${money(price)}`,q*price])}
  if($('#addStore').getAttribute('aria-pressed')==='true'){const l=Math.max(0,+$('#liters').value||0),d=Math.max(0,Math.round(+$('#days').value||0)),paid=Math.max(0,d-FREE_DAYS);ops++;rows.push([`Хранение: ${fmt(n)} ед. × ${String(l).replace('.',',')} л × ${paid} дн. × 0,07 ₽`,n*l*paid*STORE_RATE])}
- const total=rows.reduce((a,r)=>a+r[1],0),per=total/n;
+ const total=rows.reduce((a,r)=>a+r[1],0),per=total/n;CALC={n,rows,total,per,ops};
  rollTo($('#total'),money(total));$('#sumNote').textContent=`${fmt(n)} ед. · ${money(per)} за единицу · со скидкой 10%: ${money(total*(1-DISC))}`;
  $('#barTotal').textContent=money(total);$('#barPer').textContent=money(per);$('#perUnit').textContent=money(per);$('#batch').textContent=money(total);$('#disc').textContent=money(total*(1-DISC));$('#ops').textContent=ops;
  $('#lines').innerHTML=rows.length?rows.map(r=>`<div><span>${r[0]}</span><span>${money(r[1])}</span></div>`).join(''):'<div><span class="empty">Отметьте операции слева</span><span></span></div>'};
@@ -503,8 +562,41 @@ calcEl.addEventListener('input',e=>{const t=e.target;if(t===unitsEl)syncQty();el
 calcEl.addEventListener('change',e=>{const t=e.target;if(t.checked&&OPS[t.name]&&OPS[t.name].excl)$$(`#${t.name} input[name="${t.name}"]`).forEach(x=>{if(x!==t)x.checked=false});calc()});
 $('#addStore').addEventListener('click',e=>{const b=e.currentTarget,on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.querySelector('span').textContent=on?'Убрать хранение':'Добавить хранение';$('#storeField').hidden=!on;if(on&&innerWidth<1000)$('#storeField').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});calc()});
 syncQty();calc();
-/* brief button demo */
-$('#briefBtn').addEventListener('click',e=>{e.preventDefault();const b=e.currentTarget;b.setAttribute('aria-busy','true');b.querySelector('h3').textContent='Открываем форму…';setTimeout(()=>{b.removeAttribute('aria-busy');b.querySelector('h3').textContent='Заявка принята · ответим за 10 минут';b.querySelector('p').textContent='Форма — на следующем этапе вёрстки; здесь показано состояние после отправки.'},900)});
+/* lead form → email to the manager via EmailJS (static hosting, no backend).
+   Fill in the keys from the EmailJS dashboard; while they are empty the form runs in demo mode and only logs the request. */
+const LEAD={service:'',template:'',key:''};
+const dlg=$('#leadDlg'),lf=$('#leadForm'),esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fillSum=()=>{const c=CALC;$('#lTotal').textContent=money(c.total);$('#lUnits').textContent=fmt(c.n)+' ед.';$('#lPer').textContent=money(c.per);$('#lDisc').textContent=money(c.total*(1-DISC));$('#lOps').textContent=c.ops;
+ $('#lLines').innerHTML=c.rows.map(r=>`<div><span>${esc(r[0])}</span><span>${money(r[1])}</span></div>`).join('')};
+const openLead=()=>{fillSum();dlg.classList.remove('sent');lf.classList.remove('failed');$('#lDet').open=innerWidth>=860;document.documentElement.classList.add('modal');dlg.showModal();setTimeout(()=>lf.name.focus(),50)};
+dlg.addEventListener('close',()=>document.documentElement.classList.remove('modal'));
+dlg.addEventListener('click',e=>{if(e.target===dlg||e.target.closest('[data-close]'))dlg.close()});
+$('#leadBtn').addEventListener('click',openLead);
+/* phone: +7 (XXX) XXX-XX-XX */
+const digits=v=>{let d=v.replace(/\D/g,'');if(d[0]==='8')d='7'+d.slice(1);if(d&&d[0]!=='7')d='7'+d;return d.slice(0,11)};
+lf.phone.addEventListener('input',e=>{const d=digits(e.target.value).slice(1);e.target.value=d||e.target.value.replace(/\D/g,'')?'+7'+(d?' ('+d.slice(0,3):'')+(d.length>3?') '+d.slice(3,6):'')+(d.length>6?'-'+d.slice(6,8):'')+(d.length>8?'-'+d.slice(8,10):''):''});
+const CHECK={name:v=>v.trim().length>1,phone:v=>digits(v).length===11,email:v=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())};
+const valid=f=>{const ok=CHECK[f](lf[f].value);lf[f].closest('.fld').classList.toggle('bad',!ok);return ok};
+lf.addEventListener('input',e=>{const f=e.target.name;if(CHECK[f]&&e.target.closest('.fld').classList.contains('bad'))valid(f)});
+lf.addEventListener('focusout',e=>{const f=e.target.name;if(CHECK[f]&&e.target.value)valid(f)});
+const td='font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:22px;padding:12px 0;border-top:1px solid #E1ECFC;';
+const leadParams=()=>{const c=CALC,now=new Date(Date.now()+3*36e5),pad=x=>String(x).padStart(2,'0');return{
+ name:lf.name.value.trim(),phone:lf.phone.value.trim(),phone_link:'+'+digits(lf.phone.value),email:lf.email.value.trim(),
+ total:money(c.total),per_unit:money(c.per),discount:money(c.total*(1-DISC)),units:fmt(c.n),ops:String(c.ops),
+ lines_html:c.rows.map(r=>`<tr><td style="${td}color:#233A72;padding-right:16px">${esc(r[0])}</td><td align="right" style="${td}color:#0A1736;font-weight:bold;white-space:nowrap">${money(r[1])}</td></tr>`).join(''),
+ lines_text:c.rows.map(r=>`${r[0]} = ${money(r[1])}`).join('\n'),
+ sent_at:`${pad(now.getUTCDate())}.${pad(now.getUTCMonth()+1)}.${now.getUTCFullYear()}, ${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())} МСК`,
+ page:location.href.split('#')[0]}};
+lf.addEventListener('submit',async e=>{e.preventDefault();const bad=['name','phone','email'].filter(f=>!valid(f));if(bad.length){lf[bad[0]].focus();return}
+ const b=$('#leadSend');if(b.getAttribute('aria-busy'))return;lf.classList.remove('failed');b.setAttribute('aria-busy','true');b.querySelector('span').textContent='Отправляем…';
+ const params=leadParams();let ok=false;
+ try{if(lf.company.value)ok=true;/* bot filled the hidden field: pretend success */
+  else if(!LEAD.key){console.info('[lead demo] EmailJS keys are not set, request not sent',params);await new Promise(r=>setTimeout(r,700));ok=true}
+  else ok=(await fetch('https://api.emailjs.com/api/v1.0/email/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({service_id:LEAD.service,template_id:LEAD.template,user_id:LEAD.key,template_params:params})})).ok}catch(_){ok=false}
+ b.removeAttribute('aria-busy');b.querySelector('span').textContent='Отправить расчёт';
+ if(!ok){lf.classList.add('failed');return}
+ $('#lOkTxt').textContent=`${params.name}, свяжемся с вами в течение рабочего дня: позвоним на ${params.phone} и пришлём точную цену и проект договора на ${params.email}.`;
+ dlg.classList.add('sent');lf.reset()});
 /* clock */
 const tick=()=>{const d=new Date(Date.now()+3*36e5);const s=String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0');const c=$('#clock');if(c)c.textContent=s+' МСК';$('#ftClock').textContent=s};tick();setInterval(tick,30000);
 
