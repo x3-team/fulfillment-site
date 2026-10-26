@@ -224,6 +224,43 @@ footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between
 .menu .acts{display:grid;gap:16px;margin-top:40px}@media (min-width:800px){.menu .acts{grid-template-columns:1fr 1fr}}
 .menu .acts a{display:flex;align-items:center;gap:24px;padding:24px 28px;background:var(--card);border-radius:4px}.menu .acts a div{flex:1}.menu .acts a p{color:var(--ink5);font-size:14px}
 .menu .acts .go{width:44px;height:44px;display:grid;place-items:center;background:var(--acc);border-radius:2px;flex:none}
+/* lead form */
+html.modal{overflow:hidden}
+.lead-dlg{width:min(960px,calc(100vw - 32px));max-width:none;max-height:calc(100svh - 32px);padding:0;border:0;border-radius:4px;background:var(--card);color:var(--ink);box-shadow:0 24px 64px rgba(10,23,54,.35);overflow:auto;overscroll-behavior:contain}
+.lead-dlg::backdrop{background:rgba(10,23,54,.62);backdrop-filter:blur(2px)}
+.lead-dlg[open]{animation:dlgIn var(--slow) var(--emph)}@keyframes dlgIn{from{opacity:0;transform:translateY(16px)}}
+.lead-dlg .x{position:absolute;top:16px;right:16px;z-index:2;width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:2px;background:var(--card);transition:background var(--base) var(--std),color var(--base) var(--std)}.lead-dlg .x:hover{background:var(--ink);color:#fff}
+.lead-g{display:grid}@media (min-width:860px){.lead-g{grid-template-columns:360px 1fr}}
+.lead-sum{background:var(--acc);color:#fff;padding:36px 32px 32px;display:grid;gap:20px;align-content:start}
+.lead-sum>.mono{opacity:.8}.lead-sum .t{font-size:clamp(28px,3.2vw,36px);font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.lead-sum ol{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:s}
+.lead-sum li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;gap:14px;padding:14px 0;border-top:1px solid rgba(255,255,255,.28);font-size:15px;line-height:1.4}
+.lead-sum li::before{content:counter(s);width:28px;height:28px;display:grid;place-items:center;background:#fff;color:var(--acc);border-radius:2px;font-weight:600;font-size:14px}
+.lead-sum li b{display:block;font-weight:600}.lead-sum li span{opacity:.8}
+.lead-sum .free{display:inline-flex;align-items:stretch;height:28px;border:1px solid rgba(255,255,255,.5);border-radius:2px;overflow:hidden;justify-self:start}.lead-sum .free b{display:flex;align-items:center;padding:0 8px;background:#fff;color:var(--acc);font-weight:500}.lead-sum .free i{display:flex;align-items:center;padding:0 10px;font-style:normal}
+.lead-f{padding:36px 40px 40px;display:grid;gap:18px;align-content:start}
+.lead-f h2{font-size:clamp(28px,3vw,36px);letter-spacing:-.02em;line-height:1.1;margin:0;padding-right:48px}
+.lead-f>p{color:var(--ink5);margin:-6px 0 4px}
+.lead-f .row2{display:grid;gap:18px}@media (min-width:600px){.lead-f .row2{grid-template-columns:1fr 1fr}}
+.fld{display:grid;gap:8px}.fld .mono{color:var(--ink5)}.fld .mono small{text-transform:none;letter-spacing:0;font-family:"Onest",sans-serif;font-size:12px;color:var(--ink3)}
+.fld input{height:52px;min-width:0;padding:0 16px;border:1px solid var(--line);border-radius:2px;background:var(--paper);font:inherit;font-size:16px;color:var(--ink);transition:border-color var(--fast) var(--std),background var(--fast) var(--std)}
+.fld input::placeholder{color:#A9B6D0}.fld input:hover{border-color:var(--ink3)}.fld input:focus{outline:0;border-color:var(--acc);background:#fff;box-shadow:0 0 0 3px var(--acc1)}
+.fld.bad input{border-color:#E5484D;background:#FFF5F5}.fld .err{display:none;font-size:13px;color:#C62F34}.fld.bad .err{display:block}
+.chips{display:flex;flex-wrap:wrap;gap:8px;border:0;margin:0;padding:0}.chips legend{padding:0;margin-bottom:8px;color:var(--ink5)}
+.chips label{position:relative;cursor:pointer}.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips span{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 12px;border:1px solid var(--line);border-radius:2px;font-size:14px;color:var(--ink7);background:#fff;transition:border-color var(--fast),background var(--fast),color var(--fast)}
+.chips span::before{content:"+";font-weight:600;color:var(--ink3)}.chips label:hover span{border-color:var(--ink3)}
+.chips input:checked+span{border-color:var(--acc);background:var(--acc1);color:var(--acc6)}.chips input:checked+span::before{content:"✓";color:var(--acc)}
+.chips input:focus-visible+span{outline:2px solid var(--acc);outline-offset:2px}
+.lead-f .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.lead-f .btn{width:100%}.lead-f .btn>span{flex:1;justify-content:center}
+.lead-f .agree{font-size:13px;color:var(--ink5);margin:0}.lead-f .agree a{text-decoration:underline}
+.lead-f .fail{display:none;margin:0;padding:12px 14px;border-radius:2px;background:#FFF5F5;color:#C62F34;font-size:14px}.lead-f.failed .fail{display:block}
+.lead-ok{display:none;padding:56px 40px;align-content:center;gap:16px;justify-items:start}.lead-ok .ic{width:56px;height:56px;display:grid;place-items:center;background:var(--ok);border-radius:2px}
+.lead-ok h2{font-size:clamp(28px,3vw,36px);letter-spacing:-.02em;margin:8px 0 0}.lead-ok p{color:var(--ink5);margin:0;max-width:44ch}
+.lead-dlg.sent .lead-f{display:none}.lead-dlg.sent .lead-ok{display:grid}
+@media (max-width:859px){.lead-sum{padding:28px 20px 20px;gap:14px}.lead-sum ol{display:none}.lead-f,.lead-ok{padding:28px 20px 32px}.lead-dlg .x{top:12px;right:12px;background:transparent;border-color:rgba(255,255,255,.5);color:#fff}.lead-dlg.sent .x{color:var(--ink);border-color:var(--line)}}
+@media (max-width:479px){.lead-dlg{width:100vw;max-height:100svh;height:100svh;border-radius:0}}
 /* reveal */
 .rv{opacity:0;transform:translateY(16px);transition:opacity var(--reveal) var(--emph),transform var(--reveal) var(--emph)}.rv.in{opacity:1;transform:none}
 .hero h1 .ln{display:block;overflow:hidden}.hero h1 .ln span{display:block;transform:translateY(110%);transition:transform var(--reveal) var(--emph)}
@@ -236,7 +273,7 @@ footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between
 <header class="hdr" id="hdr"><div class="wrap">
  <a class="logo" href="#"><i></i>Бренд Digital</a>
  <nav class="nav" aria-label="Основное"><a href="#services">Услуги</a><a href="#cases">Кейсы</a><a href="#plans">Цены</a><a href="#process">Процесс</a><a href="../" target="_blank" rel="noopener">Фулфилмент ↗</a></nav>
- <div class="acts"><button class="btn ghost m" id="menuBtn" aria-controls="menu" aria-expanded="false"><span>Меню</span></button><a class="btn primary m" href="#contact"><span>Обсудить проект</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a></div>
+ <div class="acts"><button class="btn ghost m" id="menuBtn" aria-controls="menu" aria-expanded="false"><span>Меню</span></button><a class="btn primary m" href="#contact" data-lead=""><span>Обсудить проект</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a></div>
 </div></header>
 
 <main>
@@ -245,7 +282,7 @@ footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between
  <h1><span class="ln"><span>Растим продажи селлеров —</span></span><span class="ln"><span>от карточки до своего</span></span><span class="ln"><span>интернет-магазина</span></span></h1>
  <div class="row">
   <div><p class="lead">Подключаем кабинеты, делаем контент и продвижение на маркетплейсах, запускаем свой магазин и связываем всё с учётом и фулфилментом.</p>
-   <div class="ctas"><a class="btn primary" href="#contact"><span>Обсудить проект</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a><a class="btn ghost" href="#cases"><span>Смотреть кейсы</span></a></div></div>
+   <div class="ctas"><a class="btn primary" href="#contact" data-lead=""><span>Обсудить проект</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a><a class="btn ghost" href="#cases"><span>Смотреть кейсы</span></a></div></div>
   <div class="counters"><div><strong data-count="120" data-suffix="+">0</strong><span class="mono">проектов</span></div><div><strong data-count="4">0</strong><span class="mono">площадки</span></div><div><strong data-count="2" data-suffix=" нед.">0</strong><span class="mono">до запуска</span></div></div>
  </div>
  <div class="show" id="show">
@@ -320,10 +357,10 @@ footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between
  <h2>Покажем, где теряются продажи</h2>
  <p class="lead">Пришлите ссылку на магазин или артикулы. За 2 рабочих дня сделаем аудит карточек и рекламы и пришлём план с бюджетом и сроками.</p>
  <div class="channels">
-  <a class="ch" href="#" id="briefBtn"><div class="r"><span class="mono">01</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></div><h3>Заказать бесплатный аудит</h3><p>Оставьте контакт и ссылку на магазин. Напишем в удобном мессенджере в течение дня.</p></a>
+  <a class="ch" href="#contact" data-lead="Бесплатный аудит|Аудит"><div class="r"><span class="mono">01</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></div><h3>Заказать бесплатный аудит</h3><p>Оставьте контакт и ссылку на магазин. Напишем в удобном мессенджере в течение дня.</p></a>
   <a class="ch" href="https://t.me/" target="_blank" rel="noopener"><div class="r"><span class="mono">02</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></div><h3>Написать в Telegram</h3><p>Напишите менеджеру напрямую. В рабочее время отвечаем в течение 10 минут.</p></a>
  </div>
- <div class="banner"><div><h3>Уже работаете с нашим фулфилментом?</h3><p>Для клиентов склада подключение кабинетов и интеграция остатков бесплатно.</p></div><a class="btn light" href="#contact"><span>Узнать условия</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a></div>
+ <div class="banner"><div><h3>Уже работаете с нашим фулфилментом?</h3><p>Для клиентов склада подключение кабинетов и интеграция остатков бесплатно.</p></div><a class="btn light" href="#contact" data-lead="Условия для клиентов фулфилмента|Кабинеты,Интеграции"><span>Узнать условия</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a></div>
 </div></section>
 </main>
 <div class="tape"></div>
@@ -344,8 +381,41 @@ footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between
   <div class="sub"><span class="mono">Услуги</span><a href="uslugi/podklyuchenie-kabinetov/">Подключение кабинетов</a><a href="uslugi/kontent-i-infografika/">Контент и инфографика</a><a href="uslugi/prodvizhenie-na-marketplejsah/">Продвижение на маркетплейсах</a><a href="uslugi/razrabotka-internet-magazina/">Интернет-магазин</a><a href="uslugi/internet-marketing/">Интернет-маркетинг</a></div>
   <div class="sub"><span class="mono">Фулфилмент · Бренд ↗</span><a href="../" target="_blank" rel="noopener">FBS</a><a href="../" target="_blank" rel="noopener">FBO</a><a href="../" target="_blank" rel="noopener">Хранение</a><a href="../#calc" target="_blank" rel="noopener">Калькулятор стоимости</a></div>
  </div>
- <div class="acts"><a href="#contact"><div><h3>Бесплатный аудит</h3><p>Разберём карточки и рекламу и покажем, где теряются продажи</p></div><span class="go"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a href="#plans"><div><h3>Цены и пакеты</h3><p>Стоимость известна до договора, без процента от оборота</p></div><span class="go"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
+ <div class="acts"><a href="#contact" data-lead="Бесплатный аудит|Аудит"><div><h3>Бесплатный аудит</h3><p>Разберём карточки и рекламу и покажем, где теряются продажи</p></div><span class="go"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a href="#plans"><div><h3>Цены и пакеты</h3><p>Стоимость известна до договора, без процента от оборота</p></div><span class="go"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
 </div></div>
+
+<dialog class="lead-dlg" id="leadDlg" aria-labelledby="leadTtl">
+ <button type="button" class="x" data-close aria-label="Закрыть"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3 3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+ <div class="lead-g">
+  <div class="lead-sum">
+   <span class="mono">Заявка · Бренд Digital</span>
+   <div class="t" id="lTopic">Новый проект</div>
+   <span class="free mono"><b>0 ₽</b><i>Аудит перед стартом</i></span>
+   <ol><li><div><b>Свяжемся за рабочий день</b><span>Уточним цель, площадки и сроки</span></div></li><li><div><b>Аудит за 2 дня</b><span>Карточки, реклама и конкуренты</span></div></li><li><div><b>План с ценой</b><span>Задачи, бюджет и сроки до договора</span></div></li></ol>
+  </div>
+  <form class="lead-f" id="leadForm" novalidate>
+   <h2 id="leadTtl">Обсудить проект</h2>
+   <p>Оставьте контакты и ссылку на магазин. Менеджер посмотрит ваши карточки до звонка.</p>
+   <label class="fld" data-f="name"><span class="mono">Имя</span><input name="name" autocomplete="name" placeholder="Как к вам обращаться" maxlength="80" required><span class="err">Напишите, как к вам обращаться</span></label>
+   <div class="row2">
+    <label class="fld" data-f="phone"><span class="mono">Телефон</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 (900) 000-00-00" maxlength="18" required><span class="err">Нужен номер из 10 цифр после +7</span></label>
+    <label class="fld" data-f="email"><span class="mono">Почта</span><input name="email" type="email" autocomplete="email" inputmode="email" placeholder="name@company.ru" maxlength="120" required><span class="err">Проверьте адрес почты</span></label>
+   </div>
+   <label class="fld"><span class="mono">Магазин или артикулы <small>· необязательно</small></span><input name="shop" autocomplete="url" placeholder="Ссылка на магазин на WB, Ozon или сайт" maxlength="300"></label>
+   <fieldset class="chips" id="lChips"><legend class="mono">Что нужно</legend></fieldset>
+   <label class="hp" aria-hidden="true">Компания<input name="company" tabindex="-1" autocomplete="off"></label>
+   <p class="fail" role="alert">Не получилось отправить заявку. Попробуйте ещё раз или напишите нам в Telegram.</p>
+   <button type="submit" class="btn primary" id="leadSend"><span>Отправить заявку</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></button>
+   <p class="agree">Нажимая кнопку, вы соглашаетесь с <a href="#">политикой конфиденциальности</a>.</p>
+  </form>
+  <div class="lead-ok" role="status">
+   <div class="ic"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M8 14.5l4 4 8-9" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+   <h2>Заявка у менеджера</h2>
+   <p id="lOkTxt">Свяжемся с вами в течение рабочего дня.</p>
+   <button type="button" class="btn dark m" data-close><span>Вернуться на сайт</span></button>
+  </div>
+ </div>
+</dialog>
 
 <script>
 (function(){
@@ -373,8 +443,9 @@ const SERV=[['Маркетплейсы',[
 ['Интеграции и учёт',[
  ['Интеграции и «Честный знак»','Связываем 1С, МойСклад, CRM, маркетплейсы и склад. Подключаем «Честный знак», выпускаем коды и вводим товар в оборот.',['1С','МойСклад','CRM','API маркетплейсов'],'от 25 000 ₽','интеграции'],
  ['Сквозная аналитика','Один дашборд по всем площадкам: выручка, маржа, остатки и реклама. Видно, какой товар зарабатывает, а какой съедает бюджет.',['Дашборд','Маржа по SKU','Остатки','Реклама'],'от 35 000 ₽','дашборд']]]];
+const CHIP=['Кабинеты','Контент','Продвижение','SEO и аналитика','Интернет-магазин','Интернет-маркетинг','Интеграции','Сквозная аналитика'];
 const SLUG=['podklyuchenie-kabinetov','kontent-i-infografika','prodvizhenie-na-marketplejsah','seo-kartochek','razrabotka-internet-magazina','internet-marketing','integracii-i-chestnyj-znak','skvoznaya-analitika'];
-let n=0;$('#acc').innerHTML=SERV.map(g=>`<p class="grp mono">${g[0]}</p>`+g[1].map(s=>{n++;return `<details${n===1?' open':''}><summary><span class="num mono">(${String(n).padStart(2,'0')})</span><h3>${s[0]}</h3><span class="pl"></span></summary><div class="body"><div><p class="lead">${s[1]}</p><ul class="mono">${s[2].map(t=>'<li>'+t+'</li>').join('')}</ul><div class="pr">${s[3]} <a class="btn ghost m" href="#contact"><span>Обсудить</span><em>${ARR}</em></a><a class="more" href="uslugi/${SLUG[n-1]}/">Подробнее об услуге →</a></div></div><div class="ph mono">Пример · ${s[4]}</div></div></details>`}).join('')).join('');
+let n=0;$('#acc').innerHTML=SERV.map(g=>`<p class="grp mono">${g[0]}</p>`+g[1].map(s=>{n++;return `<details${n===1?' open':''}><summary><span class="num mono">(${String(n).padStart(2,'0')})</span><h3>${s[0]}</h3><span class="pl"></span></summary><div class="body"><div><p class="lead">${s[1]}</p><ul class="mono">${s[2].map(t=>'<li>'+t+'</li>').join('')}</ul><div class="pr">${s[3]} <a class="btn ghost m" href="#contact" data-lead="${s[0]}|${CHIP[n-1]}"><span>Обсудить</span><em>${ARR}</em></a><a class="more" href="uslugi/${SLUG[n-1]}/">Подробнее об услуге →</a></div></div><div class="ph mono">Пример · ${s[4]}</div></div></details>`}).join('')).join('');
 const single=c=>c.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)c.querySelectorAll('details').forEach(o=>{if(o!==d)o.open=false})}));single($('#acc'));
 /* who */
 const WHO=[['Выходите на маркетплейс','Не понимаю, с чего начать на WB','Регистрация, схемы работы, документы, первые карточки — и всё это параллельно с закупкой товара.','Запустим кабинет и первые 10 карточек за 2 недели под ключ.'],
@@ -387,10 +458,10 @@ const CASES=[['Одежда · Wildberries','4 мес.','Бренд худи: и
 ['Косметика · свой магазин','6 недель','Свой магазин с остатками со склада фулфилмента',[['Доля заказов с сайта','0%','18%',2,100],['Средний чек','1 900 ₽','2 650 ₽',72,100]],['Интернет-магазин','Директ','Интеграции']]];
 $('#caseList').innerHTML=CASES.map(c=>`<article class="case rv"><div class="r"><span class="mono">${c[0]}</span><span class="mono">${c[1]}</span></div><h3>${c[2]}</h3>${c[3].map(m=>`<div class="metric"><div class="t"><span>${m[0]}</span><b><s>${m[1]} →</s>${m[2]}</b></div><div class="tr" title="Метка — было, полоса — стало"><u style="left:${m[3]}%"></u><i style="--w:${m[4]}%"></i></div></div>`).join('')}<div class="tags mono">${c[4].map(t=>'<span>'+t+'</span>').join('')}</div></article>`).join('');
 /* plans */
-const PLANS=[['Старт','Выход на маркетплейс','60 000 ₽','разово','Для тех, кто только запускается на WB, Ozon или Яндекс Маркете.',['Регистрация и настройка кабинета','Схема FBS или FBO, ЭДО','10 карточек с инфографикой','SEO-названия и описания','Связка с фулфилментом'],''],
-['Рост','Продвижение каждый месяц','90 000 ₽','в месяц','Для селлеров с работающими карточками, которым нужно больше заказов.',['Реклама на WB и Ozon','Обновление инфографики','Работа с отзывами и рейтингом','Еженедельный отчёт по ДРР','Персональный менеджер'],'hot'],
-['Свой магазин','Свой канал продаж','350 000 ₽','от 3 недель','Для брендов, которые хотят продавать без комиссии маркетплейса.',['Дизайн и каталог','Оплата, доставка, личный кабинет','Остатки из учёта и фулфилмента','Запуск Директа и SEO','3 месяца поддержки'],'']];
-$('#planList').innerHTML=PLANS.map(p=>`<article class="plan rv ${p[6]}"><div class="r"><span class="mono">${p[0]}</span><span class="mono">${p[6]?'Чаще выбирают':''}</span></div><h3>${p[1]}</h3><div class="price">от ${p[2]}<small>${p[3]}</small></div><p>${p[4]}</p><ul>${p[5].map(f=>'<li>'+f+'</li>').join('')}</ul><a class="btn ${p[6]?'primary':'dark'}" href="#contact"><span>Обсудить пакет</span><em>${ARR}</em></a></article>`).join('');
+const PLANS=[['Старт','Выход на маркетплейс','60 000 ₽','разово','Для тех, кто только запускается на WB, Ozon или Яндекс Маркете.',['Регистрация и настройка кабинета','Схема FBS или FBO, ЭДО','10 карточек с инфографикой','SEO-названия и описания','Связка с фулфилментом'],'','Кабинеты,Контент'],
+['Рост','Продвижение каждый месяц','90 000 ₽','в месяц','Для селлеров с работающими карточками, которым нужно больше заказов.',['Реклама на WB и Ozon','Обновление инфографики','Работа с отзывами и рейтингом','Еженедельный отчёт по ДРР','Персональный менеджер'],'hot','Продвижение,Контент'],
+['Свой магазин','Свой канал продаж','350 000 ₽','от 3 недель','Для брендов, которые хотят продавать без комиссии маркетплейса.',['Дизайн и каталог','Оплата, доставка, личный кабинет','Остатки из учёта и фулфилмента','Запуск Директа и SEO','3 месяца поддержки'],'','Интернет-магазин,Интернет-маркетинг']];
+$('#planList').innerHTML=PLANS.map(p=>`<article class="plan rv ${p[6]}"><div class="r"><span class="mono">${p[0]}</span><span class="mono">${p[6]?'Чаще выбирают':''}</span></div><h3>${p[1]}</h3><div class="price">от ${p[2]}<small>${p[3]}</small></div><p>${p[4]}</p><ul>${p[5].map(f=>'<li>'+f+'</li>').join('')}</ul><a class="btn ${p[6]?'primary':'dark'}" href="#contact" data-lead="Пакет «${p[0]}»|${p[7]}"><span>Обсудить пакет</span><em>${ARR}</em></a></article>`).join('');
 /* flow */
 const FLOW=[['Д+0','Заявка','Присылаете ссылку на магазин или артикулы и рассказываете о цели.'],['Д+2','Бесплатный аудит','Разбираем карточки, рекламу и конкурентов. Показываем, где теряются деньги.'],['Д+3','План и договор','Фиксируем задачи, сроки и цену. Подписываем по ЭДО.'],['Нед. 1–2','Запуск','Кабинет, контент и реклама. Каждый шаг виден в общем чате и трекере.'],['Каждую неделю','Отчёт и рост','Выручка, CTR и ДРР в одном отчёте. Решаем, что усиливать дальше.']];
 $('#flow').innerHTML=FLOW.map((f,i)=>`<li><span class="n">${i+1}</span><span class="mono d">${f[0]}</span><h3>${f[1]}</h3><p>${f[2]}</p></li>`).join('');
@@ -403,8 +474,44 @@ $('#faqList').innerHTML=FAQ.map((f,i)=>`<details${i?'':' open'}><summary><span c
 /* reveal + counters */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target)}),{threshold:.2});$$('.rv').forEach(el=>io.observe(el));
 const count=el=>{const to=+el.dataset.count,dec=+(el.dataset.dec||0),suf=el.dataset.suffix||'',t0=performance.now(),D=reduce?1:1200;const f=now=>{const p=Math.min(1,(now-t0)/D),v=to*(1-Math.pow(1-p,3));el.textContent=v.toLocaleString('ru-RU',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)};
-/* brief button demo */
-$('#briefBtn').addEventListener('click',e=>{e.preventDefault();const b=e.currentTarget;b.setAttribute('aria-busy','true');b.querySelector('h3').textContent='Открываем форму…';setTimeout(()=>{b.removeAttribute('aria-busy');b.querySelector('h3').textContent='Заявка принята · ответим за 10 минут';b.querySelector('p').textContent='Форма — на следующем этапе вёрстки; здесь показано состояние после отправки.'},900)});
+/* lead form → email to the manager via EmailJS (static hosting, no backend).
+   Fill in the keys from the EmailJS dashboard; while they are empty the form runs in demo mode and only logs the request. */
+const LEAD={service:'',template:'',key:''};
+const dlg=$('#leadDlg'),lf=$('#leadForm'),esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+$('#lChips').insertAdjacentHTML('beforeend',[...CHIP,'Аудит'].map(c=>`<label><input type="checkbox" name="svc" value="${c}"><span>${c}</span></label>`).join(''));
+const openLead=t=>{const [topic,chips]=(t||'').split('|');$('#lTopic').textContent=topic||'Новый проект';const pick=(chips||'').split(',');
+ lf.querySelectorAll('[name=svc]').forEach(c=>c.checked=pick.includes(c.value));dlg.classList.remove('sent');lf.classList.remove('failed');
+ document.documentElement.classList.add('modal');dlg.showModal();setTimeout(()=>lf.name.focus(),50)};
+document.addEventListener('click',e=>{const a=e.target.closest('[data-lead]');if(!a)return;e.preventDefault();openMenu(false);openLead(a.dataset.lead)});
+dlg.addEventListener('close',()=>document.documentElement.classList.remove('modal'));
+dlg.addEventListener('click',e=>{if(e.target===dlg||e.target.closest('[data-close]'))dlg.close()});
+/* phone: +7 (XXX) XXX-XX-XX */
+const digits=v=>{let d=v.replace(/\D/g,'');if(d[0]==='8')d='7'+d.slice(1);if(d&&d[0]!=='7')d='7'+d;return d.slice(0,11)};
+lf.phone.addEventListener('input',e=>{const d=digits(e.target.value).slice(1);e.target.value=d||e.target.value.replace(/\D/g,'')?'+7'+(d?' ('+d.slice(0,3):'')+(d.length>3?') '+d.slice(3,6):'')+(d.length>6?'-'+d.slice(6,8):'')+(d.length>8?'-'+d.slice(8,10):''):''});
+const CHECK={name:v=>v.trim().length>1,phone:v=>digits(v).length===11,email:v=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())};
+const valid=f=>{const ok=CHECK[f](lf[f].value);lf[f].closest('.fld').classList.toggle('bad',!ok);return ok};
+lf.addEventListener('input',e=>{const f=e.target.name;if(CHECK[f]&&e.target.closest('.fld').classList.contains('bad'))valid(f)});
+lf.addEventListener('focusout',e=>{const f=e.target.name;if(CHECK[f]&&e.target.value)valid(f)});
+const leadParams=()=>{const now=new Date(Date.now()+3*36e5),pad=x=>String(x).padStart(2,'0'),shop=lf.shop.value.trim(),svc=[...lf.querySelectorAll('[name=svc]:checked')].map(c=>c.value);return{
+ name:lf.name.value.trim(),phone:lf.phone.value.trim(),phone_link:'+'+digits(lf.phone.value),email:lf.email.value.trim(),
+ topic:$('#lTopic').textContent,services:svc.join(', ')||'не выбрано',
+ services_html:svc.length?svc.map(c=>`<span style="display:inline-block;margin:0 6px 6px 0;padding:6px 10px;border-radius:2px;background:#E3EDFF;color:#1246D6;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:16px;font-weight:bold;">${esc(c)}</span>`).join(''):'<span style="color:#5B6B8C;">не выбрано</span>',
+ shop:shop||'не указан',shop_html:/^https?:\/\//i.test(shop)?`<a href="${esc(shop)}" style="color:#1A5CFF;font-weight:bold;text-decoration:none;word-break:break-all;">${esc(shop)}</a>`:esc(shop||'не указан'),
+ sent_at:`${pad(now.getUTCDate())}.${pad(now.getUTCMonth()+1)}.${now.getUTCFullYear()}, ${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())} МСК`,
+ page:location.href.split('#')[0]}};
+lf.addEventListener('submit',async e=>{e.preventDefault();const bad=['name','phone','email'].filter(f=>!valid(f));if(bad.length){lf[bad[0]].focus();return}
+ const b=$('#leadSend');if(b.getAttribute('aria-busy'))return;lf.classList.remove('failed');b.setAttribute('aria-busy','true');b.querySelector('span').textContent='Отправляем…';
+ const params=leadParams();let ok=false;
+ try{if(lf.company.value)ok=true;/* bot filled the hidden field: pretend success */
+  else if(!LEAD.key){console.info('[lead demo] EmailJS keys are not set, request not sent',params);await new Promise(r=>setTimeout(r,700));ok=true}
+  else ok=(await fetch('https://api.emailjs.com/api/v1.0/email/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({service_id:LEAD.service,template_id:LEAD.template,user_id:LEAD.key,template_params:params})})).ok}catch(_){ok=false}
+ b.removeAttribute('aria-busy');b.querySelector('span').textContent='Отправить заявку';
+ if(!ok){lf.classList.add('failed');return}
+ $('#lOkTxt').textContent=`${params.name}, свяжемся с вами в течение рабочего дня: позвоним на ${params.phone} и пришлём план работ на ${params.email}.`;
+ dlg.classList.add('sent');lf.reset()});
+/* deep link from other pages: agency/#lead or #lead=<тема|услуга,услуга> opens the form */
+const fromHash=()=>{const h=decodeURIComponent(location.hash);if(!/^#lead\b/.test(h))return;history.replaceState(null,'',location.pathname+location.search);openLead(h.slice(6))};
+addEventListener('hashchange',fromHash);fromHash();
 /* clock */
 const tick=()=>{const d=new Date(Date.now()+3*36e5);$('#ftClock').textContent=String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0')};tick();setInterval(tick,30000);
 addEventListener('load',()=>{fitStrip();requestAnimationFrame(()=>{$('#hero').classList.add('live');setTimeout(()=>{$('#show').classList.add('live');$$('.counters strong').forEach(count)},reduce?0:200)})});
