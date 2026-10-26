@@ -60,7 +60,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .hdr .acts{display:flex;gap:12px;margin-left:auto}
 @media (min-width:1000px){.nav{display:flex}.hdr .acts{display:none}}
 /* hero */
-.hero{--h1:clamp(64px,10.4vw,200px);position:relative;margin-top:-95px;padding:95px 0 0;background-color:var(--paper);background-image:linear-gradient(#E4ECF8 1px,transparent 1px),linear-gradient(90deg,#E4ECF8 1px,transparent 1px);background-size:190px 80px;background-position:calc(50% - 95px) 0}
+.hero{--h1:clamp(64px,10.4vw,200px);position:relative;margin-top:-95px;padding:95px 0 0;background-color:var(--paper);isolation:isolate;overflow-x:clip}
+.hero .stage::before{content:"";position:absolute;z-index:-1;top:-95px;bottom:0;left:-100vmax;right:-100vmax;background-image:linear-gradient(#E4ECF8 1px,transparent 1px),linear-gradient(90deg,#E4ECF8 1px,transparent 1px);background-size:190px 80px;background-position:calc(50% - 95px) 100%;pointer-events:none}
 .ruler{position:absolute;left:50%;transform:translateX(-50%);top:8px;width:min(1830px,100% - 40px);height:14px;color:var(--ink3);border-bottom:1px solid #9DB6E8;background:repeating-linear-gradient(90deg,#9DB6E8 0 1px,transparent 1px 10px) 0 100%/100% 5px no-repeat}
 .ruler span{position:absolute;top:-2px;font-size:8px;letter-spacing:0;transform:translateX(-50%)}.ruler span:first-child{transform:none}.ruler span:last-child{transform:translateX(-100%)}
 .hero .stage{position:relative;min-height:max(640px,calc(100svh - 95px - 56px));display:grid;align-content:end;padding:24px 0 40px}
