@@ -88,13 +88,14 @@
   <div class="sub"><span class="mono">Фулфилмент · Бренд ↗</span><a href="../../../" target="_blank" rel="noopener">FBS</a><a href="../../../" target="_blank" rel="noopener">FBO</a><a href="../../../" target="_blank" rel="noopener">Хранение</a><a href="../../../#calc" target="_blank" rel="noopener">Калькулятор стоимости</a></div>
  </div>
 </div></div>
+<script src="../../accordion.js"></script>
 <script>
 (function(){
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const hdr=$('#hdr');let lastY=0;addEventListener('scroll',()=>{const y=scrollY;hdr.classList.toggle('scrolled',y>80);hdr.classList.toggle('hide',y>160&&y>lastY);lastY=y},{passive:true});
 const menu=$('#menu');const openMenu=o=>{menu.classList.toggle('open',o);menu.setAttribute('aria-hidden',!o);$('#menuBtn').setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''};
 $('#menuBtn').onclick=()=>openMenu(true);$('#menuClose').onclick=()=>openMenu(false);menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>openMenu(false)));addEventListener('keydown',e=>{if(e.key==='Escape')openMenu(false)});
-const f=$('#faqList');if(f)f.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)f.querySelectorAll('details').forEach(o=>{if(o!==d)o.open=false})}));
+initAccordions();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target)}),{threshold:.15});$$('.rv').forEach(el=>io.observe(el));
 const tick=()=>{const d=new Date(Date.now()+3*36e5);$('#ftClock').textContent=String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0')};tick();setInterval(tick,30000);
 })();
