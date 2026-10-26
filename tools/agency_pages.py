@@ -8,6 +8,7 @@ agency/uslugi/uslugi.css, agency/sitemap.xml и agency/robots.txt.
 главной достаточно перезапустить скрипт.
 """
 import html, json, os, re, sys
+from urllib.parse import quote
 
 sys.path.insert(0, os.path.dirname(__file__))
 from agency_services import GROUPS, SERVICES
@@ -77,8 +78,12 @@ def url(slug=None):
 
 
 def cta_href(r, slug=None):
-    # Целевое действие — форма заявки на главной агентства (блок «Контакты»).
-    return r + '#contact'
+    # Целевое действие — модалка заявки на главной агентства: #lead=<тема>|<чипы услуг>.
+    if slug:
+        topic, chip = BY_SLUG[slug]['name'], BY_SLUG[slug]['chip']
+    else:
+        topic, chip = 'Бесплатный аудит', 'Аудит'
+    return r + '#lead=' + quote(topic + '|' + chip, safe='')
 
 
 def head(title, desc, canon, ld, r):
@@ -105,7 +110,7 @@ def header(r):
     return f'''<header class="hdr" id="hdr"><div class="wrap">
  <a class="logo" href="{r}"><i></i>{BRAND}</a>
  <nav class="nav" aria-label="Основное"><a href="{r}uslugi/">Услуги</a><a href="{r}#cases">Кейсы</a><a href="{r}#plans">Цены</a><a href="{r}#process">Процесс</a><a href="{r}../" target="_blank" rel="noopener">Фулфилмент ↗</a></nav>
- <div class="acts"><button class="btn ghost m" id="menuBtn" aria-controls="menu" aria-expanded="false"><span>Меню</span></button><a class="btn primary m" href="{cta_href(r)}"><span>Обсудить проект</span><em>{ARR}</em></a></div>
+ <div class="acts"><button class="btn ghost m" id="menuBtn" aria-controls="menu" aria-expanded="false"><span>Меню</span></button><a class="btn primary m" href="{r}#lead"><span>Обсудить проект</span><em>{ARR}</em></a></div>
 </div></header>
 '''
 
@@ -130,7 +135,7 @@ def footer(r):
 <div class="menu" id="menu" aria-hidden="true"><div class="wrap">
  <div class="bar"><a class="logo" href="{r}"><i></i>{BRAND}</a><button class="btn ghost m" id="menuClose"><span>Закрыть</span></button></div>
  <div class="cols">
-  <nav class="prim" aria-label="Меню"><a href="{r}uslugi/"><span class="mono" style="color:var(--acc)">01</span>Услуги</a><a href="{r}#cases"><span class="mono muted">02</span>Кейсы</a><a href="{r}#plans"><span class="mono muted">03</span>Цены</a><a href="{r}#process"><span class="mono muted">04</span>Как мы работаем</a><a href="{cta_href(r)}"><span class="mono muted">05</span>Контакты</a></nav>
+  <nav class="prim" aria-label="Меню"><a href="{r}uslugi/"><span class="mono" style="color:var(--acc)">01</span>Услуги</a><a href="{r}#cases"><span class="mono muted">02</span>Кейсы</a><a href="{r}#plans"><span class="mono muted">03</span>Цены</a><a href="{r}#process"><span class="mono muted">04</span>Как мы работаем</a><a href="{r}#contact"><span class="mono muted">05</span>Контакты</a></nav>
   <div class="sub"><span class="mono">Услуги</span>{svc_links(r)}</div>
   <div class="sub"><span class="mono">Фулфилмент · Бренд ↗</span><a href="{r}../" target="_blank" rel="noopener">FBS</a><a href="{r}../" target="_blank" rel="noopener">FBO</a><a href="{r}../" target="_blank" rel="noopener">Хранение</a><a href="{r}../#calc" target="_blank" rel="noopener">Калькулятор стоимости</a></div>
  </div>
