@@ -615,7 +615,7 @@ function initScene(){if(!window.THREE)return;const host=$('#three'),wrap=$('#scr
   else if(a.mode==='walk'){want.lean=-.07*k;want.headX=.05*k}
   for(const key in pose)pose[key]+=(want[key]-pose[key])*(1-Math.exp(-dt*RATE[key]));
   /* применяем позу + походку */
-  const sw=Math.sin(ph)*.52*k,cs=Math.cos(ph);wk.g.position.set(x,Math.abs(Math.sin(ph))*.045*k+.012*Math.sin(t*2.2)*(1-k),z);wk.g.rotation.y=heading;
+  const sw=Math.sin(ph)*.52*k,cs=Math.cos(ph);wk.g.position.set(x,-.11+Math.abs(Math.sin(ph))*.045*k+.012*Math.sin(t*2.2)*(1-k),z);/* -.11: подошвы на уровне пола */wk.g.rotation.y=heading;
   wk.legs[0].rotation.x=sw;wk.legs[1].rotation.x=-sw;wk.knees[0].rotation.x=Math.max(0,-cs)*.95*k;wk.knees[1].rotation.x=Math.max(0,cs)*.95*k;
   const swing=carrying?0:1;wk.arms[0].rotation.x=pose.armL-sw*.75*swing;wk.arms[1].rotation.x=pose.armR+sw*.75*swing;wk.arms[0].rotation.z=pose.armZ;wk.arms[1].rotation.z=-pose.armZ;
   wk.torso.rotation.x=pose.lean;wk.head.rotation.x=pose.headX;wk.head.rotation.y=pose.headY;wk.beam.material.opacity=pose.beam*(.55+.35*Math.sin(t*9));
