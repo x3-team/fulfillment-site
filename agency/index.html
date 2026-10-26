@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Бренд Digital — маркетинг и продвижение для селлеров</title>
+<meta name="description" content="Digital-агентство для селлеров: подключение кабинетов WB, Ozon и Яндекс Маркета, контент и инфографика, продвижение, свой интернет-магазин и интернет-маркетинг.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{--ink:#0A1736;--ink8:#12244F;--ink7:#233A72;--ink5:#5B6B8C;--ink3:#A9B6D0;--paper:#F4F8FE;--paper2:#E1ECFC;--line:#D3E0F3;--white:#FFFFFF;--acc:#1A5CFF;--acc6:#1246D6;--acc1:#E3EDFF;--ok:#1FA463;--card:#FFFFFF;--dark:#0A1736;--dark8:#12244F;--dark7:#233A72;
+--fast:120ms;--base:200ms;--slow:320ms;--reveal:600ms;--std:cubic-bezier(.2,0,0,1);--emph:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+html,body{margin:0;background:var(--paper);color:var(--ink)}
+body{font-family:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.mono{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-weight:500;font-size:12px;line-height:16px;letter-spacing:.04em;text-transform:uppercase}
+.wrap{width:min(1280px,100% - 40px);margin-inline:auto}
+@media (min-width:1100px){.wrap{width:min(1280px,100% - 160px)}}
+h1,h2,h3,h4{margin:0;font-weight:600;letter-spacing:-.02em;text-wrap:balance}
+h1{font-size:clamp(40px,6vw,76px);line-height:1.05;letter-spacing:-.03em}
+h2{font-size:clamp(32px,4vw,52px);line-height:1.08;letter-spacing:-.025em}
+h3{font-size:clamp(22px,2.2vw,28px);line-height:1.2;letter-spacing:-.01em}
+h4{font-size:20px;line-height:1.3}
+p{margin:0}
+.lead{font-size:clamp(17px,1.4vw,19px);line-height:1.55;color:var(--ink7)}
+.muted{color:var(--ink5)}
+.tag{display:inline-flex;align-items:stretch;height:30px;border:1px solid var(--ink);border-radius:2px;overflow:hidden;white-space:nowrap}
+.tag b{display:flex;align-items:center;padding:0 10px;background:var(--ink);color:var(--paper);font-weight:500}
+.tag i{display:flex;align-items:center;padding:0 12px;font-style:normal}
+.tag.light{border-color:var(--line);color:var(--ink5)}
+.tag.acc{border-color:var(--acc);background:var(--acc)}.tag.acc b{background:var(--ink);color:var(--acc)}.tag.acc i{color:#fff}
+.tag.inv{border-color:rgba(255,255,255,.5)}.tag.inv b{background:#fff;color:var(--acc)}.tag.inv i{color:#fff}
+.btn{display:inline-flex;align-items:stretch;height:56px;border-radius:2px;font-weight:500;font-size:16px;white-space:nowrap;transition:background var(--base) var(--std),color var(--base) var(--std),border-color var(--base) var(--std)}
+.btn>span{display:flex;align-items:center;padding:0 24px}
+.btn>em{display:flex;align-items:center;justify-content:center;width:56px;border-left:1px solid rgba(255,255,255,.35);font-style:normal;transition:background var(--base) var(--std)}
+.btn>em svg{transition:transform var(--base) var(--std)}
+.btn.m{height:44px;font-size:15px}.btn.m>span{padding:0 18px}.btn.m>em{width:44px}
+.btn.primary{background:var(--acc);color:#fff}.btn.primary:hover{background:var(--acc6)}.btn.primary:hover>em{background:var(--ink)}.btn.primary:hover>em svg{transform:translateX(4px)}
+.btn.ghost{border:1px solid var(--ink3);color:var(--ink);background:transparent}.btn.ghost>em{border-left-color:var(--ink3)}.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.btn.dark{background:var(--ink);color:var(--paper)}.btn.dark>em{border-left-color:var(--ink7)}.btn.dark:hover>em{background:var(--acc)}.btn.dark:hover>em svg{transform:translateX(4px)}
+.btn.light{background:#fff;color:#0A1736}.btn.light>em{border-left-color:#D3E0F3}.btn.light:hover>em{background:#0A1736;color:#fff}
+.btn.line{border:1px solid #233A72;color:#fff;background:transparent}.btn.line:hover{background:#12244F}
+.btn:active{transform:scale(.98)}
+.btn[aria-busy="true"]>em{background:repeating-linear-gradient(135deg,var(--ink) 0 6px,var(--acc) 6px 12px);background-size:200% 100%;animation:stripes .8s linear infinite}
+@keyframes stripes{to{background-position:-34px 0}}
+/* header */
+.hdr{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--paper) 95%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:transform var(--base) var(--std),border-color var(--base) var(--std)}
+.hdr.scrolled{border-bottom-color:var(--line)}.hdr.hide{transform:translateY(-100%)}
+.hdr .wrap{display:flex;align-items:center;gap:40px;height:72px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:20px;white-space:nowrap}
+.logo i{width:32px;height:32px;border-radius:2px;background:var(--acc);display:grid;place-items:center}.logo i::after{content:"";width:12px;height:12px;border-radius:2px;background:#fff}
+.nav{display:none;gap:32px;margin-inline:auto;font-size:14px}.nav a:hover{color:var(--acc)}
+@media (min-width:1000px){.nav{display:flex}}
+.hdr .acts{display:flex;gap:12px;margin-left:auto}
+.hdr .acts .primary{display:none}@media (min-width:640px){.hdr .acts .primary{display:inline-flex}}
+/* hero */
+.hero{position:relative;padding:40px 0 64px}
+@media (min-width:1100px){.hero .wrap{padding-right:268px}}
+.hero .eyebrow{margin-bottom:28px;color:var(--ink5)}
+.hero .eyebrow b{color:var(--acc);font-weight:500}
+.hero h1{max-width:24ch;font-size:clamp(38px,5vw,68px)}
+.hero .row{display:grid;gap:32px;margin-top:32px;align-items:end}
+@media (min-width:900px){.hero .row{grid-template-columns:1fr auto}}
+.hero .lead{max-width:56ch}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.counters{display:flex;gap:32px}.counters div{display:grid;gap:4px}.counters strong{font-size:36px;line-height:1.05;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}.counters span{color:var(--ink5)}
+.strip{display:none}
+@media (min-width:1100px){.strip{display:block;position:absolute;right:max(20px,calc((100% - 1280px)/2 - 20px));top:16px;width:202px;height:var(--strip-h,560px);overflow:hidden;border-left:1px solid var(--line);padding-left:20px;-webkit-mask-image:linear-gradient(#0000,#000 15% 85%,#0000);mask-image:linear-gradient(#0000,#000 15% 85%,#0000)}
+.strip ul{list-style:none;margin:0;padding:0;display:grid;gap:7px;animation:strip 38s linear infinite;will-change:transform}
+.strip:hover ul{animation-play-state:paused}
+.strip li{font-size:14px;line-height:20px;color:var(--ink5);white-space:nowrap}.strip li a:hover{color:var(--ink)}
+@keyframes strip{to{transform:translateY(-50%)}}}
+/* hero showcase: shop + marketplace card + sales */
+.show{position:relative;margin-top:48px;padding:56px 40px 40px;border-radius:4px;overflow:hidden;border:1px solid var(--line);background:var(--paper2);background-image:linear-gradient(#D3E0F3 1px,transparent 1px),linear-gradient(90deg,#D3E0F3 1px,transparent 1px);background-size:60px 60px}
+.show .ruler{position:absolute;left:0;right:0;top:0;height:14px;color:var(--ink3);border-bottom:1px solid var(--line);background:var(--paper) repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 12px) 0 8px/100% 6px no-repeat}
+.show .ruler span{position:absolute;top:0;font-size:10px}.show .ruler span:nth-child(1){left:6px}.show .ruler span:nth-child(2){left:25%}.show .ruler span:nth-child(3){left:50%}.show .ruler span:nth-child(4){left:75%}
+.show .cap{position:absolute;left:40px;top:26px;color:var(--ink5)}
+.show .grid{display:grid;gap:16px;align-items:start}
+@media (min-width:900px){.show .grid{grid-template-columns:1.6fr 1fr}}
+.panel{background:#fff;border:1px solid var(--line);border-radius:4px;box-shadow:0 12px 32px rgba(10,23,54,.07)}
+.shop{overflow:hidden}
+.shop .url{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--line);color:var(--ink5)}
+.shop .url i{width:8px;height:8px;border-radius:50%;background:var(--line)}.shop .url span{margin-left:8px;padding:3px 10px;background:var(--paper);border-radius:2px}
+.shop .bar{display:flex;align-items:center;gap:24px;padding:16px 24px;border-bottom:1px solid var(--line);font-size:14px}
+.shop .bar b{font-weight:700;letter-spacing:.06em;margin-right:auto}.shop .bar a{color:var(--ink5)}
+.shop .bar em{font-style:normal;background:var(--acc);color:#fff;padding:6px 12px;border-radius:2px;font-size:13px}
+.shop .ban{margin:20px 24px 0;padding:24px;background:var(--paper);border-radius:4px;display:grid;gap:8px}
+.shop .ban h4{font-size:clamp(20px,2.2vw,28px)}.shop .ban .mono{color:var(--ok)}
+.shop .prods{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:20px 24px 24px}
+.shop .p{display:grid;gap:6px;font-size:13px;color:var(--ink5)}.shop .p b{color:var(--ink);font-size:16px;font-weight:600}
+.shop .p i{aspect-ratio:4/5;border-radius:2px;background:var(--paper2);position:relative;overflow:hidden}
+.shop .p i::after{content:"";position:absolute;left:22%;right:22%;top:24%;bottom:14%;border-radius:40% 40% 8px 8px;background:#C9D9F5}
+.shop .p:nth-child(2) i::after{background:#AFC3E6}.shop .p:nth-child(3) i::after{background:#233A72;opacity:.85}
+.side{display:grid;gap:16px}
+.mp{padding:20px 22px;display:grid;gap:10px}
+.mp .r{display:flex;justify-content:space-between;color:var(--ink5)}.mp .r .mono:last-child{color:var(--acc)}
+.mp h4{font-size:18px}
+.mp .k{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}.mp .k b{white-space:nowrap;font-size:clamp(32px,3vw,40px);line-height:1;font-weight:500;letter-spacing:-.03em;color:var(--acc);font-variant-numeric:tabular-nums}.mp .k small{color:var(--ok);font-weight:500;font-size:14px}
+.mp .slides{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px}.mp .slides i{aspect-ratio:3/4;border-radius:2px;background:var(--paper2);border:1px solid var(--line)}.mp .slides i:first-child{background:var(--acc1);border-color:var(--acc)}
+.sales{background:var(--dark);color:#fff;border-radius:4px;padding:20px 22px;display:grid;gap:16px;box-shadow:0 12px 32px rgba(10,23,54,.18)}
+.sales .r{display:flex;justify-content:space-between;align-items:center;color:#A9B6D0}.sales .r b{background:var(--acc);color:#fff;padding:4px 8px;border-radius:2px;font-size:14px;font-weight:600}
+.bars{display:flex;align-items:flex-end;gap:6px;height:110px}.bars i{flex:1;height:var(--h);background:#233A72;border-radius:2px 2px 0 0;transform-origin:bottom;transform:scaleY(.08);transition:transform 1.2s var(--emph)}.bars i:nth-last-child(-n+3){background:var(--acc)}
+.show.live .bars i{transform:none}
+.bars i:nth-child(2){transition-delay:60ms}.bars i:nth-child(3){transition-delay:120ms}.bars i:nth-child(4){transition-delay:180ms}.bars i:nth-child(5){transition-delay:240ms}.bars i:nth-child(6){transition-delay:300ms}.bars i:nth-child(7){transition-delay:360ms}.bars i:nth-child(8){transition-delay:420ms}.bars i:nth-child(9){transition-delay:480ms}.bars i:nth-child(10){transition-delay:540ms}
+.sales .ax{display:flex;justify-content:space-between;color:#5B6B8C}
+.stk{position:absolute;z-index:2;display:inline-flex;align-items:stretch;height:28px;border:1px solid var(--ink);border-radius:2px;background:#fff;overflow:hidden;box-shadow:0 6px 16px rgba(10,23,54,.1)}
+.stk b{display:flex;align-items:center;padding:0 8px;background:var(--ink);color:#fff;font-weight:500}.stk i{display:flex;align-items:center;padding:0 10px;font-style:normal}
+.stk.a{left:40px;bottom:16px}.stk.b{right:40px;top:22px}
+.stk.b b{background:var(--ok)}
+@media (max-width:899px){.show{padding:48px 16px 56px}.show .cap{left:16px}.stk.a{left:16px}.stk.b{display:none}}
+@media (max-width:599px){.shop .bar a{display:none}.shop .prods{grid-template-columns:1fr 1fr}.shop .p:nth-child(3){display:none}}
+/* sections */
+section{padding:clamp(72px,9vw,120px) 0}
+.sec-head{display:grid;gap:20px;align-items:end;margin-bottom:clamp(32px,4vw,56px)}
+@media (min-width:900px){.sec-head{grid-template-columns:1fr 440px;gap:64px}}
+.sec-head .l{display:grid;gap:20px;justify-items:start}
+.white{background:var(--card)}.paper{background:var(--paper)}
+/* services accordion */
+.acc{border-top:1px solid var(--line)}
+.acc .grp{padding:28px 0 12px;color:var(--ink5)}
+.acc details{border-top:1px solid var(--line)}
+.acc summary{list-style:none;display:grid;grid-template-columns:72px 1fr 28px;align-items:center;gap:24px;padding:24px 0;cursor:pointer}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary .num{color:var(--ink5);transition:color var(--fast)}
+.acc summary h3{font-size:clamp(24px,3.2vw,44px);font-weight:600;letter-spacing:-.02em;transition:transform var(--base) var(--std),color var(--fast)}
+.acc summary:hover h3{color:var(--acc6);transform:translateX(8px)}.acc summary:hover .num{color:var(--ink)}
+.acc summary .pl{position:relative;width:28px;height:28px}.acc summary .pl::before,.acc summary .pl::after{content:"";position:absolute;left:5px;top:13px;width:18px;height:2px;background:var(--ink);border-radius:1px;transition:transform var(--base) var(--std),background var(--base)}
+.acc summary .pl::after{transform:rotate(90deg)}
+.acc details[open] summary .num{color:var(--acc)}.acc details[open] summary .pl::after{transform:rotate(0)}.acc details[open] summary .pl::before,.acc details[open] summary .pl::after{background:var(--acc)}
+.acc .body{display:grid;gap:24px;padding:0 0 32px 0}
+@media (min-width:900px){.acc .body{grid-template-columns:72px 1fr 360px;gap:32px}.acc .body>:first-child{grid-column:2}}
+.acc .body ul{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}.acc .body li{padding:6px 10px;border-radius:2px;background:var(--acc1);color:var(--acc6)}
+.acc .body .pr{display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px;margin-top:24px;font-weight:600;font-size:20px}
+.acc .ph{aspect-ratio:9/5;border-radius:4px;background:var(--paper2);display:grid;place-items:center;color:var(--ink5)}
+@media (max-width:599px){.acc summary{grid-template-columns:40px 1fr 28px;gap:12px}}
+/* who: seller pains */
+.who{display:grid;gap:16px}@media (min-width:900px){.who{grid-template-columns:repeat(3,1fr)}}
+.who article{display:grid;gap:14px;align-content:start;padding:28px 28px 32px;background:var(--paper);border-radius:4px;border:1px solid transparent;transition:border-color var(--base),transform var(--base) var(--std)}
+.who article:hover{border-color:var(--acc);transform:translateY(-4px)}
+.who .chip{justify-self:start;padding:6px 10px;border-radius:2px;background:var(--acc1);color:var(--acc6)}
+.who q{font-size:24px;line-height:1.25;font-weight:600;letter-spacing:-.01em;quotes:"«" "»"}
+.who p{color:var(--ink5)}
+.who .fix{display:grid;gap:6px;margin-top:8px;padding-top:16px;border-top:1px solid var(--line)}.who .fix .mono{color:var(--acc)}.who .fix p{color:var(--ink)}
+/* cases */
+.cases{display:grid;gap:16px}@media (min-width:1000px){.cases{grid-template-columns:repeat(3,1fr)}}
+.case{display:grid;gap:20px;align-content:start;padding:28px 28px 32px;background:var(--card);border-radius:4px;border:1px solid var(--line)}
+.case .r{display:flex;justify-content:space-between;gap:12px;color:var(--ink5)}
+.case h3{font-size:22px}
+.metric{display:grid;gap:8px}.metric .t{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:14px;color:var(--ink5)}.metric .t b{font-size:22px;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}.metric .t b s{color:var(--ink3);font-weight:500;font-size:16px;text-decoration:none;margin-right:6px}
+.metric .tr{position:relative;height:8px;background:var(--paper2);border-radius:2px}.metric .tr i{position:absolute;left:0;top:0;bottom:0;border-radius:2px;width:0;transition:width 1.4s var(--emph)}
+.metric .tr i{background:var(--acc)}.metric .tr u{position:absolute;top:-2px;bottom:-2px;width:2px;margin-left:-1px;background:var(--ink);z-index:1}
+.case.in .metric .tr i{width:var(--w)}
+.case .tags{display:flex;flex-wrap:wrap;gap:8px}.case .tags span{padding:6px 10px;border-radius:2px;background:var(--paper);color:var(--ink7)}
+/* plans */
+.plans{display:grid;gap:16px;align-items:stretch}@media (min-width:1000px){.plans{grid-template-columns:repeat(3,1fr)}}
+.plan{display:grid;grid-template-rows:auto auto auto 1fr auto;gap:18px;padding:32px 32px 32px;background:var(--card);border-radius:4px;border:1px solid var(--line)}
+.plan .r{display:flex;justify-content:space-between;color:var(--ink5)}
+.plan .price{font-size:clamp(32px,3.2vw,40px);line-height:1;font-weight:500;letter-spacing:-.03em;font-variant-numeric:tabular-nums}.plan .price small{font-size:16px;letter-spacing:0;color:var(--ink5);margin-left:6px}
+.plan>p{color:var(--ink5)}
+.plan ul{list-style:none;margin:0;padding:0;display:grid;gap:0;align-content:start}
+.plan li{display:grid;grid-template-columns:20px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:15px}
+.plan li::before{content:"";width:16px;height:16px;margin-top:3px;border-radius:2px;background:var(--acc1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none'%3E%3Cpath d='M4 8.2 6.8 11 12 5.5' stroke='%231A5CFF' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
+.plan .btn{width:100%}.plan .btn>span{flex:1;justify-content:center}
+.plan.hot{background:var(--dark);color:#fff;border-color:var(--dark)}.plan.hot .r,.plan.hot>p,.plan.hot .price small{color:#A9B6D0}.plan.hot li{border-top-color:var(--dark7)}.plan.hot li::before{background-color:var(--acc);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none'%3E%3Cpath d='M4 8.2 6.8 11 12 5.5' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.plan.hot .r .mono:last-child{color:#5C8DFF}
+.plans-note{margin-top:20px;color:var(--ink5);font-size:14px}
+/* flow */
+.flow{list-style:none;margin:0;padding:0;display:grid;gap:32px}@media (min-width:900px){.flow{grid-template-columns:repeat(5,1fr);gap:24px}}
+.flow li{position:relative;display:grid;gap:10px;align-content:start;padding-left:48px}
+.flow .n{position:absolute;left:0;top:0;z-index:1;width:28px;height:28px;display:grid;place-items:center;background:var(--ink);color:#fff;border-radius:2px;font-weight:600;font-size:14px}
+.flow li:last-child .n{background:var(--acc)}
+.flow li::before{content:"";position:absolute;left:14px;top:28px;bottom:-32px;width:1px;background:var(--line)}.flow li:last-child::before{display:none}
+@media (min-width:900px){.flow li{padding:48px 0 0}.flow li::before,.flow li:last-child::before{display:block;left:40px;right:-12px;top:14px;bottom:auto;width:auto;height:1px}.flow li:last-child::before{right:0}}
+.flow .d{color:var(--acc)}.flow h3{font-size:20px;font-weight:600;line-height:1.25}.flow p{color:var(--ink5);font-size:14px}
+/* link to fulfillment */
+.ff{background:var(--acc);color:#fff}
+.ff .sec-head .lead{color:#fff;opacity:.88}
+.tiles{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}@media (min-width:1100px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{display:grid;gap:12px;align-content:start;padding:22px 24px 26px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.24);border-radius:4px}
+.tile .mono{opacity:.7}.tile p{opacity:.8;font-size:14px}
+.ff .cta{display:flex;flex-wrap:wrap;align-items:center;gap:24px;margin-top:48px}.ff .cta .mono{opacity:.8}
+/* faq */
+.faq{display:grid;gap:40px}@media (min-width:1000px){.faq{grid-template-columns:400px 1fr;gap:80px}}
+.faq .l{display:grid;gap:24px;justify-items:start;align-content:start}
+.faq details{border-top:1px solid var(--line);padding:24px 0}
+.faq summary{list-style:none;display:grid;grid-template-columns:40px 1fr 24px;gap:24px;align-items:center;cursor:pointer;font-weight:600;font-size:20px;transition:color var(--fast)}
+.faq summary::-webkit-details-marker{display:none}.faq summary:hover{color:var(--acc6)}
+.faq summary .num{color:var(--ink5)}.faq details[open] summary .num{color:var(--acc)}
+.faq summary .pl{position:relative;width:24px;height:24px}.faq summary .pl::before,.faq summary .pl::after{content:"";position:absolute;left:5px;top:11px;width:14px;height:2px;background:var(--ink);border-radius:1px;transition:transform var(--base) var(--std),background var(--base)}.faq summary .pl::after{transform:rotate(90deg)}
+.faq details[open] summary .pl::after{transform:rotate(0)}.faq details[open] summary .pl::before,.faq details[open] summary .pl::after{background:var(--acc)}
+.faq .a{padding:14px 0 0 64px;color:var(--ink7)}
+@media (max-width:599px){.faq summary{grid-template-columns:28px 1fr 24px;gap:12px;font-size:18px}.faq .a{padding-left:40px}}
+/* final */
+.final{background:var(--dark);color:#fff}
+.final h2{font-size:clamp(40px,6vw,76px);letter-spacing:-.03em;line-height:1.05;max-width:16ch;margin:28px 0 24px}
+.final .lead{color:#A9B6D0;max-width:60ch}
+.channels{display:grid;gap:16px;margin-top:48px}@media (min-width:800px){.channels{grid-template-columns:1fr 1fr}}
+.ch{display:grid;gap:16px;padding:28px 32px 32px;background:var(--dark8);border:1px solid var(--dark7);border-radius:4px;transition:background var(--base) var(--std)}
+.ch:hover{background:var(--dark7)}
+.ch .r{display:flex;justify-content:space-between;color:#A9B6D0}.ch .r em{width:36px;height:36px;display:grid;place-items:center;background:var(--acc);border-radius:2px;font-style:normal}.ch .r em svg{transition:transform var(--base) var(--std)}.ch:hover .r em svg{transform:translateX(4px)}
+.ch h3{margin-top:48px}.ch p{color:#A9B6D0}
+.banner{display:flex;flex-wrap:wrap;align-items:center;gap:24px;margin-top:16px;padding:28px 32px;background:var(--acc);border-radius:4px}.banner div{flex:1 1 320px;display:grid;gap:8px}
+.tape{height:10px;background:repeating-linear-gradient(-45deg,var(--acc) 0 10px,var(--ink) 10px 20px);background-size:28px 10px}
+footer{background:var(--dark);color:#fff;padding:48px 0 40px}
+footer .top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;color:#A9B6D0}
+footer .wm{font-size:clamp(56px,13vw,200px);line-height:.9;font-weight:700;letter-spacing:-.04em;color:var(--dark8);margin:32px 0 48px;text-transform:uppercase;white-space:nowrap}
+footer .cols{display:grid;gap:40px}@media (min-width:800px){footer .cols{grid-template-columns:2fr 1fr 1fr 1fr}}
+footer .cols .mono{color:#A9B6D0;margin-bottom:12px;display:block}footer .cols a{display:block;font-size:14px;margin-top:10px}footer .cols a:hover{color:#5C8DFF}
+footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;margin-top:48px;padding-top:24px;border-top:1px solid var(--dark7);font-size:14px;color:#A9B6D0}
+/* menu */
+.menu{position:fixed;inset:0;z-index:50;background:var(--paper);padding:24px 0 48px;overflow:auto;transform:translateY(-100%);visibility:hidden;transition:transform var(--reveal) var(--emph),visibility 0s var(--reveal)}
+.menu.open{transform:none;visibility:visible;transition:transform var(--reveal) var(--emph)}
+.menu .bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
+.menu .cols{display:grid;gap:40px}@media (min-width:900px){.menu .cols{grid-template-columns:460px 1fr 1fr;gap:80px}}
+.menu .prim a{display:grid;grid-template-columns:32px 1fr;gap:24px;align-items:center;padding:14px 0;border-top:1px solid var(--line);font-size:clamp(32px,4vw,48px);font-weight:600;letter-spacing:-.02em;opacity:0;transform:translateY(16px);transition:opacity var(--reveal) var(--emph),transform var(--reveal) var(--emph)}
+.menu.open .prim a{opacity:1;transform:none}
+.menu .prim a:hover{color:var(--acc)}
+.menu .sub .mono{color:var(--ink5);display:block;padding-bottom:14px}.menu .sub a{display:block;padding:12px 0;border-top:1px solid var(--line);font-weight:600;font-size:18px}.menu .sub a:hover{color:var(--acc)}
+.menu .acts{display:grid;gap:16px;margin-top:40px}@media (min-width:800px){.menu .acts{grid-template-columns:1fr 1fr}}
+.menu .acts a{display:flex;align-items:center;gap:24px;padding:24px 28px;background:var(--card);border-radius:4px}.menu .acts a div{flex:1}.menu .acts a p{color:var(--ink5);font-size:14px}
+.menu .acts .go{width:44px;height:44px;display:grid;place-items:center;background:var(--acc);border-radius:2px;flex:none}
+/* reveal */
+.rv{opacity:0;transform:translateY(16px);transition:opacity var(--reveal) var(--emph),transform var(--reveal) var(--emph)}.rv.in{opacity:1;transform:none}
+.hero h1 .ln{display:block;overflow:hidden}.hero h1 .ln span{display:block;transform:translateY(110%);transition:transform var(--reveal) var(--emph)}
+.hero.live h1 .ln span{transform:none}
+@media (max-width:640px){.counters{flex-wrap:wrap;gap:20px 28px}.counters strong{font-size:28px}.who article,.case,.plan{padding:24px 20px 28px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:1ms!important}.rv{opacity:1;transform:none}.hero h1 .ln span{transform:none}}
+</style>
+</head>
+<body>
+<header class="hdr" id="hdr"><div class="wrap">
+ <a class="logo" href="#"><i></i>Бренд Digital</a>
+ <nav class="nav" aria-label="Основное"><a href="#services">Услуги</a><a href="#cases">Кейсы</a><a href="#plans">Цены</a><a href="#process">Процесс</a><a href="../" target="_blank" rel="noopener">Фулфилмент ↗</a></nav>
+ <div class="acts"><button class="btn ghost m" id="menuBtn" aria-controls="menu" aria-expanded="false"><span>Меню</span></button><a class="btn primary m" href="#contact"><span>Обсудить проект</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a></div>
+</div></header>
+
+<main>
+<section class="hero" id="hero"><div class="wrap">
+ <p class="eyebrow mono">[ <b>Digital-агентство</b> для селлеров ]</p>
+ <h1><span class="ln"><span>Растим продажи селлеров —</span></span><span class="ln"><span>от карточки до своего</span></span><span class="ln"><span>интернет-магазина</span></span></h1>
+ <div class="row">
+  <div><p class="lead">Подключаем кабинеты, делаем контент и продвижение на маркетплейсах, запускаем свой магазин и связываем всё с учётом и фулфилментом.</p>
+   <div class="ctas"><a class="btn primary" href="#contact"><span>Обсудить проект</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a><a class="btn ghost" href="#cases"><span>Смотреть кейсы</span></a></div></div>
+  <div class="counters"><div><strong data-count="120" data-suffix="+">0</strong><span class="mono">проектов</span></div><div><strong data-count="4">0</strong><span class="mono">площадки</span></div><div><strong data-count="2" data-suffix=" нед.">0</strong><span class="mono">до запуска</span></div></div>
+ </div>
+ <div class="show" id="show">
+  <div class="ruler mono"><span>0</span><span>25</span><span>50</span><span>75</span></div>
+  <span class="cap mono">[ Витрина · ваш бренд на всех площадках ]</span>
+  <span class="stk b mono"><b>●</b><i>Остатки синхронизированы</i></span>
+  <div class="grid">
+   <div class="panel shop" aria-hidden="true">
+    <div class="url mono"><i></i><i></i><i></i><span>vash-brand.ru</span></div>
+    <div class="bar"><b>VASH.BRAND</b><a>Каталог</a><a>Новинки</a><a>Доставка</a><em>Корзина · 2</em></div>
+    <div class="ban"><span class="mono">● 312 шт. на складе фулфилмента</span><h4>Новая коллекция</h4></div>
+    <div class="prods"><div class="p"><i></i>Худи оверсайз<b>4 990 ₽</b></div><div class="p"><i></i>Свитшот базовый<b>3 490 ₽</b></div><div class="p"><i></i>Зип-худи<b>5 290 ₽</b></div></div>
+   </div>
+   <div class="side">
+    <div class="panel mp" aria-hidden="true">
+     <div class="r"><span class="mono">Карточка · WB</span><span class="mono">SKU-0412</span></div>
+     <h4>Худи оверсайз, графит</h4>
+     <div class="k"><b id="ctr">CTR 4,8%</b><small>+1,9 п.п. за 30 дней</small></div>
+     <div class="slides"><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="sales" aria-hidden="true">
+     <div class="r"><span class="mono">Продажи · 30 дней</span><b>+38%</b></div>
+     <div class="bars"><i style="--h:30%"></i><i style="--h:34%"></i><i style="--h:31%"></i><i style="--h:42%"></i><i style="--h:47%"></i><i style="--h:52%"></i><i style="--h:60%"></i><i style="--h:71%"></i><i style="--h:84%"></i><i style="--h:100%"></i></div>
+     <div class="ax mono"><span>01.09</span><span>30.09</span></div>
+    </div>
+   </div>
+  </div>
+  <span class="stk a mono"><b>ДРР</b><i>9,6% · −4 п.п.</i></span>
+ </div>
+ <aside class="strip" aria-hidden="true"><ul id="stripList"></ul></aside>
+</div></section>
+
+<section class="paper" id="services"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>01</b><i>Услуги</i></span><h2>Что мы делаем</h2></div><p class="lead muted">Восемь направлений, которые закрывают весь путь селлера: от первой карточки до собственного магазина.</p></div>
+ <div class="acc" id="acc"></div>
+</div></section>
+
+<section class="white" id="who"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>02</b><i>Кому подходим</i></span><h2>Приходят с одной из трёх проблем</h2></div><p class="lead muted">Неважно, сколько у вас SKU. Важно, где сейчас теряются деньги: на карточке, в рекламе или в зависимости от одной площадки.</p></div>
+ <div class="who" id="whoList"></div>
+</div></section>
+
+<section class="paper" id="cases"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>03</b><i>Кейсы</i></span><h2>Цифры до и после нашей работы</h2></div><p class="lead muted">Показываем то, что видно в кабинете маркетплейса и в отчёте: выручку, CTR и долю рекламных расходов.</p></div>
+ <div class="cases" id="caseList"></div>
+</div></section>
+
+<section class="white" id="plans"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>04</b><i>Цены</i></span><h2>Пакеты с понятной ценой</h2></div><p class="lead muted">Цена известна до договора. Можно взять пакет целиком или любую услугу из списка отдельно.</p></div>
+ <div class="plans" id="planList"></div>
+ <p class="plans-note">Без процента от оборота и без скрытых доплат. Рекламный бюджет маркетплейса оплачиваете напрямую, мы его только расходуем по плану.</p>
+</div></section>
+
+<section class="paper" id="process"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>05</b><i>Как начать</i></span><h2>От заявки до первых продаж — 2 недели</h2></div><p class="lead muted">Начинаем с бесплатного аудита: смотрим ваши карточки и рекламу и показываем, где теряются деньги.</p></div>
+ <ol class="flow rv" id="flow"></ol>
+</div></section>
+
+<section class="ff" id="ff"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="mono">[ Фулфилмент · Бренд ]</span><h2>Склад и продажи — у одной команды</h2></div><p class="lead">Наш фулфилмент хранит и отгружает товар на WB, Ozon и Яндекс Маркет. Маркетинг планируем по реальным остаткам, поэтому реклама не разгоняет товар, которого нет на складе.</p></div>
+ <div class="tiles" id="tiles"></div>
+ <div class="cta"><a class="btn light" href="../" target="_blank" rel="noopener"><span>Перейти на сайт фулфилмента</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a><span class="mono">FBS · FBO · хранение · откроется в новой вкладке</span></div>
+</div></section>
+
+<section class="white" id="faq"><div class="wrap faq">
+ <div class="l rv"><span class="tag"><b>06</b><i>Вопросы</i></span><h2>Частые вопросы</h2><p class="muted">Не нашли свой вопрос? Задайте его на аудите — ответим на ваших цифрах.</p><a class="btn ghost" href="https://t.me/" target="_blank" rel="noopener"><span>Задать вопрос в Telegram</span></a></div>
+ <div id="faqList"></div>
+</div></section>
+
+<section class="final" id="contact"><div class="wrap">
+ <span class="tag acc"><b>07</b><i>Контакты</i></span>
+ <h2>Покажем, где теряются продажи</h2>
+ <p class="lead">Пришлите ссылку на магазин или артикулы. За 2 рабочих дня сделаем аудит карточек и рекламы и пришлём план с бюджетом и сроками.</p>
+ <div class="channels">
+  <a class="ch" href="#" id="briefBtn"><div class="r"><span class="mono">01</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></div><h3>Заказать бесплатный аудит</h3><p>Оставьте контакт и ссылку на магазин. Напишем в удобном мессенджере в течение дня.</p></a>
+  <a class="ch" href="https://t.me/" target="_blank" rel="noopener"><div class="r"><span class="mono">02</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></div><h3>Написать в Telegram</h3><p>Напишите менеджеру напрямую. В рабочее время отвечаем в течение 10 минут.</p></a>
+ </div>
+ <div class="banner"><div><h3>Уже работаете с нашим фулфилментом?</h3><p>Для клиентов склада подключение кабинетов и интеграция остатков бесплатно.</p></div><a class="btn light" href="#contact"><span>Узнать условия</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a></div>
+</div></section>
+</main>
+<div class="tape"></div>
+<footer><div class="wrap">
+ <div class="top"><span class="tag light"><i>Берём новые проекты</i></span><span class="mono">Москва · <span id="ftClock">14:32</span> МСК · 2026</span></div>
+ <div class="wm">Digital®</div>
+ <div class="cols"><div><p style="max-width:320px;color:#A9B6D0;font-size:14px">Digital-агентство для селлеров: маркетплейсы, свой интернет-магазин и маркетинг в связке с фулфилментом.</p></div>
+  <div><span class="mono">Маркетплейсы</span><a href="#services">Подключение кабинетов</a><a href="#services">Контент и инфографика</a><a href="#services">Продвижение</a><a href="#services">Аналитика</a></div>
+  <div><span class="mono">Свой канал</span><a href="#services">Интернет-магазин</a><a href="#services">Интернет-маркетинг</a><a href="#services">Интеграции и «Честный знак»</a></div>
+  <div><span class="mono">Компания</span><a href="#cases">Кейсы</a><a href="#plans">Цены</a><a href="#process">Как мы работаем</a><a href="../" target="_blank" rel="noopener">Фулфилмент ↗</a></div></div>
+ <div class="legal"><span>© 2026 Бренд Digital · ООО «—» · ИНН 0000000000 · Работаем по ЭДО</span><span><a href="#">Политика конфиденциальности</a> &nbsp;·&nbsp; <a href="#">Оферта</a></span></div>
+</div></footer>
+
+<div class="menu" id="menu" aria-hidden="true"><div class="wrap">
+ <div class="bar"><a class="logo" href="#"><i></i>Бренд Digital</a><button class="btn ghost m" id="menuClose"><span>Закрыть</span></button></div>
+ <div class="cols">
+  <nav class="prim" aria-label="Меню"><a href="#services"><span class="mono" style="color:var(--acc)">01</span>Услуги</a><a href="#cases"><span class="mono muted">02</span>Кейсы</a><a href="#plans"><span class="mono muted">03</span>Цены</a><a href="#process"><span class="mono muted">04</span>Как мы работаем</a><a href="#contact"><span class="mono muted">05</span>Контакты</a></nav>
+  <div class="sub"><span class="mono">Услуги</span><a href="#services">Подключение кабинетов</a><a href="#services">Контент и инфографика</a><a href="#services">Продвижение на маркетплейсах</a><a href="#services">Интернет-магазин</a><a href="#services">Интернет-маркетинг</a></div>
+  <div class="sub"><span class="mono">Фулфилмент · Бренд ↗</span><a href="../" target="_blank" rel="noopener">FBS</a><a href="../" target="_blank" rel="noopener">FBO</a><a href="../" target="_blank" rel="noopener">Хранение</a><a href="../#calc" target="_blank" rel="noopener">Калькулятор стоимости</a></div>
+ </div>
+ <div class="acts"><a href="#contact"><div><h3>Бесплатный аудит</h3><p>Разберём карточки и рекламу и покажем, где теряются продажи</p></div><span class="go"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a href="#plans"><div><h3>Цены и пакеты</h3><p>Стоимость известна до договора, без процента от оборота</p></div><span class="go"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
+</div></div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ARR='<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+/* header */
+const hdr=$('#hdr');let lastY=0;addEventListener('scroll',()=>{const y=scrollY;hdr.classList.toggle('scrolled',y>80);hdr.classList.toggle('hide',y>160&&y>lastY);lastY=y},{passive:true});
+/* menu */
+const menu=$('#menu');const openMenu=o=>{menu.classList.toggle('open',o);menu.setAttribute('aria-hidden',!o);$('#menuBtn').setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''};
+$('#menuBtn').onclick=()=>openMenu(true);$('#menuClose').onclick=()=>openMenu(false);menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>openMenu(false)));addEventListener('keydown',e=>{if(e.key==='Escape')openMenu(false)});
+/* strip */
+const STRIP=['Кабинеты WB','Кабинеты Ozon','Яндекс Маркет','Инфографика','Фото и видео','Rich-контент','SEO карточек','Реклама на WB','Реклама на Ozon','Отзывы и рейтинг','Аналитика','Интернет-магазин','SEO сайта','Директ','Таргет','Интеграции 1С','МойСклад','«Честный знак»'];
+$('#stripList').innerHTML=[...STRIP,...STRIP].map(s=>'<li><a href="#services">'+s+'</a></li>').join('');
+const fitStrip=()=>{const sc=$('#show').getBoundingClientRect(),hr=$('#hero').getBoundingClientRect();document.documentElement.style.setProperty('--strip-h',Math.max(240,sc.top-hr.top-48)+'px')};addEventListener('resize',fitStrip);
+/* services */
+const SERV=[['Маркетплейсы',[
+ ['Подключение и настройка кабинетов','Регистрируем и настраиваем кабинеты WB, Ozon и Яндекс Маркета, подключаем схемы FBS и FBO, ЭДО и оферты. Вы не тратите недели на модерацию и поддержку.',['Регистрация','Схемы FBS / FBO','ЭДО','Загрузка товаров'],'от 30 000 ₽','кабинеты'],
+ ['Контент и инфографика','Фото, инфографика, видеообложки и rich-контент. Карточка отвечает на вопросы покупателя раньше, чем он уйдёт к конкуренту.',['Фото и видео','Инфографика','Rich-контент','Тексты'],'от 1 500 ₽ за слайд','контент'],
+ ['Продвижение на маркетплейсах','Ведём рекламу внутри WB и Ozon, управляем ставками, работаем с отзывами и рейтингом. Каждую неделю — отчёт по ДРР и выручке.',['Реклама в кабинете','Ставки','Отзывы','Акции'],'от 40 000 ₽ в месяц','продвижение'],
+ ['SEO и аналитика карточек','Собираем семантику, пишем названия и описания под поиск маркетплейса, следим за позициями и конкурентами.',['Семантика','Позиции','Конкуренты','Юнит-экономика'],'от 15 000 ₽','аналитика']]],
+['Свой канал продаж',[
+ ['Разработка интернет-магазина','Магазин на вашем домене: каталог, оплата, доставка и личный кабинет. Остатки и заказы берутся из учёта и фулфилмента автоматически.',['Дизайн','Каталог','Оплата и доставка','Связка с фулфилментом'],'от 350 000 ₽ · от 3 недель','магазин'],
+ ['Интернет-маркетинг','Приводим покупателей в свой магазин: SEO, Яндекс Директ, таргетированная реклама и email-рассылки. Отчёт — в заявках и выручке, а не в кликах.',['SEO','Яндекс Директ','Таргет','Email'],'от 60 000 ₽ в месяц','маркетинг']]],
+['Интеграции и учёт',[
+ ['Интеграции и «Честный знак»','Связываем 1С, МойСклад, CRM, маркетплейсы и склад. Подключаем «Честный знак», выпускаем коды и вводим товар в оборот.',['1С','МойСклад','CRM','API маркетплейсов'],'от 25 000 ₽','интеграции'],
+ ['Сквозная аналитика','Один дашборд по всем площадкам: выручка, маржа, остатки и реклама. Видно, какой товар зарабатывает, а какой съедает бюджет.',['Дашборд','Маржа по SKU','Остатки','Реклама'],'от 35 000 ₽','дашборд']]]];
+let n=0;$('#acc').innerHTML=SERV.map(g=>`<p class="grp mono">${g[0]}</p>`+g[1].map(s=>{n++;return `<details${n===1?' open':''}><summary><span class="num mono">(${String(n).padStart(2,'0')})</span><h3>${s[0]}</h3><span class="pl"></span></summary><div class="body"><div><p class="lead">${s[1]}</p><ul class="mono">${s[2].map(t=>'<li>'+t+'</li>').join('')}</ul><div class="pr">${s[3]} <a class="btn ghost m" href="#contact"><span>Обсудить</span><em>${ARR}</em></a></div></div><div class="ph mono">Пример · ${s[4]}</div></div></details>`}).join('')).join('');
+const single=c=>c.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)c.querySelectorAll('details').forEach(o=>{if(o!==d)o.open=false})}));single($('#acc'));
+/* who */
+const WHO=[['Выходите на маркетплейс','Не понимаю, с чего начать на WB','Регистрация, схемы работы, документы, первые карточки — и всё это параллельно с закупкой товара.','Запустим кабинет и первые 10 карточек за 2 недели под ключ.'],
+['Продажи встали','Карточки есть, а заказов нет','Показы идут, но покупатели не кликают и не добавляют в корзину. Реклама съедает маржу.','Переделаем инфографику и настроим рекламу. Целимся в CTR от 4% и ДРР до 12%.'],
+['Зависите от одной площадки','Одно изменение комиссии — и прибыль ушла','Вся выручка на одном маркетплейсе, а покупатели и их контакты остаются у площадки.','Запустим свой магазин и рекламу, чтобы часть заказов шла без комиссии маркетплейса.']];
+$('#whoList').innerHTML=WHO.map(w=>`<article class="rv"><span class="chip mono">${w[0]}</span><q>${w[1]}</q><p>${w[2]}</p><div class="fix"><span class="mono">Что делаем</span><p>${w[3]}</p></div></article>`).join('');
+/* cases */
+const CASES=[['Одежда · Wildberries','4 мес.','Бренд худи: из 2-й сотни в топ-20 категории',[['Выручка в месяц','1,2 млн ₽','3,4 млн ₽',35,100],['CTR карточки','2,1%','5,0%',42,100]],['Инфографика','Реклама','SEO']],
+['Товары для дома · Ozon','3 мес.','Рекламный бюджет тот же, выручка — в 2 раза выше',[['ДРР','24%','11%',100,46],['Заказов в день','38','81',47,100]],['Продвижение','Аналитика']],
+['Косметика · свой магазин','6 недель','Свой магазин с остатками со склада фулфилмента',[['Доля заказов с сайта','0%','18%',2,100],['Средний чек','1 900 ₽','2 650 ₽',72,100]],['Интернет-магазин','Директ','Интеграции']]];
+$('#caseList').innerHTML=CASES.map(c=>`<article class="case rv"><div class="r"><span class="mono">${c[0]}</span><span class="mono">${c[1]}</span></div><h3>${c[2]}</h3>${c[3].map(m=>`<div class="metric"><div class="t"><span>${m[0]}</span><b><s>${m[1]} →</s>${m[2]}</b></div><div class="tr" title="Метка — было, полоса — стало"><u style="left:${m[3]}%"></u><i style="--w:${m[4]}%"></i></div></div>`).join('')}<div class="tags mono">${c[4].map(t=>'<span>'+t+'</span>').join('')}</div></article>`).join('');
+/* plans */
+const PLANS=[['Старт','Выход на маркетплейс','60 000 ₽','разово','Для тех, кто только запускается на WB, Ozon или Яндекс Маркете.',['Регистрация и настройка кабинета','Схема FBS или FBO, ЭДО','10 карточек с инфографикой','SEO-названия и описания','Связка с фулфилментом'],''],
+['Рост','Продвижение каждый месяц','90 000 ₽','в месяц','Для селлеров с работающими карточками, которым нужно больше заказов.',['Реклама на WB и Ozon','Обновление инфографики','Работа с отзывами и рейтингом','Еженедельный отчёт по ДРР','Персональный менеджер'],'hot'],
+['Свой магазин','Свой канал продаж','350 000 ₽','от 3 недель','Для брендов, которые хотят продавать без комиссии маркетплейса.',['Дизайн и каталог','Оплата, доставка, личный кабинет','Остатки из учёта и фулфилмента','Запуск Директа и SEO','3 месяца поддержки'],'']];
+$('#planList').innerHTML=PLANS.map(p=>`<article class="plan rv ${p[6]}"><div class="r"><span class="mono">${p[0]}</span><span class="mono">${p[6]?'Чаще выбирают':''}</span></div><h3>${p[1]}</h3><div class="price">от ${p[2]}<small>${p[3]}</small></div><p>${p[4]}</p><ul>${p[5].map(f=>'<li>'+f+'</li>').join('')}</ul><a class="btn ${p[6]?'primary':'dark'}" href="#contact"><span>Обсудить пакет</span><em>${ARR}</em></a></article>`).join('');
+/* flow */
+const FLOW=[['Д+0','Заявка','Присылаете ссылку на магазин или артикулы и рассказываете о цели.'],['Д+2','Бесплатный аудит','Разбираем карточки, рекламу и конкурентов. Показываем, где теряются деньги.'],['Д+3','План и договор','Фиксируем задачи, сроки и цену. Подписываем по ЭДО.'],['Нед. 1–2','Запуск','Кабинет, контент и реклама. Каждый шаг виден в общем чате и трекере.'],['Каждую неделю','Отчёт и рост','Выручка, CTR и ДРР в одном отчёте. Решаем, что усиливать дальше.']];
+$('#flow').innerHTML=FLOW.map((f,i)=>`<li><span class="n">${i+1}</span><span class="mono d">${f[0]}</span><h3>${f[1]}</h3><p>${f[2]}</p></li>`).join('');
+/* fulfillment tiles */
+const TILES=[['01','Реклама по остаткам','Не разгоняем товар, которого нет на складе, и не теряем позиции из-за out of stock.'],['02','Один менеджер','Склад, карточки и реклама — в одном чате. Не нужно мирить двух подрядчиков.'],['03','Магазин из коробки','Остатки и заказы своего сайта сразу идут в сборку на фулфилменте.'],['04','«Честный знак» целиком','Коды выпускаем мы, наносит и вводит в оборот склад.']];
+$('#tiles').innerHTML=TILES.map(t=>`<div class="tile"><span class="mono">${t[0]}</span><h4>${t[1]}</h4><p>${t[2]}</p></div>`).join('');
+/* faq */
+const FAQ=[['Сколько стоит начать?','Пакет «Старт» — от 60 000 ₽ разово: кабинет, схема работы и 10 карточек с инфографикой. Аудит перед стартом бесплатный.'],['Вы берёте процент от оборота?','Нет. Работаем по фиксированной цене за услугу или в месяц. Рекламный бюджет вы платите маркетплейсу напрямую.'],['Когда будут первые результаты?','Новые карточки и реклама начинают давать данные через 1–2 недели. Устойчивый рост выручки обычно виден на 2–3 месяц.'],['Можно ли взять одну услугу, без пакета?','Да. Любую услугу из списка можно заказать отдельно, например только инфографику или только подключение кабинета.'],['Нужно ли работать с вашим фулфилментом?','Нет, работаем с любым складом и со схемой FBO. Но с нашим фулфилментом проще: остатки и заказы синхронизируются сами, а подключение для клиентов склада бесплатное.'],['Какие отчёты я буду получать?','Еженедельный отчёт: выручка, заказы, CTR, ДРР и что сделано за неделю. Доступ к дашборду — в любой момент.']];
+$('#faqList').innerHTML=FAQ.map((f,i)=>`<details${i?'':' open'}><summary><span class="num mono">0${i+1}</span><span>${f[0]}</span><span class="pl"></span></summary><div class="a">${f[1]}</div></details>`).join('');single($('#faqList'));
+/* reveal + counters */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target)}),{threshold:.2});$$('.rv').forEach(el=>io.observe(el));
+const count=el=>{const to=+el.dataset.count,dec=+(el.dataset.dec||0),suf=el.dataset.suffix||'',t0=performance.now(),D=reduce?1:1200;const f=now=>{const p=Math.min(1,(now-t0)/D),v=to*(1-Math.pow(1-p,3));el.textContent=v.toLocaleString('ru-RU',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)};
+/* brief button demo */
+$('#briefBtn').addEventListener('click',e=>{e.preventDefault();const b=e.currentTarget;b.setAttribute('aria-busy','true');b.querySelector('h3').textContent='Открываем форму…';setTimeout(()=>{b.removeAttribute('aria-busy');b.querySelector('h3').textContent='Заявка принята · ответим за 10 минут';b.querySelector('p').textContent='Форма — на следующем этапе вёрстки; здесь показано состояние после отправки.'},900)});
+/* clock */
+const tick=()=>{const d=new Date(Date.now()+3*36e5);$('#ftClock').textContent=String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0')};tick();setInterval(tick,30000);
+addEventListener('load',()=>{fitStrip();requestAnimationFrame(()=>{$('#hero').classList.add('live');setTimeout(()=>{$('#show').classList.add('live');$$('.counters strong').forEach(count)},reduce?0:200)})});
+})();
+</script>
+</body>
+</html>

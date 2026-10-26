@@ -8,3 +8,7 @@
 2. Загрузите `index.html` и `.nojekyll` в корень репозитория.
 3. Settings → Pages → Build and deployment → Source: «Deploy from a branch», Branch: `main`, папка `/ (root)` → Save.
 4. Через 1–2 минуты сайт откроется по адресу `https://<ваш-логин>.github.io/fulfillment-site/`.
+
+## Сайт агентства «Бренд Digital»
+Лежит в папке `agency/` и открывается по адресу `https://x3-team.github.io/fulfillment-site/agency/`.
+Ссылки между сайтами относительные (`agency/` и `../`). Если агентство переедет на свой домен, их нужно заменить на полные адреса.
