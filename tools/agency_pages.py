@@ -1,0 +1,287 @@
+#!/usr/bin/env python3
+"""Генератор SEO-страниц услуг агентства «Бренд Digital».
+
+Запуск из корня репозитория:  python3 tools/agency_pages.py
+Пишет agency/uslugi/index.html, agency/uslugi/<slug>/index.html,
+agency/uslugi/uslugi.css, agency/sitemap.xml и agency/robots.txt.
+Стили берутся из <style> главной агентства, поэтому после правок дизайна
+главной достаточно перезапустить скрипт.
+"""
+import html, json, os, re, sys
+from urllib.parse import quote
+
+sys.path.insert(0, os.path.dirname(__file__))
+from agency_services import GROUPS, SERVICES
+
+ROOT = os.path.join(os.path.dirname(__file__), '..', 'agency')
+# Адрес сайта агентства. Когда агентство переедет на свой домен, поменять здесь и перезапустить.
+BASE = 'https://x3-team.github.io/fulfillment-site/agency/'
+BRAND = 'Бренд Digital'
+TG = 'https://t.me/'
+BY_SLUG = {s['slug']: s for s in SERVICES}
+ARR = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+e = lambda s: html.escape(s, quote=True)
+
+EXTRA_CSS = '''
+/* ---- страницы услуг ---- */
+.crumbs{margin-bottom:28px;color:var(--ink5)}.crumbs ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 10px}
+.crumbs li{display:flex;gap:10px;align-items:center}.crumbs li+li::before{content:"/";color:var(--ink3)}
+.crumbs a:hover{color:var(--acc)}.crumbs [aria-current]{color:var(--ink)}
+.sh{padding:32px 0 clamp(64px,8vw,104px)}
+.sh h1{max-width:22ch;font-size:clamp(36px,4.6vw,64px)}
+.sh .row{display:grid;gap:32px;margin-top:32px;align-items:start}
+@media (min-width:1000px){.sh .row{grid-template-columns:1fr 400px;gap:64px}}
+.sh .lead{max-width:60ch}
+.pcard{display:grid;gap:16px;padding:28px 28px 30px;background:var(--card);border:1px solid var(--line);border-radius:4px;box-shadow:0 12px 32px rgba(10,23,54,.07)}
+.pcard .r{display:flex;justify-content:space-between;gap:12px;color:var(--ink5)}.pcard .r .mono:last-child{color:var(--acc)}
+.pcard .price{font-size:clamp(32px,3.2vw,40px);line-height:1;font-weight:500;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.pcard .note{color:var(--ink5);font-size:15px}
+.pcard ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}.pcard li{padding:6px 10px;border-radius:2px;background:var(--acc1);color:var(--acc6)}
+.pcard .btn{width:100%}.pcard .btn>span{flex:1;justify-content:center}
+.inc{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}@media (min-width:1000px){.inc{grid-template-columns:repeat(3,1fr)}}
+.inc article{display:grid;gap:12px;align-content:start;padding:26px 28px 30px;background:var(--paper);border-radius:4px;border:1px solid transparent;transition:border-color var(--base)}
+.inc article:hover{border-color:var(--acc)}.inc .mono{color:var(--acc)}.inc h3{font-size:22px}.inc p{color:var(--ink5)}
+.white .who article{background:var(--paper)}.paper .who article{background:var(--card)}
+.who h3{font-size:24px}
+.flow.f4{grid-template-columns:none}@media (min-width:900px){.flow.f4{grid-template-columns:repeat(4,1fr)}}
+.prose{display:grid;gap:24px}@media (min-width:1000px){.prose{grid-template-columns:400px 1fr;gap:80px}}
+.prose .l{display:grid;gap:20px;justify-items:start;align-content:start}
+.prose .t{display:grid;gap:18px;max-width:68ch;font-size:18px;line-height:1.65;color:var(--ink7)}
+.rel{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.rel a{display:grid;gap:12px;align-content:space-between;min-height:180px;padding:24px 26px;background:var(--card);border:1px solid var(--line);border-radius:4px;transition:border-color var(--base),transform var(--base) var(--std)}
+.rel a:hover{border-color:var(--acc);transform:translateY(-4px)}.rel .mono{color:var(--ink5)}.rel h3{font-size:22px}
+.rel .r{display:flex;justify-content:space-between;align-items:center;font-weight:600}.rel .r em{width:36px;height:36px;display:grid;place-items:center;background:var(--acc);color:#fff;border-radius:2px;font-style:normal}
+.final .ctas{margin-top:40px}
+.list{border-top:1px solid var(--line)}.list .grp{padding:28px 0 12px;color:var(--ink5)}
+.list a{display:grid;grid-template-columns:72px 1fr auto;gap:24px;align-items:center;padding:24px 0;border-top:1px solid var(--line)}
+.list a .num{color:var(--ink5)}.list a h2{font-size:clamp(24px,3.2vw,44px);transition:color var(--fast),transform var(--base) var(--std)}
+.list a p{color:var(--ink5);margin-top:8px;max-width:70ch}.list a b{white-space:nowrap;font-weight:600;font-size:18px}
+.list a:hover h2{color:var(--acc6);transform:translateX(8px)}
+@media (max-width:699px){.list a{grid-template-columns:40px 1fr;gap:12px}.list a b{grid-column:2}}
+'''
+
+JS = '''<script>
+(function(){
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const hdr=$('#hdr');let lastY=0;addEventListener('scroll',()=>{const y=scrollY;hdr.classList.toggle('scrolled',y>80);hdr.classList.toggle('hide',y>160&&y>lastY);lastY=y},{passive:true});
+const menu=$('#menu');const openMenu=o=>{menu.classList.toggle('open',o);menu.setAttribute('aria-hidden',!o);$('#menuBtn').setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''};
+$('#menuBtn').onclick=()=>openMenu(true);$('#menuClose').onclick=()=>openMenu(false);menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>openMenu(false)));addEventListener('keydown',e=>{if(e.key==='Escape')openMenu(false)});
+const f=$('#faqList');if(f)f.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)f.querySelectorAll('details').forEach(o=>{if(o!==d)o.open=false})}));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target)}),{threshold:.15});$$('.rv').forEach(el=>io.observe(el));
+const tick=()=>{const d=new Date(Date.now()+3*36e5);$('#ftClock').textContent=String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0')};tick();setInterval(tick,30000);
+})();
+</script>'''
+
+
+def url(slug=None):
+    return BASE + ('uslugi/' + slug + '/' if slug else 'uslugi/')
+
+
+def cta_href(r, slug=None):
+    # Целевое действие — модалка заявки на главной агентства: #lead=<тема>|<чипы услуг>.
+    if slug:
+        topic, chip = BY_SLUG[slug]['name'], BY_SLUG[slug]['chip']
+    else:
+        topic, chip = 'Бесплатный аудит', 'Аудит'
+    return r + '#lead=' + quote(topic + '|' + chip, safe='')
+
+
+def head(title, desc, canon, ld, r):
+    return f'''<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{e(title)}</title>
+<meta name="description" content="{e(desc)}">
+<link rel="canonical" href="{canon}">
+<meta property="og:type" content="website"><meta property="og:locale" content="ru_RU"><meta property="og:site_name" content="{BRAND}">
+<meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{canon}">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="{r}uslugi/uslugi.css">
+<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False, separators=(',', ':'))}</script>
+</head>
+<body>
+'''
+
+
+def header(r):
+    return f'''<header class="hdr" id="hdr"><div class="wrap">
+ <a class="logo" href="{r}"><i></i>{BRAND}</a>
+ <nav class="nav" aria-label="Основное"><a href="{r}uslugi/">Услуги</a><a href="{r}#cases">Кейсы</a><a href="{r}#plans">Цены</a><a href="{r}#process">Процесс</a><a href="{r}../" target="_blank" rel="noopener">Фулфилмент ↗</a></nav>
+ <div class="acts"><button class="btn ghost m" id="menuBtn" aria-controls="menu" aria-expanded="false"><span>Меню</span></button><a class="btn primary m" href="{r}#lead"><span>Обсудить проект</span><em>{ARR}</em></a></div>
+</div></header>
+'''
+
+
+def svc_links(r, cls=''):
+    return ''.join(f'<a href="{r}uslugi/{s["slug"]}/">{e(s["short"])}</a>' for s in SERVICES)
+
+
+def footer(r):
+    col = lambda g: ''.join(f'<a href="{r}uslugi/{s["slug"]}/">{e(s["short"])}</a>' for s in SERVICES if s['group'] == g)
+    return f'''<div class="tape"></div>
+<footer><div class="wrap">
+ <div class="top"><span class="tag light"><i>Берём новые проекты</i></span><span class="mono">Москва · <span id="ftClock">14:32</span> МСК · 2026</span></div>
+ <div class="wm">Digital®</div>
+ <div class="cols"><div><p style="max-width:320px;color:#A9B6D0;font-size:14px">Digital-агентство для селлеров: маркетплейсы, свой интернет-магазин и маркетинг в связке с фулфилментом.</p></div>
+  <div><span class="mono">Маркетплейсы</span>{col(GROUPS[0])}</div>
+  <div><span class="mono">Свой канал</span>{col(GROUPS[1])}{col(GROUPS[2])}</div>
+  <div><span class="mono">Компания</span><a href="{r}uslugi/">Все услуги</a><a href="{r}#cases">Кейсы</a><a href="{r}#plans">Цены</a><a href="{r}#process">Как мы работаем</a><a href="{r}../" target="_blank" rel="noopener">Фулфилмент ↗</a></div></div>
+ <div class="legal"><span>© 2026 {BRAND} · ООО «—» · ИНН 0000000000 · Работаем по ЭДО</span><span><a href="#">Политика конфиденциальности</a> &nbsp;·&nbsp; <a href="#">Оферта</a></span></div>
+</div></footer>
+
+<div class="menu" id="menu" aria-hidden="true"><div class="wrap">
+ <div class="bar"><a class="logo" href="{r}"><i></i>{BRAND}</a><button class="btn ghost m" id="menuClose"><span>Закрыть</span></button></div>
+ <div class="cols">
+  <nav class="prim" aria-label="Меню"><a href="{r}uslugi/"><span class="mono" style="color:var(--acc)">01</span>Услуги</a><a href="{r}#cases"><span class="mono muted">02</span>Кейсы</a><a href="{r}#plans"><span class="mono muted">03</span>Цены</a><a href="{r}#process"><span class="mono muted">04</span>Как мы работаем</a><a href="{r}#contact"><span class="mono muted">05</span>Контакты</a></nav>
+  <div class="sub"><span class="mono">Услуги</span>{svc_links(r)}</div>
+  <div class="sub"><span class="mono">Фулфилмент · Бренд ↗</span><a href="{r}../" target="_blank" rel="noopener">FBS</a><a href="{r}../" target="_blank" rel="noopener">FBO</a><a href="{r}../" target="_blank" rel="noopener">Хранение</a><a href="{r}../#calc" target="_blank" rel="noopener">Калькулятор стоимости</a></div>
+ </div>
+</div></div>
+'''
+
+
+def crumbs(r, items):
+    li = []
+    for i, (name, href) in enumerate(items):
+        if href:
+            li.append(f'<li><a href="{href}">{e(name)}</a></li>')
+        else:
+            li.append(f'<li><span aria-current="page">{e(name)}</span></li>')
+    return f'<nav class="crumbs mono" aria-label="Хлебные крошки"><ol>{"".join(li)}</ol></nav>'
+
+
+def ld_crumbs(items):
+    return {'@type': 'BreadcrumbList', 'itemListElement': [
+        {'@type': 'ListItem', 'position': i + 1, 'name': n, 'item': u} for i, (n, u) in enumerate(items)]}
+
+
+def final(r, h2, lead, slug=None):
+    return f'''<section class="final" id="contact"><div class="wrap">
+ <span class="tag acc"><b>→</b><i>Бесплатный аудит</i></span>
+ <h2>{e(h2)}</h2>
+ <p class="lead">{e(lead)}</p>
+ <div class="ctas"><a class="btn primary" href="{cta_href(r, slug)}"><span>Заказать бесплатный аудит</span><em>{ARR}</em></a><a class="btn line" href="{TG}" target="_blank" rel="noopener"><span>Написать в Telegram</span></a></div>
+</div></section>
+'''
+
+
+def service_page(s):
+    r = '../../'
+    n = SERVICES.index(s) + 1
+    canon = url(s['slug'])
+    price_num = re.sub(r'\D', '', s['price'].split('₽')[0])
+    ld = {'@context': 'https://schema.org', '@graph': [
+        {'@type': 'Service', 'name': s['name'], 'serviceType': s['name'], 'description': s['description'], 'url': canon,
+         'areaServed': {'@type': 'Country', 'name': 'Россия'},
+         'provider': {'@type': 'Organization', 'name': BRAND, 'url': BASE},
+         'offers': {'@type': 'Offer', 'priceCurrency': 'RUB', 'price': price_num,
+                    'priceSpecification': {'@type': 'PriceSpecification', 'minPrice': price_num, 'priceCurrency': 'RUB'}}},
+        ld_crumbs([(BRAND, BASE), ('Услуги', url()), (s['name'], canon)]),
+        {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in s['faq']]},
+    ]}
+    inc = ''.join(f'<article class="rv"><span class="mono">{i + 1:02d}</span><h3>{e(t)}</h3><p>{e(d)}</p></article>' for i, (t, d) in enumerate(s['includes']))
+    who = ''.join(f'<article class="rv"><span class="chip mono">Ситуация {i + 1}</span><h3>{e(t)}</h3><p>{e(d)}</p></article>' for i, (t, d) in enumerate(s['who']))
+    flow = ''.join(f'<li><span class="n">{i + 1}</span><span class="mono d">{e(a)}</span><h3>{e(b)}</h3><p>{e(c)}</p></li>' for i, (a, b, c) in enumerate(s['steps']))
+    text = ''.join(f'<p>{e(p)}</p>' for p in s['text'])
+    faq = ''.join(f'<details{"" if i else " open"}><summary><span class="num mono">0{i + 1}</span><span>{e(q)}</span><span class="pl"></span></summary><div class="a">{e(a)}</div></details>' for i, (q, a) in enumerate(s['faq']))
+    rel = ''.join(f'<a class="rv" href="{r}uslugi/{x["slug"]}/"><span class="mono">{e(x["group"])}</span><h3>{e(x["name"])}</h3><div class="r"><span>{e(x["price"])}</span><em>{ARR}</em></div></a>' for x in (BY_SLUG[k] for k in s['related']))
+    tags = ''.join(f'<li class="mono">{e(t)}</li>' for t in s['tags'])
+    return head(s['title'], s['description'], canon, ld, r) + header(r) + f'''
+<main>
+<section class="paper sh"><div class="wrap">
+ {crumbs(r, [(BRAND, r), ('Услуги', r + 'uslugi/'), (s['short'], None)])}
+ <p class="eyebrow mono" style="color:var(--ink5);margin-bottom:20px">[ <b style="color:var(--acc);font-weight:500">Услуга {n:02d}</b> · {e(s['group'])} ]</p>
+ <h1>{e(s['h1'])}</h1>
+ <div class="row">
+  <div><p class="lead">{e(s['lead'])}</p>
+   <div class="ctas"><a class="btn primary" href="{cta_href(r, s['slug'])}"><span>Заказать бесплатный аудит</span><em>{ARR}</em></a><a class="btn ghost" href="{r}#plans"><span>Цены и пакеты</span></a></div></div>
+  <aside class="pcard" aria-label="Стоимость"><div class="r"><span class="mono">Стоимость</span><span class="mono">Срок · {e(s['term'])}</span></div><div class="price">{e(s['price'])}</div><p class="note">{e(s['price_note'])}. Цена фиксируется в договоре до старта работ.</p><ul>{tags}</ul></aside>
+ </div>
+</div></section>
+
+<section class="white"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>01</b><i>Что входит</i></span><h2>Что входит в услугу</h2></div><p class="lead muted">Можно заказать услугу целиком или отдельные пункты. Состав работ фиксируем в договоре.</p></div>
+ <div class="inc">{inc}</div>
+</div></section>
+
+<section class="paper"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>02</b><i>Кому подходит</i></span><h2>С чем к нам приходят</h2></div><p class="lead muted">Если узнали себя хотя бы в одной ситуации, начните с бесплатного аудита: покажем, что исправить в первую очередь.</p></div>
+ <div class="who">{who}</div>
+</div></section>
+
+<section class="white"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>03</b><i>Как работаем</i></span><h2>Этапы и сроки</h2></div><p class="lead muted">Каждый шаг виден в общем чате и трекере. Отчёт — по выручке и заказам, а не по количеству сделанных задач.</p></div>
+ <ol class="flow f4 rv">{flow}</ol>
+</div></section>
+
+<section class="paper"><div class="wrap prose">
+ <div class="l rv"><span class="tag"><b>04</b><i>Подробнее</i></span><h2>{e(s['name'])}: как это устроено</h2></div>
+ <div class="t rv">{text}</div>
+</div></section>
+
+<section class="white" id="faq"><div class="wrap faq">
+ <div class="l rv"><span class="tag"><b>05</b><i>Вопросы</i></span><h2>Частые вопросы</h2><p class="muted">Не нашли свой вопрос? Задайте его на аудите — ответим на ваших цифрах.</p><a class="btn ghost" href="{TG}" target="_blank" rel="noopener"><span>Задать вопрос в Telegram</span></a></div>
+ <div id="faqList">{faq}</div>
+</div></section>
+
+<section class="paper"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>06</b><i>Ещё услуги</i></span><h2>Часто заказывают вместе</h2></div><p class="lead muted">Услуги работают в связке: контент, реклама и учёт дают больше, чем каждая по отдельности. <a href="{r}uslugi/" style="color:var(--acc)">Все услуги →</a></p></div>
+ <div class="rel">{rel}</div>
+</div></section>
+
+{final(r, 'Покажем, где теряются продажи', 'Пришлите ссылку на магазин или артикулы. За 2 рабочих дня сделаем аудит и пришлём план с бюджетом и сроками.', s['slug'])}</main>
+''' + footer(r) + JS + '\n</body>\n</html>\n'
+
+
+def index_page():
+    r = '../'
+    canon = url()
+    ld = {'@context': 'https://schema.org', '@graph': [
+        ld_crumbs([(BRAND, BASE), ('Услуги', canon)]),
+        {'@type': 'ItemList', 'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'name': s['name'], 'url': url(s['slug'])} for i, s in enumerate(SERVICES)]},
+    ]}
+    rows, n = '', 0
+    for g in GROUPS:
+        rows += f'<p class="grp mono">{e(g)}</p>'
+        for s in SERVICES:
+            if s['group'] != g:
+                continue
+            n += 1
+            rows += f'<a href="{s["slug"]}/"><span class="num mono">({n:02d})</span><div><h2>{e(s["name"])}</h2><p>{e(s["lead"])}</p></div><b>{e(s["price"])}</b></a>'
+    title = 'Услуги для селлеров: маркетплейсы, интернет-магазин, маркетинг — Бренд Digital'
+    desc = 'Все услуги digital-агентства «Бренд Digital» для селлеров: подключение кабинетов WB и Ozon, инфографика, продвижение, SEO карточек, интернет-магазин, маркетинг, интеграции и аналитика.'
+    return head(title, desc, canon, ld, r) + header(r) + f'''
+<main>
+<section class="paper sh"><div class="wrap">
+ {crumbs(r, [(BRAND, r), ('Услуги', None)])}
+ <h1>Услуги для селлеров маркетплейсов</h1>
+ <div class="row"><p class="lead">Восемь направлений, которые закрывают весь путь селлера: от первой карточки до собственного магазина. Любую услугу можно заказать отдельно или в пакете.</p></div>
+ <div class="list" style="margin-top:48px">{rows}</div>
+</div></section>
+{final(r, 'Не знаете, с чего начать?', 'Начните с бесплатного аудита: за 2 рабочих дня разберём карточки и рекламу и покажем, какие услуги дадут результат быстрее всего.')}</main>
+''' + footer(r) + JS + '\n</body>\n</html>\n'
+
+
+def main():
+    src = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
+    css = re.search(r'<style>(.*?)</style>', src, re.S).group(1)
+    out = os.path.join(ROOT, 'uslugi')
+    os.makedirs(out, exist_ok=True)
+    w = lambda p, t: open(p, 'w', encoding='utf-8').write(t)
+    w(os.path.join(out, 'uslugi.css'), '/* Сгенерировано tools/agency_pages.py из agency/index.html — не править руками */' + css + EXTRA_CSS)
+    w(os.path.join(out, 'index.html'), index_page())
+    for s in SERVICES:
+        os.makedirs(os.path.join(out, s['slug']), exist_ok=True)
+        w(os.path.join(out, s['slug'], 'index.html'), service_page(s))
+    urls = [BASE, url()] + [url(s['slug']) for s in SERVICES]
+    w(os.path.join(ROOT, 'sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+      + ''.join(f'  <url><loc>{u}</loc></url>\n' for u in urls) + '</urlset>\n')
+    w(os.path.join(ROOT, 'robots.txt'), f'User-agent: *\nAllow: /\n\nSitemap: {BASE}sitemap.xml\n')
+    print(f'{len(SERVICES)} страниц услуг + список, sitemap: {len(urls)} адресов')
+
+
+if __name__ == '__main__':
+    main()
