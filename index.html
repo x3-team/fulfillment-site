@@ -58,7 +58,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .nav{display:none;gap:28px;position:absolute;left:50%;transform:translateX(-50%);font-size:14px;color:var(--acc6)}.nav a{transition:color var(--fast)}.nav a:hover{color:var(--ink)}
 .hdr .wrap{position:relative}
 .hdr .acts{display:flex;gap:12px;margin-left:auto}
-@media (min-width:1000px){.nav{display:flex}.hdr .acts{display:none}}
+.hdr .lk{display:none;margin-left:auto}
+@media (min-width:1000px){.nav{display:flex}.hdr .acts{display:none}.hdr .lk{display:inline-flex}}
 /* hero */
 .hero{--h1:clamp(64px,10.4vw,200px);position:relative;margin-top:-95px;padding:95px 0 0;background-color:var(--paper);isolation:isolate;overflow-x:clip}
 .hero .stage::before{content:"";position:absolute;z-index:-1;top:-95px;bottom:0;left:-100vmax;right:-100vmax;background-image:linear-gradient(#E4ECF8 1px,transparent 1px),linear-gradient(90deg,#E4ECF8 1px,transparent 1px);background-size:190px 80px;background-position:calc(50% - 95px) 100%;pointer-events:none}
@@ -66,7 +67,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .ruler span{position:absolute;top:-2px;font-size:8px;letter-spacing:0;transform:translateX(-50%)}.ruler span:first-child{transform:none}.ruler span:last-child{transform:translateX(-100%)}
 .hero .stage{position:relative;min-height:max(640px,calc(100svh - 95px - 56px));display:grid;align-content:end;padding:24px 0 40px}
 .screen{position:absolute;left:14%;right:max(14%,260px);top:0;bottom:calc(var(--h1) * .9);pointer-events:auto}
-.screen canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;pointer-events:none;color-scheme:normal}
 .stages{position:absolute;left:-46px;top:50%;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;color:var(--ink5);margin:0;font-size:9px;letter-spacing:.18em}
 .hero .title{position:relative;z-index:2;pointer-events:none}.hero .title *{pointer-events:auto}
 .hero .sub{font-size:clamp(20px,1.55vw,26px);line-height:1.3;color:var(--acc6);letter-spacing:-.01em;margin-bottom:clamp(8px,1.4vw,24px)}
@@ -88,7 +89,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
 .counters{display:flex;gap:32px}.counters div{display:grid;gap:4px}.counters strong{font-size:36px;line-height:1.05;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.counters span{color:var(--ink5)}
 @media (max-width:1099px){.svc,.svc-all{display:none}.screen{left:0;right:0}.stages{display:none}}
-@media (max-width:899px){.hero .stage{min-height:0;padding-top:0}.screen{position:relative;inset:auto;aspect-ratio:1/1;max-height:70svh;margin:0 -20px}.status{position:static;margin-top:20px}.hero h1{white-space:normal}}
+@media (max-width:899px){.hero .stage{min-height:0;padding-top:0}.screen{position:relative;inset:auto;aspect-ratio:16/11;max-height:70svh;margin:0 -20px}.status{position:static;margin-top:20px}.hero h1{white-space:normal}}
 /* sections */
 section{padding:clamp(72px,9vw,120px) 0}
 .sec-head{display:grid;gap:20px;align-items:end;margin-bottom:clamp(32px,4vw,56px)}
@@ -312,6 +313,7 @@ html.modal{overflow:hidden}
 <header class="hdr" id="hdr"><div class="wrap wide">
  <a class="logo" href="#" aria-label="Товар в деле — на главную"><svg viewBox="0 0 40 36" aria-hidden="true"><rect x="0" y="2" width="16" height="15" rx="2.5" fill="#1A5CFF"/><rect x="18" y="5" width="16" height="12" rx="2.5" fill="#4D82FF"/><rect x="0" y="19" width="16" height="15" rx="2.5" fill="#1A5CFF"/><rect x="18" y="19" width="16" height="15" rx="2.5" fill="#1A5CFF"/><path d="M21 9.5l5 5L38.5 1" fill="none" stroke="#0A1736" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Товар<br>в деле</span></a>
  <nav class="nav" aria-label="Основное"><a href="#">Главная</a><a href="#who">Фулфилмент</a><a href="#services">Услуги</a><a href="#calc">Цены</a></nav>
+ <a class="btn dark m lk" href="https://seller.yuri.guru" target="_blank" rel="noopener"><span>Личный кабинет</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a>
  <div class="acts"><button class="btn ghost m" id="menuBtn" aria-controls="menu" aria-expanded="false"><span>Меню</span></button></div>
 </div></header>
 
@@ -321,16 +323,16 @@ html.modal{overflow:hidden}
  <div class="wrap wide">
  <div class="stage">
   <div class="screen" id="screen" aria-label="3D-сцена: как работает фулфилмент">
-   <div id="three"></div>
+   <iframe id="anim" src="assets/tovar-v-dele-animation.html" title="Комплектация заказа — Товар в деле" tabindex="-1" aria-hidden="true"></iframe>
   </div>
-  <p class="stages mono" aria-hidden="true">Приёмка · Хранение · Комплектация · Доставка</p>
+  <p class="stages mono" aria-hidden="true">Подбор · Сканирование · Маркировка · Упаковка</p>
   <aside class="svc" aria-label="Услуги"><div class="hd mono"><span>Услуги</span><b>23 направления</b></div><div class="strip"><ul id="stripList"></ul></div></aside>
   <a class="svc-all" href="#services">Все 23 <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8 8 2M3.5 2H8v4.5" stroke="currentColor" stroke-width="1.2"/></svg></a>
   <div class="title">
    <p class="sub">Фулфилмент для маркетплейсов<br>и интернет-магазинов</p>
    <h1><span class="ln"><span>Товар в деле</span></span></h1>
   </div>
-  <div class="status"><span id="stage">Машина подъезжает к воротам</span><span class="mono" id="stageN">01 / 04</span></div>
+  <div class="status"><span id="stage">Находим товар</span><span class="mono" id="stageN">01 / 03</span></div>
  </div>
  <div class="more">
   <div><p class="lead">FBS, FBO и хранение для Wildberries, Ozon и Яндекс Маркета. А магазин, маркетинг и интеграции сделает наше digital-агентство — в связке с фулфилментом.</p>
@@ -454,7 +456,7 @@ html.modal{overflow:hidden}
   <div class="sub"><span class="mono">Услуги</span><a href="#services">Все услуги</a><a href="#services">FBS</a><a href="#services">FBO</a><a href="#services">Хранение</a><a href="#services">Маркировка и упаковка</a><a href="#services">Возвраты</a></div>
   <div class="sub"><span class="mono">Агентство · Бренд Digital ↗</span><a href="agency/#services" target="_blank" rel="noopener">Интернет-магазины</a><a href="agency/#services" target="_blank" rel="noopener">Маркетинг и продвижение</a><a href="agency/#services" target="_blank" rel="noopener">Контент для маркетплейсов</a><a href="agency/#services" target="_blank" rel="noopener">Интеграции и «Честный знак»</a></div>
  </div>
- <div class="acts"><a href="#calc"><div><h3>Рассчитать стоимость</h3><p>Посчитайте партию и получите точный расчёт от менеджера</p></div><em class="btn primary m" style="width:44px"><em style="border:0;width:44px"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></em></a><a href="#contact"><div><h3>Записаться на экскурсию</h3><p>Покажем приёмку, упаковку и хранение вашего типа товара</p></div><em class="btn primary m" style="width:44px"><em style="border:0;width:44px"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></em></a></div>
+ <div class="acts"><a href="#calc"><div><h3>Рассчитать стоимость</h3><p>Посчитайте партию и получите точный расчёт от менеджера</p></div><em class="btn primary m" style="width:44px"><em style="border:0;width:44px"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></em></a><a href="https://seller.yuri.guru" target="_blank" rel="noopener"><div><h3>Личный кабинет</h3><p>Остатки, приёмки и отгрузки в нашем WMS</p></div><em class="btn primary m" style="width:44px"><em style="border:0;width:44px"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></em></a><a href="#contact"><div><h3>Записаться на экскурсию</h3><p>Покажем приёмку, упаковку и хранение вашего типа товара</p></div><em class="btn primary m" style="width:44px"><em style="border:0;width:44px"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></em></a></div>
 </div></div>
 
 <dialog class="lead-dlg" id="leadDlg" aria-labelledby="leadTtl">
@@ -486,7 +488,6 @@ html.modal{overflow:hidden}
   </div>
  </div>
 </dialog>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function(){
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -604,123 +605,11 @@ lf.addEventListener('submit',async e=>{e.preventDefault();const bad=['name','pho
 /* clock */
 const tick=()=>{const d=new Date(Date.now()+3*36e5);const s=String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0');const c=$('#clock');if(c)c.textContent=s+' МСК';$('#ftClock').textContent=s};tick();setInterval(tick,30000);
 
-/* ===== three.js scene — изометрическая диорама склада «Товар в деле» ===== */
-const lerp=(a,b,p)=>a+(b-a)*p,clamp01=x=>x<0?0:x>1?1:x,ss=x=>{x=clamp01(x);return x*x*(3-2*x)},sss=x=>{x=clamp01(x);return x*x*x*(x*(x*6-15)+10)};
-/* точки, где стоит сотрудник: x, z, куда смотрит (0 = в +z, PI/2 = в +x) */
-const WP={RT:[-3.6,1.6,-Math.PI/2],RA:[-2.3,-2.3,Math.PI],RB:[1.5,-2.3,Math.PI],L1:[.1,.4],L2:[.9,2.5],DESK:[3.1,2.0,Math.PI],CART:[5.0,3.2,Math.PI/2]};
-/* сценарий: [действие, место или маршрут, длительность (для walk считается по длине пути), этап] */
-const PLAN=[['scan','RT',2.4,0],['take','RT',1,0],['walk',['RT','RA'],0,1],['stand','RA',.4,1],['put','RA',1.2,1],['stand','RA',.6,1],['walk',['RA','RB'],0,2],['take','RB',1.2,2],['stand','RB',.4,2],['walk',['RB','L1','L2','DESK'],0,2],['put','DESK',1,3],['pack','DESK',5,3],['take','DESK',1,3],['walk',['DESK','CART'],0,3],['put','CART',1,3],['stand','CART',.8,3],['walk',['CART','RT'],0,3],['stand','RT',1.2,3]];
-const STAGES=[['Приёмка: сканируем поставку','01'],['Хранение: товар на полку','02'],['Комплектация: собираем заказ','03'],['Упаковка и отправка','04']];
-/* профиль скорости ходьбы: плавный разгон и торможение, ровная середина → [доля пути, относительная скорость] */
-const RAMP=.3,rampI=x=>x*x*x-x*x*x*x/2;
-const prof=p=>{p=clamp01(p);const a=RAMP;let u,v;if(p<a){u=a*rampI(p/a);v=ss(p/a)}else if(p<1-a){u=a/2+(p-a);v=1}else{u=(1-a)-a*rampI((1-p)/a);v=ss((1-p)/a)}return[u/(1-a),v/(1-a)]};
-const angLerp=(a,b,k)=>{let d=(b-a)%(Math.PI*2);if(d>Math.PI)d-=Math.PI*2;if(d<-Math.PI)d+=Math.PI*2;return a+d*k};
-function initScene(){if(!window.THREE)return;const host=$('#three'),wrap=$('#screen');
- const C={slab:0xF8FAFE,slab2:0xEEF2FA,shelf:0xE6ECF7,blue:0x1A5CFF,blueHi:0x4D82FF,box:0xFCFDFF,navy:0x0A1736,navy2:0x1E2F5C,pants:0x1B2A55,skin:0xF2C9A6,rail:0xC9D4E8,screen:0x101C3C};
- const scene=new THREE.Scene();
- const cam=new THREE.OrthographicCamera(-1,1,1,-1,.1,200);const camDir=new THREE.Vector3(1,.82,1).normalize();const target=new THREE.Vector3(.5,.7,.4);cam.position.copy(target).add(camDir.clone().multiplyScalar(60));cam.lookAt(target);
- const ren=new THREE.WebGLRenderer({antialias:true,alpha:true});ren.setPixelRatio(Math.min(devicePixelRatio,2));ren.setClearColor(0x000000,0);ren.shadowMap.enabled=true;ren.shadowMap.type=THREE.PCFSoftShadowMap;host.appendChild(ren.domElement);
- const M={};const m=(c,o)=>{const k=c+(o?JSON.stringify(o):'');return M[k]||(M[k]=new THREE.MeshLambertMaterial(Object.assign({color:c},o||{})))};
- const add=(geo,c,x,y,z,parent,sh,o)=>{const g=new THREE.Mesh(geo,m(c,o));g.position.set(x,y,z);g.castShadow=sh!==false;g.receiveShadow=true;(parent||scene).add(g);return g};
- const box=(w,h,d,c,x,y,z,parent,sh,o)=>add(new THREE.BoxGeometry(w,h,d),c,x,y,z,parent,sh,o);
- const cyl=(r,h,c,x,y,z,parent,rz,seg=18)=>{const g=add(new THREE.CylinderGeometry(r,r,h,seg),c,x,y,z,parent);if(rz!==undefined)g.rotation.x=rz;return g};
- const sph=(r,c,x,y,z,parent,ws=20)=>add(new THREE.SphereGeometry(r,ws,Math.ceil(ws*.7)),c,x,y,z,parent);
- const capGeo=(r,len,seg=7)=>{const pts=[];for(let i=0;i<=seg;i++){const a=-Math.PI/2+Math.PI/2*i/seg;pts.push(new THREE.Vector2(Math.cos(a)*r,-len/2+Math.sin(a)*r))}for(let i=0;i<=seg;i++){const a=Math.PI/2*i/seg;pts.push(new THREE.Vector2(Math.cos(a)*r,len/2+Math.sin(a)*r))}return new THREE.LatheGeometry(pts,22)};
- const cap=(r,len,c,x,y,z,parent)=>add(capGeo(r,len),c,x,y,z,parent);
- const rounded=(w,d,h,r,c,x,y,z,bev=.12)=>{const s=new THREE.Shape();const hw=w/2,hd=d/2;s.moveTo(-hw+r,-hd);s.lineTo(hw-r,-hd);s.quadraticCurveTo(hw,-hd,hw,-hd+r);s.lineTo(hw,hd-r);s.quadraticCurveTo(hw,hd,hw-r,hd);s.lineTo(-hw+r,hd);s.quadraticCurveTo(-hw,hd,-hw,hd-r);s.lineTo(-hw,-hd+r);s.quadraticCurveTo(-hw,-hd,-hw+r,-hd);const g=new THREE.Mesh(new THREE.ExtrudeGeometry(s,{depth:h,bevelEnabled:true,bevelThickness:bev,bevelSize:bev,bevelSegments:4}),m(c));g.rotation.x=-Math.PI/2;g.position.set(x,y-h-bev,z);g.castShadow=true;g.receiveShadow=true;scene.add(g);return g};
- /* свет: мягкий небесный + солнце с тенями + лёгкая подсветка с другой стороны */
- scene.add(new THREE.HemisphereLight(0xffffff,0xC7D6F0,.72));const sun=new THREE.DirectionalLight(0xffffff,.8);sun.position.set(-7,16,4);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-16,right:16,top:14,bottom:-14,near:1,far:60});sun.shadow.bias=-.0004;sun.shadow.normalBias=.02;scene.add(sun);
- const fill=new THREE.DirectionalLight(0xDCE8FF,.22);fill.position.set(9,6,-7);scene.add(fill);
- const ground=new THREE.Mesh(new THREE.PlaneGeometry(90,90),new THREE.ShadowMaterial({opacity:.09}));ground.rotation.x=-Math.PI/2;ground.position.y=-1.35;ground.receiveShadow=true;scene.add(ground);
- /* платформа: верхняя плита + ступенька-подиум (верх пола — y=0) */
- rounded(15.4,11,.6,1.1,C.slab,.5,0,.4);rounded(15.9,11.5,.16,1.35,C.slab2,.5,-.74,.4,.08);
- /* коробки: белая с синей лентой или синяя с белой этикеткой */
- const crate=(w,h,d,x,y,z,parent,blue)=>{const g=new THREE.Group();g.position.set(x,y,z);(parent||scene).add(g);if(blue){box(w,h,d,C.blue,0,0,0,g);box(w*.5,h*.3,.012,C.box,0,h*.1,d/2+.004,g,false)}else{box(w,h,d,C.box,0,0,0,g);box(w+.012,h*.3,d+.012,C.blue,0,h*.05,0,g,false)}return g};
- /* стеллажи вдоль x, лицом в +z */
- const LV=[.1,1.0,1.9,2.8];const rnd=(s=>()=>{s=(s*16807)%2147483647;return s/2147483647})(7);
- const rack=(x0,z,bays,skip)=>{const bw=2.2,len=bays*bw;for(let b=0;b<=bays;b++)for(const dz of[-.56,.56])box(.12,3.6,.12,C.blue,x0+b*bw,1.8,z+dz);
-  for(const y of LV){box(len,.1,.1,C.blue,x0+len/2,y,z-.56);box(len,.1,.1,C.blue,x0+len/2,y,z+.56);box(len,.05,1.14,C.shelf,x0+len/2,y-.05,z,scene,false)}box(len,.1,.1,C.blue,x0+len/2,3.62,z-.56);box(len,.1,.1,C.blue,x0+len/2,3.62,z+.56);box(len,.05,1.14,C.shelf,x0+len/2,3.58,z,scene,false);
-  for(let l=0;l<4;l++)for(let b=0;b<bays;b++){if(skip&&skip[0]===b&&skip[1]===l)continue;let x=x0+b*bw+.12;for(let i=0;i<3;i++){const w=.56+rnd()*.24,h=.52+rnd()*.22;if(x+w>x0+(b+1)*bw-.1)break;crate(w,h,.8,x+w/2,LV[l]+.05+h/2,z,scene,rnd()<.33);x+=w+.09}}};
- rack(-5.6,-3.6,2,[1,1]);rack(.4,-3.6,2,[0,1]);
- const cellMat=new THREE.LineBasicMaterial({color:C.blue,transparent:true,opacity:0});const mkCell=(x,z)=>{const c=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(2.0,.9,1.1)),cellMat);c.position.set(x,LV[1]+.52,z);scene.add(c);return c};mkCell(-2.3,-3.6);mkCell(1.5,-3.6);
- /* стол приёмки (слева) */
- const table=(x,z,w,d,legC)=>{box(w,.08,d,C.box,x,.92,z);for(const [dx,dz] of[[-1,-1],[1,-1],[-1,1],[1,1]])box(.07,.88,.07,legC,x+dx*(w/2-.1),.44,z+dz*(d/2-.1));if(legC===C.blue){box(w-.2,.06,.06,legC,x,.2,z-d/2+.1);box(w-.2,.06,.06,legC,x,.2,z+d/2-.1)}};
- table(-5.1,1.6,2.2,1,C.rail);crate(.5,.45,.5,-5.55,1.185,1.45,scene,false);crate(.4,.36,.4,-5.2,1.14,1.9,scene,true);
- /* стол упаковки с двумя мониторами */
- table(3.1,.9,3,1.1,C.blue);
- const uiMat=new THREE.MeshBasicMaterial({color:C.blueHi,transparent:true,opacity:.9});const uis=[];
- const monitor=(x,z)=>{box(.5,.06,.28,C.blue,x,.99,z);box(.07,.5,.07,C.blue,x,1.25,z);const s=box(.98,.62,.06,C.screen,x,1.6,z);s.rotation.x=-.08;const ui=new THREE.Group();ui.position.set(x,1.6,z+.035);ui.rotation.x=-.08;scene.add(ui);const bars=[[-.26,.17,.3,.05],[.14,.17,.42,.05],[-.26,.02,.3,.18],[.14,0,.42,.05],[.14,-.12,.42,.05],[-.1,-.22,.62,.04]];bars.forEach(([bx,by,bw,bh],i)=>{const q=new THREE.Mesh(new THREE.PlaneGeometry(bw,bh),i===2?new THREE.MeshBasicMaterial({color:C.blue}):uiMat);q.position.set(bx,by,.0);ui.add(q);if(i===3||i===4)uis.push(q)})};
- monitor(2.5,.45);monitor(3.7,.45);
- box(.42,.22,.3,C.navy,1.95,1.07,.75);box(.3,.03,.2,C.rail,1.95,1.195,.75,scene,false);box(.28,.16,.18,C.blue,4.3,1.04,.8);cyl(.07,.2,C.box,4.3,1.1,.8,scene,Math.PI/2,12);
- /* тележка */
- const cart=new THREE.Group();cart.position.set(6.2,0,3.2);scene.add(cart);const cartHome=cart.position.clone(),cartOut=new THREE.Vector3(7.0,0,5.0),cartTop=new THREE.Vector3(0,1.24,0);const cartWheels=[];
- for(const [x,z] of[[-.45,-.3],[.45,-.3],[-.45,.3],[.45,.3]]){cyl(.03,1.0,C.blue,x,.6,z,cart,undefined,10);const w=sph(.075,C.navy,x,.075,z,cart,12);cartWheels.push(w)}
- for(const y of[.4,.98]){box(1,.04,.7,C.box,0,y,0,cart);box(1.02,.05,.05,C.blue,0,y+.02,-.33,cart);box(1.02,.05,.05,C.blue,0,y+.02,.33,cart);box(.05,.05,.7,C.blue,-.49,y+.02,0,cart);box(.05,.05,.7,C.blue,.49,y+.02,0,cart)}
- for(const y of[1.12,1.26]){box(.03,.03,.7,C.blue,-.49,y,0,cart);box(.03,.03,.7,C.blue,.49,y,0,cart);box(1,.03,.03,C.blue,0,y,-.33,cart)}box(.04,.04,.72,C.blue,.62,1.2,0,cart);box(.16,.03,.03,C.blue,.55,1.2,-.33,cart);box(.16,.03,.03,C.blue,.55,1.2,.33,cart);
- crate(.44,.38,.44,.05,.61,0,cart,false);
- /* две «живые» коробки: одна идёт со стола приёмки на полку, вторая — с полки в упаковку и на тележку */
- const SLOT={table:[-4.55,1.19,1.6],cellA:[-2.3,LV[1]+.28,-3.6],cellB:[1.5,LV[1]+.28,-3.6],desk:[3.1,1.19,.95]};
- const b1=crate(.56,.46,.56,0,0,0,scene,false),b2=crate(.56,.46,.56,0,0,0,scene,false);
- /* сотрудник: мягкие округлые формы, кепка, сканер в правой руке */
- const mkWorker=()=>{const g=new THREE.Group();const legs=[],knees=[],arms=[];const hip=sph(.21,C.pants,0,.99,0,g);hip.scale.set(1.15,.72,.9);
-  for(const s of[-1,1]){const l=new THREE.Group();l.position.set(s*.12,.98,0);g.add(l);cap(.105,.3,C.pants,0,-.2,0,l);const kn=new THREE.Group();kn.position.y=-.43;l.add(kn);cap(.095,.28,C.pants,0,-.17,0,kn);const sh=sph(.125,C.navy,0,-.37,.05,kn);sh.scale.set(1,.6,1.45);legs.push(l);knees.push(kn);
-   const a=new THREE.Group();a.position.set(s*.31,1.52,0);g.add(a);cap(.078,.36,C.blue,0,-.24,0,a);sph(.088,C.skin,0,-.5,0,a);arms.push(a)}
-  const torso=new THREE.Group();torso.position.y=1.3;g.add(torso);cap(.25,.32,C.blue,0,0,0,torso);sph(.26,C.blue,0,.15,0,torso).scale.set(1.1,.55,.85);
-  const head=new THREE.Group();head.position.y=1.93;g.add(head);sph(.2,C.skin,0,0,0,head);const capTop=add(new THREE.SphereGeometry(.215,20,12,0,Math.PI*2,0,Math.PI/2),C.blue,0,.03,0,head);capTop.scale.y=.85;cyl(.235,.035,C.blue,0,.03,.09,head,undefined,22);
-  const scanner=new THREE.Group();scanner.position.set(0,-.5,.08);arms[1].add(scanner);box(.08,.14,.12,C.navy,0,0,0,scanner,false);
-  const beam=new THREE.Mesh(new THREE.BoxGeometry(.025,1.0,.025),new THREE.MeshBasicMaterial({color:0xFF4B4B,transparent:true,opacity:0}));beam.position.y=-.6;scanner.add(beam);
-  g.scale.setScalar(1.08);return{g,legs,knees,arms,torso,head,beam}};
- const wk=mkWorker();scene.add(wk.g);
- /* таймлайн: длительности переходов считаем по длине маршрута, чтобы темп шага был одинаковым */
- const ACT=[];let T0=0;for(const [mode,where,d0,st] of PLAN){let dur=d0,curve=null,len=0;if(mode==='walk'){curve=new THREE.CatmullRomCurve3(where.map(k=>new THREE.Vector3(WP[k][0],0,WP[k][1])),false,'centripetal');curve.arcLengthDivisions=300;len=curve.getLength();dur=len/1.5+.7}ACT.push({mode,where,t0:T0,t1:T0+dur,dur,st,curve,len});T0+=dur}const LOOP=T0;
- const BOXES=[{mesh:b1,start:'table',moves:[[1,'hands'],[4,'cellA']],resetAt:LOOP-3.2},{mesh:b2,start:'cellB',moves:[[7,'hands'],[10,'desk'],[12,'hands'],[14,'cart']],resetAt:ACT[15].t1+3.6}];
- const cartOutT=ACT[15].t1+.4,cartBackT=LOOP-4.4;
- const boxState=(bx,t)=>{if(t>=bx.resetAt)return{from:bx.start,to:bx.start,p:0};let from=bx.start;for(const [i,to] of bx.moves){const a=ACT[i];if(t<a.t0)return{from,to:from,p:0};if(t<a.t1)return{from,to,p:sss(((t-a.t0)/a.dur-.2)/.6)};from=to}return{from,to:from,p:0}};
- const actAt=t=>{for(const a of ACT)if(t<a.t1)return a;return ACT[ACT.length-1]};
- const V=new THREE.Vector3(),V2=new THREE.Vector3(),V3=new THREE.Vector3();
- const slotPos=(s,out,h)=>s==='hands'?wk.g.localToWorld(out.set(0,.98,.48)):s==='cart'?out.copy(cart.position).add(cartTop):out.fromArray(SLOT[s]);
- const slotRot=(s,h)=>s==='hands'?h:Math.round(h/(Math.PI/2))*(Math.PI/2);
- /* камера вписывает всю сцену в контейнер при любом соотношении сторон */
- const B=[[-7.5,-1.2,-5.4],[8.5,-1.2,-5.4],[-7.5,-1.2,6.2],[8.5,-1.2,6.2],[-5.7,3.75,-4.2],[4.9,3.75,-4.2],[-5.7,3.75,-3],[4.9,3.75,-3],[-4,2.5,3.6],[5.6,2.5,3.6],[7.5,1.4,5.4]];
- const fit=()=>{const w=wrap.clientWidth||1,h=wrap.clientHeight||1;ren.setSize(w,h,false);cam.position.copy(target).add(camDir.clone().multiplyScalar(60));cam.lookAt(target);cam.updateMatrixWorld();let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;for(const q of B){V.fromArray(q).applyMatrix4(cam.matrixWorldInverse);x0=Math.min(x0,V.x);x1=Math.max(x1,V.x);y0=Math.min(y0,V.y);y1=Math.max(y1,V.y)}const asp=w/h;let hw=(x1-x0)/2*1.04,hh=(y1-y0)/2*1.04;if(hw/hh<asp)hw=hh*asp;else hh=hw/asp;const cx=(x0+x1)/2,cy=(y0+y1)/2;cam.left=cx-hw;cam.right=cx+hw;cam.top=cy+hh;cam.bottom=cy-hh;cam.updateProjectionMatrix()};new ResizeObserver(fit).observe(wrap);fit();
- let px=0,py=0,sx=0,sy=0;wrap.addEventListener('pointermove',e=>{const r=wrap.getBoundingClientRect();px=(e.clientX-r.left)/r.width-.5;py=(e.clientY-r.top)/r.height-.5});wrap.addEventListener('pointerleave',()=>{px=py=0});
- const stEl=$('#stage'),stN=$('#stageN');let T=reduce?ACT[11].t0+2:0,last=0,curStage='',ph=0,heading=WP.RT[2];
- /* поза: целевые значения сглаживаются экспоненциально, поэтому любая смена действия проходит без рывков */
- const pose={armL:0,armR:0,armZ:0,lean:0,headX:0,headY:0,beam:0,crouch:0},want={};const RATE={armL:7,armR:7,armZ:7,lean:4,headX:5,headY:3,beam:12,crouch:5};
- const render=now=>{const dt=last?Math.min(.1,(now-last)/1000):0;last=now;if(!reduce)T+=dt;const t=((T%LOOP)+LOOP)%LOOP;const a=actAt(t),p=(t-a.t0)/a.dur;
-  /* положение и курс */
-  let x,z,h,speed=0;if(a.mode==='walk'){const [u,v]=prof(p);a.curve.getPointAt(u,V);x=V.x;z=V.z;a.curve.getTangentAt(u,V2);h=Math.atan2(V2.x,V2.z);speed=v*a.len/a.dur}else{const w=WP[a.where];x=w[0];z=w[1];h=w[2]}
-  heading=angLerp(heading,h,1-Math.exp(-dt*7));ph+=speed*dt*3.9;const k=clamp01(speed/1.1);
-  /* в руках ли коробка */
-  const bs=BOXES.map(b=>boxState(b,t));const carrying=bs.some(s=>(s.p<.5?s.from:s.to)==='hands');
-  /* целевая поза по действию */
-  const idle=Math.sin(t*1.1);want.armL=want.armR=.04*idle;want.armZ=.06;want.lean=0;want.headX=0;want.headY=.12*Math.sin(t*.6);want.beam=0;want.crouch=0;
-  if(carrying){want.armL=want.armR=-1.12;want.armZ=.04}
-  if(a.mode==='scan'){want.armR=-1.0+.05*Math.sin(t*2.6);want.armL=.15;want.headX=.32;want.beam=p>.18&&p<.85?1:0;want.headY=0}
-  else if(a.mode==='take'){const near=p<.55;want.lean=near?.22:0;want.armL=want.armR=near?-1.1:-1.12;want.headX=near?.3:.1;if(a.where==='RB'){want.lean=0;want.armL=want.armR=near?-.95:-1.12;want.headX=0}}
-  else if(a.mode==='put'){const near=p<.65;want.armL=want.armR=near?-1.3:.0;want.lean=near?.18:0;want.headX=near?.28:0;if(a.where==='RA'){want.armL=want.armR=near?-1.05:0;want.lean=0;want.headX=-.1}if(a.where==='CART'){want.lean=near?.25:0}}
-  else if(a.mode==='pack'){const w=t*2.4;want.armL=-.95+.18*Math.sin(w);want.armR=-.95-.18*Math.sin(w+1.1);want.armZ=.12;want.lean=.14;want.headX=.3;want.headY=.06*Math.sin(w*.5)}
-  else if(a.mode==='walk'){want.lean=-.07*k;want.headX=.05*k}
-  for(const key in pose)pose[key]+=(want[key]-pose[key])*(1-Math.exp(-dt*RATE[key]));
-  /* применяем позу + походку */
-  const sw=Math.sin(ph)*.52*k,cs=Math.cos(ph);wk.g.position.set(x,-.11+Math.abs(Math.sin(ph))*.045*k+.012*Math.sin(t*2.2)*(1-k),z);/* -.11: подошвы на уровне пола */wk.g.rotation.y=heading;
-  wk.legs[0].rotation.x=sw;wk.legs[1].rotation.x=-sw;wk.knees[0].rotation.x=Math.max(0,-cs)*.95*k;wk.knees[1].rotation.x=Math.max(0,cs)*.95*k;
-  const swing=carrying?0:1;wk.arms[0].rotation.x=pose.armL-sw*.75*swing;wk.arms[1].rotation.x=pose.armR+sw*.75*swing;wk.arms[0].rotation.z=pose.armZ;wk.arms[1].rotation.z=-pose.armZ;
-  wk.torso.rotation.x=pose.lean;wk.head.rotation.x=pose.headX;wk.head.rotation.y=pose.headY;wk.beam.material.opacity=pose.beam*(.55+.35*Math.sin(t*9));
-  wk.g.updateMatrixWorld(true);
-  /* тележка */
-  const co=sss((t-cartOutT)/3.2),cb=sss((t-cartBackT)/3.2),cp=co*(1-cb);cart.position.lerpVectors(cartHome,cartOut,cp);const dist=cartHome.distanceTo(cartOut)*cp;cartWheels.forEach(w=>w.rotation.z=-dist/.075);
-  /* коробки */
-  BOXES.forEach((b,i)=>{const s=bs[i];slotPos(s.from,V,heading);slotPos(s.to,V2,heading);b.mesh.position.lerpVectors(V,V2,s.p);b.mesh.rotation.y=angLerp(slotRot(s.from,heading),slotRot(s.to,heading),s.p);b.mesh.position.y+=Math.sin(s.p*Math.PI)*.18;b.mesh.visible=!(s.from==='cart'&&s.p===0&&t>cartOutT+2.8)});
-  /* подсветка ячейки */
-  const hl=(t0,t1)=>ss((t-t0)/.6)*(1-ss((t-t1)/.6));cellMat.opacity=Math.max(hl(ACT[4].t0-1.4,ACT[4].t1),hl(ACT[7].t0-1.2,ACT[7].t1));
-  /* мониторы «работают» */
-  uis.forEach((q,i)=>{q.material=uiMat;q.visible=Math.sin(t*1.7+i*2.1)>-.6});
-  /* камера: мягкий параллакс за курсором и едва заметное дыхание */
-  sx+=(px-sx)*(1-Math.exp(-dt*3));sy+=(py-sy)*(1-Math.exp(-dt*3));cam.position.copy(target).add(camDir.clone().multiplyScalar(60));cam.position.x+=sx*1.4+.08*Math.sin(t*.35);cam.position.z-=sx*1.4-.08*Math.sin(t*.35);cam.position.y-=sy*1.1+.05*Math.sin(t*.5);cam.lookAt(target);
-  const st=STAGES[a.st];if(curStage!==st[0]){curStage=st[0];stEl.textContent=curStage;stN.textContent=st[1]+' / 04';stEl.parentElement.classList.remove('swap');void stEl.offsetWidth;stEl.parentElement.classList.add('swap')}
-  ren.render(scene,cam);if(!reduce)requestAnimationFrame(render)};
- requestAnimationFrame(render);}
+/* ===== анимация склада от заказчика (assets/tovar-v-dele-animation.html): подпись этапа берём из iframe ===== */
+function initScene(){const f=$('#anim'),stEl=$('#stage'),stN=$('#stageN');let cur='';
+ const sync=()=>{try{const d=f.contentDocument,ph=d&&d.getElementById('phase'),n=d&&d.getElementById('counter');const t=ph&&ph.textContent;
+  if(t&&t!==cur){cur=t;stEl.textContent=t;stN.textContent=n.textContent;stEl.parentElement.classList.remove('swap');void stEl.offsetWidth;stEl.parentElement.classList.add('swap')}}catch(e){}};
+ setInterval(sync,250);}
 /* hero orchestration */
 addEventListener('load',()=>{try{initScene()}catch(e){console.error(e)}requestAnimationFrame(()=>{$('#hero').classList.add('live');setTimeout(()=>{$('#screen').classList.add('live');$$('.counters strong').forEach(count)},reduce?0:200)})});
 })();
