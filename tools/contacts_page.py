@@ -19,7 +19,7 @@ BASE = 'https://x3-team.github.io/fulfillment-site/'
 # Адрес склада, как его искать в Яндекс.Картах, например 'Москва, ул. Складская, 1'.
 WAREHOUSE = 'Тула, ул. Пролетарская, д. 127/1'
 # Координаты склада 'долгота,широта' (из Яндекс.Карт: клик по точке → координаты, порядок поменять).
-# Если пусто, карта ищет по адресу WAREHOUSE.
+# Без координат карты нет (показывается заглушка).
 COORDS = '37.640777,54.206822'
 # Телефон в любом виде, например '+7 (495) 123-45-67'. Пока пусто — карточка не показывается.
 PHONE = '+7 (916) 728-42-46'
@@ -57,7 +57,8 @@ a.kc:hover{border-color:var(--acc)}
 .kc b{font-size:clamp(20px,1.8vw,24px);font-weight:600;letter-spacing:-.01em;line-height:1.25}
 .kc p{color:var(--ink5);font-size:15px}
 .map{position:relative;min-height:440px;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--card)}
-.map iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.map .ymap{position:absolute;inset:0}
+.map [class*="-gototaxi"],.map [class*="-map-copyrights-promo"]{display:none!important}
 .map .ph{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:16px;padding:32px;text-align:center}
 .map .ph p{max-width:36ch;color:var(--ink7)}
 .map .ph .mono{color:var(--ink5)}
@@ -85,6 +86,10 @@ const copy=(btn,text)=>{const done=()=>{const l=btn.querySelector('span'),t=l.te
  if(navigator.clipboard)navigator.clipboard.writeText(text).then(done,()=>{});else{const a=document.createElement('textarea');a.value=text;document.body.append(a);a.select();document.execCommand('copy');a.remove();done()}};
 document.querySelectorAll('.cp').forEach(b=>b.onclick=()=>copy(b,b.dataset.v));
 $('#copyAll').onclick=()=>copy($('#copyAll'),[...document.querySelectorAll('.req .row')].map(r=>r.querySelector('dt').textContent+': '+r.querySelector('dd').textContent).join('\\n'));
+const mapEl=$('#map[data-ll]');if(mapEl){const show=()=>{const s=document.createElement('script');s.src='https://api-maps.yandex.ru/2.1/?lang=ru_RU';s.onload=()=>ymaps.ready(()=>{const ll=mapEl.dataset.ll.split(',').map(Number);
+ const m=new ymaps.Map(mapEl.querySelector('.ymap'),{center:ll,zoom:16,controls:['zoomControl']},{suppressMapOpenBlock:true});m.behaviors.disable('scrollZoom');if(matchMedia('(pointer:coarse)').matches)m.behaviors.disable('drag');
+ m.geoObjects.add(new ymaps.Placemark(ll,{hintContent:mapEl.dataset.hint},{preset:'islands#blueDotIcon',iconColor:'#1A5CFF'}))});document.head.append(s)};
+ if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)){io.disconnect();show()}},{rootMargin:'300px'});io.observe(mapEl)}else show()}
 </script>'''
 
 
@@ -102,12 +107,11 @@ def relink(s):
 
 
 def map_html():
-    if WAREHOUSE or COORDS:
-        if COORDS:
-            q = f'll={COORDS}&z=16&pt={COORDS},pm2blm'
-        else:
-            q = 'text=' + quote(WAREHOUSE) + '&z=16'
-        return (f'<div class="map"><iframe src="https://yandex.ru/map-widget/v1/?{e(q)}" title="Склад «Товар в деле» на Яндекс.Картах" loading="lazy" allowfullscreen></iframe>'
+    if COORDS:
+        # JS API Яндекс.Карт: в отличие от виджета map-widget, не показывает рекламные блоки.
+        # Кнопку «Открыть в Яндекс Картах» API рисует сам.
+        lon, lat = COORDS.split(',')
+        return (f'<div class="map" id="map" data-ll="{lat},{lon}" data-hint="{e(WAREHOUSE)}"><div class="ymap" role="region" aria-label="Склад «Товар в деле» на карте"></div>'
                 '</div>')
     # Заглушка: условная схема кварталов вместо карты, пока нет адреса.
     roads = ''.join(f'<i class="road" style="{s}"></i>' for s in (
