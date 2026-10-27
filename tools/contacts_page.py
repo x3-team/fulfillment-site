@@ -62,7 +62,6 @@ a.kc:hover{border-color:var(--acc)}
 .map .ph p{max-width:36ch;color:var(--ink7)}
 .map .ph .mono{color:var(--ink5)}
 .map .road{position:absolute;background:#fff;border:1px solid var(--line)}
-.map .open{position:absolute;left:16px;bottom:16px;z-index:2}
 @media (max-width:599px){.map{min-height:360px;margin-inline:-20px;border-radius:0;border-inline:0}.kc{padding:22px 20px 24px}}
 .req{display:grid;gap:40px}@media (min-width:1000px){.req{grid-template-columns:400px 1fr;gap:80px;align-items:start}.req .l{position:sticky;top:96px}}
 .req .l{display:grid;gap:20px;justify-items:start}
@@ -108,9 +107,8 @@ def map_html():
             q = f'll={COORDS}&z=16&pt={COORDS},pm2blm'
         else:
             q = 'text=' + quote(WAREHOUSE) + '&z=16'
-        open_url = 'https://yandex.ru/maps/?' + ('text=' + quote(WAREHOUSE) if WAREHOUSE else f'pt={COORDS}&z=16')
         return (f'<div class="map"><iframe src="https://yandex.ru/map-widget/v1/?{e(q)}" title="Склад «Товар в деле» на Яндекс.Картах" loading="lazy" allowfullscreen></iframe>'
-                f'<a class="btn light m open" href="{e(open_url)}" target="_blank" rel="noopener"><span>Открыть в Яндекс.Картах</span></a></div>')
+                '</div>')
     # Заглушка: условная схема кварталов вместо карты, пока нет адреса.
     roads = ''.join(f'<i class="road" style="{s}"></i>' for s in (
         'left:-5%;right:-5%;top:34%;height:22px;transform:rotate(-8deg)',
