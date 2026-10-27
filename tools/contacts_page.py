@@ -17,14 +17,13 @@ BASE = 'https://x3-team.github.io/fulfillment-site/'
 
 # ---- заполнить, когда заказчик пришлёт ----
 # Адрес склада, как его искать в Яндекс.Картах, например 'Москва, ул. Складская, 1'.
-WAREHOUSE = ''
+WAREHOUSE = 'Тула, ул. Пролетарская, д. 127/1'
 # Координаты склада 'долгота,широта' (из Яндекс.Карт: клик по точке → координаты, порядок поменять).
 # Если пусто, карта ищет по адресу WAREHOUSE.
-COORDS = ''
+COORDS = '37.640777,54.206822'
 # Телефон в любом виде, например '+7 (495) 123-45-67'. Пока пусто — карточка не показывается.
-PHONE = ''
+PHONE = '+7 (916) 728-42-46'
 TG = 'https://t.me/'
-LK = 'https://seller.yuri.guru'
 
 # Реквизиты: по просьбе заказчика только ИП, ИНН и банковские (без адресов и ОГРНИП).
 REQ = [
@@ -109,7 +108,7 @@ def map_html():
             q = f'll={COORDS}&z=16&pt={COORDS},pm2blm'
         else:
             q = 'text=' + quote(WAREHOUSE) + '&z=16'
-        open_url = 'https://yandex.ru/maps/?' + (f'pt={COORDS}&z=16' if COORDS else 'text=' + quote(WAREHOUSE))
+        open_url = 'https://yandex.ru/maps/?' + ('text=' + quote(WAREHOUSE) if WAREHOUSE else f'pt={COORDS}&z=16')
         return (f'<div class="map"><iframe src="https://yandex.ru/map-widget/v1/?{e(q)}" title="Склад «Товар в деле» на Яндекс.Картах" loading="lazy" allowfullscreen></iframe>'
                 f'<a class="btn light m open" href="{e(open_url)}" target="_blank" rel="noopener"><span>Открыть в Яндекс.Картах</span></a></div>')
     # Заглушка: условная схема кварталов вместо карты, пока нет адреса.
@@ -119,7 +118,7 @@ def map_html():
         'top:-5%;bottom:-5%;left:28%;width:18px;transform:rotate(12deg)',
         'top:-5%;bottom:-5%;left:70%;width:12px;transform:rotate(-6deg)'))
     return (f'<div class="map isogrid" id="map">{roads}<div class="ph">{PIN}'
-            '<span class="mono">Склад · Москва</span>'
+            '<span class="mono">Склад</span>'
             '<p>Точный адрес склада и схему проезда пришлём в Telegram или вместе с расчётом.</p></div></div>')
 
 
@@ -127,7 +126,7 @@ def page(src):
     css_link = '<link rel="stylesheet" href="kontakty.css">'
     head = block(src, '<!doctype html>', '<style>')[:-len('<style>')]
     head = re.sub(r'<title>.*?</title>', '<title>Контакты и реквизиты — Товар в деле</title>', head)
-    head = re.sub(r'<meta name="description"[^>]*>', '<meta name="description" content="Контакты фулфилмента «Товар в деле»: Telegram, личный кабинет, адрес склада в Москве и реквизиты ИП Зозуля М. А.">'
+    head = re.sub(r'<meta name="description"[^>]*>', '<meta name="description" content="Контакты фулфилмента «Товар в деле»: телефон, Telegram, адрес склада в Туле и реквизиты ИП Зозуля М. А.">'
                   f'\n<link rel="canonical" href="{BASE}kontakty/">', head)
     header = relink(block(src, '<header class="hdr"', '</header>'))
     header = header.replace('<a href="./">Контакты</a>', '<a href="./" aria-current="page">Контакты</a>')
@@ -136,17 +135,17 @@ def page(src):
     cards = ''
     if PHONE:
         tel = re.sub(r'[^\d+]', '', PHONE)
-        cards += f'<a class="kc" href="tel:{tel}"><div class="r"><span class="mono">Телефон</span><em>{ARR}</em></div><b>{e(PHONE)}</b><p>Ежедневно, 9:00–21:00 МСК</p></a>'
+        cards += f'<a class="kc" href="tel:{tel}"><div class="r"><span class="mono">Телефон</span><em>{ARR}</em></div><b>{e(PHONE)}</b><p>Позвоните менеджеру — ответим на вопросы и посчитаем партию.</p></a>'
     cards += (f'<a class="kc" href="{TG}" target="_blank" rel="noopener"><div class="r"><span class="mono">Telegram</span><em>{ARR}</em></div><b>Написать менеджеру</b><p>В рабочее время отвечаем в течение 10 минут.</p></a>'
               f'<a class="kc" href="../#calc"><div class="r"><span class="mono">Расчёт</span><em>{ARR}</em></div><b>Посчитать в калькуляторе</b><p>Цена за единицу до договора. Нажмите «Получить точный расчёт» — менеджер пришлёт расчёт и проект договора.</p></a>'
-              f'<a class="kc" href="{LK}" target="_blank" rel="noopener"><div class="r"><span class="mono">Клиентам</span><em>{ARR}</em></div><b>Личный кабинет</b><p>Остатки, приёмки и отгрузки в нашем WMS.</p></a>')
-    addr = e(WAREHOUSE) if WAREHOUSE else 'Москва'
+              )
+    addr = e(WAREHOUSE) if WAREHOUSE else 'Адрес уточняется'
     cards += f'<div class="kc"><div class="r"><span class="mono">Склад</span></div><b>{addr}</b><p>Приезжайте на экскурсию: покажем приёмку, упаковку и хранение вашего товара.</p></div>'
 
     rows = ''.join(f'<div class="row"><dt>{e(k)}</dt><dd>{e(v)}</dd><button class="cp" type="button" data-v="{e(v)}" aria-label="Скопировать: {e(k)}">{COPY}<span>Копировать</span></button></div>' for k, v in REQ)
     ld = {'@context': 'https://schema.org', '@type': 'LocalBusiness', 'name': 'Товар в деле', 'url': BASE,
           'legalName': REQ[0][1], 'taxID': REQ[1][1], 'description': 'Фулфилмент для маркетплейсов и интернет-магазинов',
-          'address': {'@type': 'PostalAddress', 'addressLocality': 'Москва', 'addressCountry': 'RU', **({'streetAddress': WAREHOUSE} if WAREHOUSE else {})}}
+          'address': {'@type': 'PostalAddress', 'addressLocality': 'Тула', 'addressCountry': 'RU', **({'streetAddress': WAREHOUSE} if WAREHOUSE else {})}}
     if PHONE:
         ld['telephone'] = PHONE
 
@@ -159,7 +158,7 @@ def page(src):
 
 <main>
 <section class="paper kh"><div class="wrap">
- <div class="l"><span class="tag acc"><b>01</b><i>Контакты</i></span><h1>Контакты</h1><p class="lead">Фулфилмент «Товар в деле» в Москве. Пишите в Telegram или посчитайте партию в калькуляторе — пришлём точный расчёт и проект договора.</p></div>
+ <div class="l"><span class="tag acc"><b>01</b><i>Контакты</i></span><h1>Контакты</h1><p class="lead">Фулфилмент «Товар в деле». Звоните, пишите в Telegram или посчитайте партию в калькуляторе — пришлём точный расчёт и проект договора.</p></div>
  <div class="kgrid">
   <div class="kcards">{cards}</div>
   {map_html()}
