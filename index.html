@@ -63,8 +63,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 /* hero */
 .hero{--h1:clamp(64px,10.4vw,200px);position:relative;margin-top:-95px;padding:95px 0 0;background-color:var(--paper);isolation:isolate;overflow-x:clip}
 .hero .stage::before{content:"";position:absolute;z-index:-1;top:-95px;bottom:0;left:-100vmax;right:-100vmax;background-image:linear-gradient(#E4ECF8 1px,transparent 1px),linear-gradient(90deg,#E4ECF8 1px,transparent 1px);background-size:190px 80px;background-position:calc(50% - 95px) 100%;pointer-events:none}
-.ruler{position:absolute;left:50%;transform:translateX(-50%);top:8px;width:min(1830px,100% - 40px);height:14px;color:var(--ink3);border-bottom:1px solid #9DB6E8;background:repeating-linear-gradient(90deg,#9DB6E8 0 1px,transparent 1px 10px) 0 100%/100% 5px no-repeat}
-.ruler span{position:absolute;top:-2px;font-size:8px;letter-spacing:0;transform:translateX(-50%)}.ruler span:first-child{transform:none}.ruler span:last-child{transform:translateX(-100%)}
 .hero .stage{position:relative;min-height:max(640px,calc(100svh - 95px - 56px));display:grid;align-content:end;padding:24px 0 40px}
 .screen{position:absolute;left:14%;right:max(14%,260px);top:0;bottom:calc(var(--h1) * .9);pointer-events:auto}
 .screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;pointer-events:none;color-scheme:normal}
@@ -73,23 +71,19 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .hero .sub{font-size:clamp(20px,1.55vw,26px);line-height:1.3;color:var(--acc6);letter-spacing:-.01em;margin-bottom:clamp(8px,1.4vw,24px)}
 .hero h1{font-size:var(--h1);line-height:.92;font-weight:500;letter-spacing:-.055em;color:var(--acc);white-space:nowrap;margin-left:-.05em}
 .hero h1 .ln{padding-bottom:.14em;margin-bottom:-.14em}
-.svc{position:absolute;right:0;top:40px;bottom:calc(40px + var(--h1) * 1.05 + 56px);width:200px;display:grid;grid-template-rows:auto 1fr;gap:16px;z-index:2}
-.svc .hd{display:flex;justify-content:space-between;align-items:baseline}.svc .hd span{font-size:8px;letter-spacing:.16em;color:var(--ink7)}.svc .hd b{font-weight:500;font-size:7px;letter-spacing:.14em;color:var(--acc)}
+.svc{position:absolute;right:0;top:40px;bottom:40px;width:210px;display:grid;padding-left:18px;border-left:1px solid var(--line);z-index:2}
 .strip{min-height:0;overflow:hidden;-webkit-mask-image:linear-gradient(#0000,#000 12% 84%,#0000);mask-image:linear-gradient(#0000,#000 12% 84%,#0000)}
 .strip ul{list-style:none;margin:0;padding:0;display:grid;gap:12px;animation:strip 40s linear infinite;will-change:transform}
 .strip:hover ul{animation-play-state:paused}
 .strip li{font-size:14px;line-height:20px;color:var(--ink7);white-space:nowrap}.strip li a{transition:color var(--fast)}.strip li a:hover{color:var(--acc)}
 @keyframes strip{to{transform:translateY(-50%)}}
-.svc-all{position:absolute;right:0;bottom:calc(40px + var(--h1) * 1.05 + 14px);display:flex;gap:10px;align-items:center;font-size:14px;color:var(--ink7);z-index:2}.svc-all:hover{color:var(--acc)}
-.status{position:absolute;right:0;bottom:48px;display:flex;align-items:center;gap:14px;font-size:14px;color:var(--ink7);z-index:2}
-.status .mono{color:var(--acc)}.status.swap span:first-child{animation:fade var(--slow) var(--std)}
 .hero .more{display:grid;gap:32px;align-items:end;padding:40px 0 64px;border-top:1px solid var(--line)}
 @media (min-width:900px){.hero .more{grid-template-columns:1fr auto}}
 .hero .lead{max-width:60ch}
 .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
 .counters{display:flex;gap:32px}.counters div{display:grid;gap:4px}.counters strong{font-size:36px;line-height:1.05;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.counters span{color:var(--ink5)}
-@media (max-width:1099px){.svc,.svc-all{display:none}.screen{left:0;right:0}.stages{display:none}}
-@media (max-width:899px){.hero .stage{min-height:0;padding-top:0}.screen{position:relative;inset:auto;aspect-ratio:16/11;max-height:70svh;margin:0 -20px}.status{position:static;margin-top:20px}.hero h1{white-space:normal}}
+@media (max-width:1099px){.svc{display:none}.screen{left:0;right:0}.stages{display:none}}
+@media (max-width:899px){.hero .stage{min-height:0;padding-top:0}.screen{position:relative;inset:auto;aspect-ratio:16/11;max-height:70svh;margin:0 -20px}.hero h1{white-space:normal}}
 /* sections */
 section{padding:clamp(72px,9vw,120px) 0}
 .sec-head{display:grid;gap:20px;align-items:end;margin-bottom:clamp(32px,4vw,56px)}
@@ -319,20 +313,17 @@ html.modal{overflow:hidden}
 
 <main>
 <section class="hero" id="hero">
- <div class="ruler mono" aria-hidden="true"><span style="left:0%">00</span><span style="left:20%">20</span><span style="left:40%">40</span><span style="left:60%">60</span><span style="left:80%">80</span><span style="left:100%">100</span></div>
  <div class="wrap wide">
  <div class="stage">
   <div class="screen" id="screen" aria-label="3D-сцена: как работает фулфилмент">
    <iframe id="anim" src="assets/tovar-v-dele-animation.html" title="Комплектация заказа — Товар в деле" tabindex="-1" aria-hidden="true"></iframe>
   </div>
-  <p class="stages mono" aria-hidden="true">Подбор · Сканирование · Маркировка · Упаковка</p>
-  <aside class="svc" aria-label="Услуги"><div class="hd mono"><span>Услуги</span><b>23 направления</b></div><div class="strip"><ul id="stripList"></ul></div></aside>
-  <a class="svc-all" href="#services">Все 23 <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8 8 2M3.5 2H8v4.5" stroke="currentColor" stroke-width="1.2"/></svg></a>
+  <p class="stages mono" aria-hidden="true">Приёмка · Хранение · Комплектация · Доставка</p>
+  <aside class="svc" aria-label="Услуги"><div class="strip"><ul id="stripList"></ul></div></aside>
   <div class="title">
    <p class="sub">Фулфилмент для маркетплейсов<br>и интернет-магазинов</p>
    <h1><span class="ln"><span>Товар в деле</span></span></h1>
   </div>
-  <div class="status"><span id="stage">Находим товар</span><span class="mono" id="stageN">01 / 03</span></div>
  </div>
  <div class="more">
   <div><p class="lead">FBS, FBO и хранение для Wildberries, Ozon и Яндекс Маркета. А магазин, маркетинг и интеграции сделает наше digital-агентство — в связке с фулфилментом.</p>
@@ -605,13 +596,8 @@ lf.addEventListener('submit',async e=>{e.preventDefault();const bad=['name','pho
 /* clock */
 const tick=()=>{const d=new Date(Date.now()+3*36e5);const s=String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0');const c=$('#clock');if(c)c.textContent=s+' МСК';$('#ftClock').textContent=s};tick();setInterval(tick,30000);
 
-/* ===== анимация склада от заказчика (assets/tovar-v-dele-animation.html): подпись этапа берём из iframe ===== */
-function initScene(){const f=$('#anim'),stEl=$('#stage'),stN=$('#stageN');let cur='';
- const sync=()=>{try{const d=f.contentDocument,ph=d&&d.getElementById('phase'),n=d&&d.getElementById('counter');const t=ph&&ph.textContent;
-  if(t&&t!==cur){cur=t;stEl.textContent=t;stN.textContent=n.textContent;stEl.parentElement.classList.remove('swap');void stEl.offsetWidth;stEl.parentElement.classList.add('swap')}}catch(e){}};
- setInterval(sync,250);}
 /* hero orchestration */
-addEventListener('load',()=>{try{initScene()}catch(e){console.error(e)}requestAnimationFrame(()=>{$('#hero').classList.add('live');setTimeout(()=>{$('#screen').classList.add('live');$$('.counters strong').forEach(count)},reduce?0:200)})});
+addEventListener('load',()=>{requestAnimationFrame(()=>{$('#hero').classList.add('live');setTimeout(()=>{$('#screen').classList.add('live');$$('.counters strong').forEach(count)},reduce?0:200)})});
 })();
 </script>
 </body>
