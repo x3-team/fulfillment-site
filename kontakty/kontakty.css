@@ -50,6 +50,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .hdr .wrap{position:relative}
 .hdr .acts{display:flex;gap:12px;margin-left:auto}
 .hdr .lk{display:none;margin-left:auto}
+.hdr .tel{display:none;margin-left:auto;margin-right:-16px;font-weight:600;font-size:15px;white-space:nowrap;transition:color var(--fast)}.hdr .tel:hover{color:var(--acc)}
+@media (min-width:1360px){.hdr .tel{display:inline-flex}.hdr .tel~.lk{margin-left:0}}
 @media (min-width:1000px){.nav{display:flex}.hdr .acts{display:none}.hdr .lk{display:inline-flex}}
 /* hero */
 .hero{--h1:clamp(64px,10.4vw,200px);position:relative;margin-top:-95px;padding:95px 0 0;background-color:var(--paper);isolation:isolate;overflow-x:clip}
