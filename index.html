@@ -81,7 +81,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 @media (min-width:900px){.hero .more{grid-template-columns:1fr auto}}
 .hero .lead{max-width:60ch}
 .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
-.counters{display:flex;gap:32px}.counters div{display:grid;gap:4px}.counters strong{font-size:36px;line-height:1.05;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.counters span{color:var(--ink5)}
 @media (max-width:1099px){.svc{display:none}.screen{left:0;right:0}.stages{display:none}}
 @media (max-width:899px){.hero .stage{min-height:0;padding-top:0}.screen{position:relative;inset:auto;aspect-ratio:16/11;max-height:70svh;margin:0 -20px}.hero h1{white-space:normal}}
 /* sections */
@@ -260,7 +259,7 @@ footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between
 .rv{opacity:0;transform:translateY(16px);transition:opacity var(--reveal) var(--emph),transform var(--reveal) var(--emph)}.rv.in{opacity:1;transform:none}
 .hero h1 .ln{display:block;overflow:hidden}.hero h1 .ln span{display:block;transform:translateY(110%);transition:transform var(--reveal) var(--emph)}
 .hero.live h1 .ln span{transform:none}
-@media (max-width:640px){.counters{flex-wrap:wrap;gap:20px 28px}.counters strong{font-size:28px}}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:1ms!important}.rv{opacity:1;transform:none}.hero h1 .ln span{transform:none}}
 /* sticky CTA bar */
 body{padding-bottom:56px}
@@ -328,7 +327,6 @@ html.modal{overflow:hidden}
  <div class="more">
   <div><p class="lead">FBS, FBO и хранение для Wildberries, Ozon и Яндекс Маркета. А магазин, маркетинг и интеграции сделает наше digital-агентство — в связке с фулфилментом.</p>
    <div class="ctas"><a class="btn primary" href="#calc"><span>Рассчитать стоимость</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></a><a class="btn ghost" href="https://t.me/" target="_blank" rel="noopener"><span>Написать в Telegram</span></a></div></div>
-  <div class="counters"><div><strong data-count="3000" data-suffix="+">0</strong><span class="mono">заказов в день</span></div><div><strong data-count="99.9" data-dec="1" data-suffix="%">0</strong><span class="mono">точность сборки</span></div><div><strong data-count="1" data-suffix=" день">0</strong><span class="mono">до старта</span></div></div>
  </div>
 </div></section>
 
@@ -597,7 +595,7 @@ lf.addEventListener('submit',async e=>{e.preventDefault();const bad=['name','pho
 const tick=()=>{const d=new Date(Date.now()+3*36e5);const s=String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0');const c=$('#clock');if(c)c.textContent=s+' МСК';$('#ftClock').textContent=s};tick();setInterval(tick,30000);
 
 /* hero orchestration */
-addEventListener('load',()=>{requestAnimationFrame(()=>{$('#hero').classList.add('live');setTimeout(()=>{$('#screen').classList.add('live');$$('.counters strong').forEach(count)},reduce?0:200)})});
+addEventListener('load',()=>{requestAnimationFrame(()=>{$('#hero').classList.add('live');setTimeout(()=>{$('#screen').classList.add('live')},reduce?0:200)})});
 })();
 </script>
 </body>
