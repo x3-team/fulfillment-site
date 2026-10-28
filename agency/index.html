@@ -36,6 +36,7 @@ p{margin:0}
 .tag.inv{border-color:rgba(255,255,255,.5)}.tag.inv b{background:#fff;color:var(--acc)}.tag.inv i{color:#fff}
 .btn{display:inline-flex;align-items:stretch;height:56px;border-radius:2px;font-weight:500;font-size:16px;white-space:nowrap;transition:background var(--base) var(--std),color var(--base) var(--std),border-color var(--base) var(--std)}
 .btn>span{display:flex;align-items:center;padding:0 24px}
+.btn{max-width:100%}.btn>span{min-width:0;white-space:normal;line-height:1.2}
 .btn>em{display:flex;align-items:center;justify-content:center;width:56px;border-left:1px solid rgba(255,255,255,.35);font-style:normal;transition:background var(--base) var(--std)}
 .btn>em svg{transition:transform var(--base) var(--std)}
 .btn.m{height:44px;font-size:15px}.btn.m>span{padding:0 18px}.btn.m>em{width:44px}
@@ -147,7 +148,7 @@ section{padding:clamp(72px,9vw,120px) 0}
 .who p{color:var(--ink5)}
 .who .fix{display:grid;gap:6px;margin-top:8px;padding-top:16px;border-top:1px solid var(--line)}.who .fix .mono{color:var(--acc)}.who .fix p{color:var(--ink)}
 /* cases */
-.cases{display:grid;gap:16px}@media (min-width:1000px){.cases{grid-template-columns:repeat(3,1fr)}}
+.cases{display:grid;gap:16px}.cases>*{min-width:0}@media (min-width:1000px){.cases{grid-template-columns:repeat(3,1fr)}}
 .case{display:grid;gap:20px;align-content:start;padding:28px 28px 32px;background:var(--card);border-radius:4px;border:1px solid var(--line)}
 .case .r{display:flex;justify-content:space-between;gap:12px;color:var(--ink5)}
 .case h3{font-size:22px}
@@ -212,6 +213,7 @@ footer .wm{font-size:clamp(56px,13vw,200px);line-height:.9;font-weight:700;lette
 footer .cols{display:grid;gap:40px}@media (min-width:800px){footer .cols{grid-template-columns:2fr 1fr 1fr 1fr}}
 footer .cols .mono{color:#A9B6D0;margin-bottom:12px;display:block}footer .cols a{display:block;font-size:14px;margin-top:10px}footer .cols a:hover{color:#5C8DFF}
 footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;margin-top:48px;padding-top:24px;border-top:1px solid var(--dark7);font-size:14px;color:#A9B6D0}
+footer .made{margin-top:20px;font-size:13px;color:#7F8DAE}footer .made a{color:#7F8DAE;display:inline-flex;align-items:center;gap:6px;transition:color var(--fast)}footer .made b{color:#fff;font-weight:600;letter-spacing:.01em}footer .made i{font-style:normal;color:#5C8DFF;transition:transform var(--base) var(--std)}footer .made a:hover{color:#fff}footer .made a:hover i{transform:translate(2px,-2px)}
 /* menu */
 .menu{position:fixed;inset:0;z-index:50;background:var(--paper);padding:24px 0 48px;overflow:auto;transform:translateY(-100%);visibility:hidden;transition:transform var(--reveal) var(--emph),visibility 0s var(--reveal)}
 .menu.open{transform:none;visibility:visible;transition:transform var(--reveal) var(--emph)}
@@ -372,6 +374,7 @@ html.modal{overflow:hidden}
   <div><span class="mono">Свой канал</span><a href="uslugi/razrabotka-internet-magazina/">Интернет-магазин</a><a href="uslugi/internet-marketing/">Интернет-маркетинг</a><a href="uslugi/integracii-i-chestnyj-znak/">Интеграции и «Честный знак»</a><a href="uslugi/skvoznaya-analitika/">Сквозная аналитика</a></div>
   <div><span class="mono">Компания</span><a href="uslugi/">Все услуги</a><a href="#cases">Кейсы</a><a href="#plans">Цены</a><a href="#process">Как мы работаем</a><a href="../" target="_blank" rel="noopener">Фулфилмент ↗</a></div></div>
  <div class="legal"><span>© 2026 Бренд Digital · ООО «—» · ИНН 0000000000 · Работаем по ЭДО</span><span><a href="#">Политика конфиденциальности</a> &nbsp;·&nbsp; <a href="#">Оферта</a></span></div>
+ <div class="made"><a href="https://solentica.agency/" target="_blank" rel="noopener">Сайт сделан в студии <b>Solentica</b><i aria-hidden="true">↗</i></a></div>
 </div></footer>
 
 <div class="menu" id="menu" aria-hidden="true"><div class="wrap">

@@ -60,6 +60,7 @@ p{margin:0}
 .tag.acc{border-color:var(--acc);background:var(--acc)}.tag.acc b{background:var(--ink);color:var(--acc)}.tag.acc i{color:#fff}
 .btn{display:inline-flex;align-items:stretch;height:56px;border-radius:2px;font-weight:500;font-size:16px;white-space:nowrap;transition:background var(--base) var(--std),color var(--base) var(--std),border-color var(--base) var(--std)}
 .btn>span{display:flex;align-items:center;padding:0 24px}
+.btn{max-width:100%}.btn>span{min-width:0}@media (max-width:359px){.btn>span{white-space:normal;line-height:1.2;padding:0 16px}}
 .btn>em{display:flex;align-items:center;justify-content:center;width:56px;border-left:1px solid rgba(255,255,255,.35);font-style:normal;transition:background var(--base) var(--std)}
 .btn>em svg{transition:transform var(--base) var(--std)}
 .btn.m{height:44px;font-size:15px}.btn.m>span{padding:0 18px}.btn.m>em{width:44px}
@@ -85,8 +86,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .hdr .tel{display:none;margin-left:auto;font-weight:600;font-size:15px;white-space:nowrap;transition:color var(--fast)}.hdr .tel:hover{color:var(--acc)}
 @media (min-width:1000px){.nav{display:flex}.hdr .acts{display:none}.hdr .tel{display:inline-flex}}
 /* hero */
-.hero{--h1:clamp(64px,10.4vw,200px);position:relative;margin-top:-95px;padding:95px 0 0;background-color:var(--paper);isolation:isolate;overflow-x:clip}
-.hero .stage{position:relative;min-height:max(640px,calc(100svh - 95px - 56px));display:grid;align-content:end;padding:24px 0 40px}
+.hero{--h1:clamp(64px,min(10.4vw,19svh),200px);position:relative;margin-top:-95px;padding:95px 0 0;background-color:var(--paper);isolation:isolate;overflow-x:clip}
+.hero .stage{position:relative;min-height:max(480px,calc(100svh - 95px - 56px));display:grid;align-content:end;padding:24px 0 40px}
 .screen{position:absolute;left:14%;right:max(14%,260px);top:0;bottom:calc(var(--h1) * .9);pointer-events:auto}
 .screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;pointer-events:none;color-scheme:normal}
 .stages{position:absolute;left:-46px;top:calc(50vh - 95px);top:calc(50svh - 95px);transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;color:var(--ink5);margin:0;font-size:9px;letter-spacing:.18em}
@@ -105,7 +106,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .hero .lead{max-width:60ch}
 .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
 @media (max-width:1099px){.svc{display:none}.screen{left:0;right:0}.stages{display:none}}
-@media (max-width:899px){.hero .stage{min-height:0;padding-top:0}.screen{position:relative;inset:auto;aspect-ratio:16/11;max-height:70svh;margin:0 -20px}.hero h1{white-space:normal}}
+@media (max-width:899px){.hero .stage{min-height:0;padding-top:0}.screen{position:relative;inset:auto;aspect-ratio:16/11;max-height:min(70svh,max(120px,calc(100svh - 360px)));margin:0 -20px}.hero h1{white-space:normal}}
+@media (max-width:899px) and (orientation:landscape){.screen{height:max(100px,calc(100svh - 290px));margin:0 auto}.hero{--h1:clamp(44px,14svh,64px)}}
 /* sections */
 section{padding:clamp(72px,9vw,120px) 0}
 .sec-head{display:grid;gap:20px;align-items:end;margin-bottom:clamp(32px,4vw,56px)}
@@ -116,7 +118,7 @@ section{padding:clamp(72px,9vw,120px) 0}
 .acc{border-top:1px solid var(--line)}
 .acc .grp{padding:28px 0 12px;color:var(--ink5)}
 .acc details{border-top:1px solid var(--line)}
-.acc summary{list-style:none;display:grid;grid-template-columns:72px 1fr 28px;align-items:center;gap:24px;padding:24px 0;cursor:pointer}
+.acc summary{list-style:none;display:grid;grid-template-columns:72px 1fr 28px;align-items:center;gap:24px;padding:24px 0;cursor:pointer}@media (max-width:379px){.acc summary{grid-template-columns:44px minmax(0,1fr) 24px;gap:12px}}
 .acc summary::-webkit-details-marker{display:none}
 .acc summary .num{color:var(--ink5);transition:color var(--fast)}
 .acc summary h3{font-size:clamp(26px,3.2vw,44px);font-weight:600;letter-spacing:-.02em;transition:transform var(--base) var(--std),color var(--fast)}
@@ -144,6 +146,7 @@ section{padding:clamp(72px,9vw,120px) 0}
 .stepper input{width:140px;min-width:0;border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);text-align:center;font:inherit;font-size:24px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);background:transparent;-moz-appearance:textfield}
 .stepper.s{height:40px}.stepper.s button{width:38px;font-size:18px}.stepper.s input{width:84px;font-size:16px}
 .stepper input::-webkit-inner-spin-button,.stepper input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+@media (pointer:coarse){.stepper.s{height:44px}.stepper.s button{width:44px}}
 .stepper input:focus{outline:2px solid var(--acc);outline-offset:-2px}
 .opts{display:grid;gap:8px}@media (min-width:640px){.opts{grid-template-columns:1fr 1fr}}
 .opt{display:grid;gap:14px;align-content:start;padding:18px 20px;border:1px solid var(--line);border-radius:4px;background:var(--card);transition:border-color var(--fast),background var(--fast)}
@@ -268,6 +271,7 @@ footer .cols{display:grid;gap:40px}@media (min-width:800px){footer .cols{grid-te
 footer .cols .mono{color:#A9B6D0;margin-bottom:12px;display:block}footer .cols a{display:block;font-size:14px;margin-top:10px}footer .cols a:hover{color:#5C8DFF}
 footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;margin-top:48px;padding-top:24px;border-top:1px solid var(--dark7);font-size:14px;color:#A9B6D0}
 footer .legal .docs{display:flex;flex-wrap:wrap;gap:8px 24px}footer .legal a:hover{color:#fff}
+footer .made{margin-top:20px;font-size:13px;color:#7F8DAE}footer .made a{color:#7F8DAE;display:inline-flex;align-items:center;gap:6px;transition:color var(--fast)}footer .made b{color:#fff;font-weight:600;letter-spacing:.01em}footer .made i{font-style:normal;color:#5C8DFF;transition:transform var(--base) var(--std)}footer .made a:hover{color:#fff}footer .made a:hover i{transform:translate(2px,-2px)}
 .ck{position:fixed;left:16px;bottom:calc(var(--dock-h,64px) + 16px);z-index:46;max-width:420px;display:none;gap:14px;padding:18px 20px;background:#fff;border:1px solid var(--line);border-radius:4px;box-shadow:0 12px 32px rgba(10,23,54,.14);font-size:14px;line-height:1.45;color:var(--ink7)}
 .ck.on{display:grid}.ck a{text-decoration:underline}.ck .btn{justify-self:start}@media (max-width:599px){.ck{left:12px;right:12px;max-width:none}}
 /* menu */
@@ -295,7 +299,8 @@ body{padding-bottom:56px}
 .dock a{display:inline-flex;align-items:center;gap:14px;height:38px;padding:0 6px 0 18px;border:1px solid rgba(255,255,255,.55);border-radius:999px;font-size:14px;font-weight:500;white-space:nowrap;transition:background var(--base),border-color var(--base)}
 .dock a i{width:24px;height:24px;border-radius:50%;background:#fff;color:var(--acc);display:grid;place-items:center;transition:transform var(--base) var(--std)}
 .dock a:hover{background:#fff;color:var(--acc)}.dock a:hover i{background:var(--acc);color:#fff;transform:rotate(45deg)}
-.calcbar{bottom:68px}
+.calcbar{bottom:68px;transition:bottom var(--base) var(--std)}
+.dock{transition:transform var(--base) var(--std)}html.in-calc .dock{transform:translateY(110%)}html.in-calc .calcbar{bottom:calc(12px + env(safe-area-inset-bottom,0px))}
 @media (max-width:479px){.dock p{display:none}.dock .wrap{justify-content:center}.dock a{flex:1;justify-content:space-between}}
 /* lead form: the only form on the site, opened from the calculator */
 html.modal{overflow:hidden}
@@ -309,6 +314,7 @@ html.modal{overflow:hidden}
 .lead-sum .kv{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#233A72;border:1px solid #233A72;border-radius:2px}.lead-sum .kv div{background:var(--dark);padding:12px 14px;display:grid;gap:4px}.lead-sum .kv span{font-size:13px;color:#A9B6D0}.lead-sum .kv b{font-weight:600;font-variant-numeric:tabular-nums}
 .lead-sum details summary{cursor:pointer;color:#A9B6D0;font-size:14px;list-style:none}.lead-sum details summary::-webkit-details-marker{display:none}.lead-sum details summary:after{content:" ↓"}.lead-sum details[open] summary:after{content:" ↑"}
 .lead-sum .lines{margin-top:8px;font-size:14px}.lead-sum .lines div{padding:10px 0}
+.lead-sum .sn{display:none;margin:-6px 0 0;font-size:14px;color:#A9B6D0}
 .lead-sum .edit{font-size:14px;color:#5C8DFF;justify-self:start}.lead-sum .edit:hover{color:#fff}
 .lead-f{padding:36px 40px 40px;display:grid;gap:20px;align-content:start}
 .lead-f h2{font-size:clamp(28px,3vw,36px);letter-spacing:-.02em;line-height:1.1;margin:0;padding-right:48px}
@@ -325,7 +331,7 @@ html.modal{overflow:hidden}
 .lead-ok{display:none;padding:56px 40px;align-content:center;gap:16px;justify-items:start}.lead-ok .ic{width:56px;height:56px;display:grid;place-items:center;background:#2BB673;border-radius:2px}
 .lead-ok h2{font-size:clamp(28px,3vw,36px);letter-spacing:-.02em;margin:8px 0 0}.lead-ok p{color:var(--ink5);margin:0;max-width:44ch}
 .lead-dlg.sent .lead-f{display:none}.lead-dlg.sent .lead-ok{display:grid}
-@media (max-width:859px){.lead-sum{padding:28px 20px 24px;gap:16px}.lead-sum .t{font-size:36px}.lead-f,.lead-ok{padding:28px 20px 32px}.lead-dlg .x{top:12px;right:12px;background:transparent;border-color:#233A72;color:#fff}.lead-dlg.sent .x{color:var(--ink);border-color:var(--line)}}
+@media (max-width:859px){.lead-sum{padding:28px 20px 24px;gap:16px}.lead-sum .t{font-size:36px}.lead-f,.lead-ok{padding:28px 20px 32px}.lead-dlg .x{top:12px;right:12px;background:transparent;border-color:#233A72;color:#fff}.lead-dlg.sent .x{color:var(--ink);border-color:var(--line)}.lead-sum .kv{display:none}.lead-sum .sn{display:block}.lead-sum .t{font-size:32px;padding-right:48px}}
 @media (max-width:479px){.lead-dlg{width:100vw;max-height:100svh;height:100svh;border-radius:0}}
 </style>
 </head>
@@ -405,8 +411,8 @@ html.modal{overflow:hidden}
    <span class="mono" style="color:#A9B6D0">Итог по прайсу</span>
    <div class="sum"><b id="total"></b><p id="sumNote"></p></div>
    <div class="stats"><div><span>На 1 ед.</span><b id="perUnit"></b></div><div><span>Вся партия</span><b id="batch"></b></div><div><span>Со скидкой 10%</span><b id="disc"></b></div><div><span>Операций выбрано</span><b id="ops"></b></div></div>
-   <div class="lines" id="lines"></div>
    <div class="acts"><button type="button" class="btn primary" id="leadBtn" aria-haspopup="dialog"><span>Получить точный расчёт</span><em><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></em></button><button type="button" class="btn line" id="addStore" aria-pressed="false"><span>Добавить хранение</span></button></div>
+   <div class="lines" id="lines"></div>
    <p class="note">Расчёт по базовому прайсу. Скидка 10% — на первую партию. Оставьте контакты — менеджер подтвердит точную цену и зафиксирует её в приложении к договору.</p>
   </div>
  </div>
@@ -461,6 +467,7 @@ html.modal{overflow:hidden}
   <div><span class="mono">Агентство ↗</span><a href="agency/#services" target="_blank" rel="noopener">Интернет-магазины</a><a href="agency/#services" target="_blank" rel="noopener">Маркетинг и продвижение</a><a href="agency/#services" target="_blank" rel="noopener">Контент</a><a href="agency/#services" target="_blank" rel="noopener">Интеграции и «Честный знак»</a></div>
   <div><span class="mono">Компания</span><a href="#">О фулфилменте</a><a href="#process">Как мы работаем</a><a href="kontakty/">Контакты</a><a href="kontakty/#rekvizity">Реквизиты</a></div></div>
  <div class="legal"><span>© 2026 Товар в деле · ИП Зозуля М. А. · ИНН 710709737470 · Работаем по ЭДО</span><span class="docs"><a href="dokumenty/politika/">Политика обработки персональных данных</a><a href="dokumenty/soglasie/">Согласие на обработку данных</a><a href="dokumenty/cookies/">Cookies</a><a href="dokumenty/soglashenie/">Пользовательское соглашение</a></span></div>
+ <div class="made"><a href="https://solentica.agency/" target="_blank" rel="noopener">Сайт сделан в студии <b>Solentica</b><i aria-hidden="true">↗</i></a></div>
 </div></footer>
 
 <div class="dock"><div class="wrap wide"><p>От полки — до отправки.</p><a href="#calc">Рассчитать стоимость<i><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8 8 2M3.5 2H8v4.5" stroke="currentColor" stroke-width="1.4"/></svg></i></a></div></div>
@@ -482,6 +489,7 @@ html.modal{overflow:hidden}
   <div class="lead-sum">
    <span class="mono">Ваш расчёт</span>
    <div class="t" id="lTotal"></div>
+   <p class="sn" id="lNote"></p>
    <div class="kv"><div><span>Единиц в партии</span><b id="lUnits"></b></div><div><span>За единицу</span><b id="lPer"></b></div><div><span>Со скидкой 10%</span><b id="lDisc"></b></div><div><span>Операций</span><b id="lOps"></b></div></div>
    <details id="lDet"><summary>Строки расчёта</summary><div class="lines" id="lLines"></div></details>
    <button type="button" class="edit" data-close>← Изменить параметры</button>
@@ -582,17 +590,20 @@ const calc=()=>{const n=units(),rows=[[`Приёмка: ${fmt(n)} × ${money(ACC
 const calcEl=$('#calcIn');
 calcEl.addEventListener('click',e=>{const b=e.target.closest('.stepper button');if(!b)return;const inp=b.parentElement.querySelector('input'),st=+(inp.step||1)||1,min=+(inp.min||0);inp.value=Math.max(min,Math.round((+inp.value+(+b.dataset.d)*st)*10)/10);inp.dispatchEvent(new Event('input',{bubbles:true}))});
 calcEl.addEventListener('input',e=>{const t=e.target;if(t===unitsEl)syncQty();else if(t.id&&t.id.startsWith('q-'))touched.add(t.id.slice(2));calc()});
+calcEl.addEventListener('focusin',e=>{const t=e.target;if(t.type==='number')setTimeout(()=>{try{t.select()}catch(_){}},0)});
+calcEl.addEventListener('focusout',e=>{const t=e.target;if(t.type!=='number')return;const min=+(t.min||0),max=+(t.max||Infinity),v=+t.value;if(t.value===''||!(v>=min))t.value=t===unitsEl?1:Math.max(min,0);else if(v>max)t.value=max;else return;t.dispatchEvent(new Event('input',{bubbles:true}))});
 calcEl.addEventListener('change',e=>{const t=e.target;if(t.checked&&OPS[t.name]&&OPS[t.name].excl)$$(`#${t.name} input[name="${t.name}"]`).forEach(x=>{if(x!==t)x.checked=false});calc()});
 $('#addStore').addEventListener('click',e=>{const b=e.currentTarget,on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.querySelector('span').textContent=on?'Убрать хранение':'Добавить хранение';$('#storeField').hidden=!on;if(on&&innerWidth<1000)$('#storeField').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});calc()});
 syncQty();calc();
+{const seen=new Set(),cio=new IntersectionObserver(es=>{es.forEach(e=>e.isIntersecting?seen.add(e.target):seen.delete(e.target));document.documentElement.classList.toggle('in-calc',seen.size>0)});cio.observe(calcEl);cio.observe($('#calcOut'))}
 /* lead form → email to the manager via EmailJS (static hosting, no backend).
    Fill in the keys from the EmailJS dashboard; while they are empty the form runs in demo mode and only logs the request. */
 const LEAD={service:'',template:'',key:''};
 const CONSENT_ED='27.10.2026';/* редакция dokumenty/soglasie/, менять вместе с LEGAL_ED в tools/legal_pages.py */
 const dlg=$('#leadDlg'),lf=$('#leadForm'),esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const fillSum=()=>{const c=CALC;$('#lTotal').textContent=money(c.total);$('#lUnits').textContent=fmt(c.n)+' ед.';$('#lPer').textContent=money(c.per);$('#lDisc').textContent=money(c.total*(1-DISC));$('#lOps').textContent=c.ops;
+const fillSum=()=>{const c=CALC;$('#lTotal').textContent=money(c.total);$('#lUnits').textContent=fmt(c.n)+' ед.';$('#lPer').textContent=money(c.per);$('#lDisc').textContent=money(c.total*(1-DISC));$('#lOps').textContent=c.ops;$('#lNote').textContent=`${fmt(c.n)} ед. · ${money(c.per)} за единицу · со скидкой 10%: ${money(c.total*(1-DISC))}`;
  $('#lLines').innerHTML=c.rows.map(r=>`<div><span>${esc(r[0])}</span><span>${money(r[1])}</span></div>`).join('')};
-const openLead=()=>{fillSum();dlg.classList.remove('sent');lf.classList.remove('failed');$('#lDet').open=innerWidth>=860;document.documentElement.classList.add('modal');dlg.showModal();setTimeout(()=>lf.name.focus(),50)};
+const openLead=()=>{fillSum();dlg.classList.remove('sent');lf.classList.remove('failed');$('#lDet').open=innerWidth>=860;document.documentElement.classList.add('modal');dlg.showModal();if(matchMedia('(hover:hover)').matches)setTimeout(()=>lf.name.focus(),50);else dlg.scrollTop=0};
 dlg.addEventListener('close',()=>document.documentElement.classList.remove('modal'));
 dlg.addEventListener('click',e=>{if(e.target===dlg||e.target.closest('[data-close]'))dlg.close()});
 $('#leadBtn').addEventListener('click',openLead);
