@@ -1,0 +1,140 @@
+{
+  "_readme": "SEO сайта «Товар в деле». Правьте значения здесь, затем запустите python3 tools/seo.py — он обновит <head> страниц, robots.txt, sitemap.xml и llms.txt. Пустая строка = поле не выводится.",
+
+  "site": {
+    "name": "Товар в деле",
+    "base_url": "https://tovarvdele.ru/",
+    "lang": "ru",
+    "locale": "ru_RU",
+    "og_image": "img/og.png",
+    "og_image_alt": "Товар в деле — фулфилмент для маркетплейсов, склад в Туле",
+    "theme_color": "#0056E0",
+    "title_suffix": " — Товар в деле"
+  },
+
+  "organization": {
+    "name": "Товар в деле",
+    "alternate_name": "Фулфилмент «Товар в деле»",
+    "description": "Фулфилмент для маркетплейсов и интернет-магазинов: склад в Туле, FBS, FBO, хранение, маркировка «Честный знак», возвраты и доставка до СЦ Wildberries, Ozon и Яндекс Маркета.",
+    "legal_name": "Индивидуальный предприниматель Зозуля Мария Алексеевна",
+    "inn": "710709737470",
+    "phone": "+7 (916) 728-42-46",
+    "email": "",
+    "logo": "img/logo-512.png",
+    "price_range": "₽",
+    "area_served": ["Россия"],
+    "address": {
+      "street": "ул. Пролетарская, д. 127/1",
+      "locality": "Тула",
+      "region": "Тульская область",
+      "region_code": "RU-TUL",
+      "postal_code": "",
+      "country": "RU"
+    },
+    "geo": { "lat": 54.206822, "lon": 37.640777 },
+    "opening_hours": [],
+    "_opening_hours_example": [{ "days": ["Mo", "Tu", "We", "Th", "Fr"], "opens": "09:00", "closes": "20:00" }],
+    "same_as": [],
+    "_same_as_example": ["https://t.me/tovarvdele", "https://yandex.ru/maps/org/..."]
+  },
+
+  "verification": {
+    "_readme": "Коды из Яндекс.Вебмастера и Google Search Console (способ «Метатег»), только значение content.",
+    "yandex": "",
+    "google": ""
+  },
+
+  "analytics": {
+    "_readme": "Номер счётчика Яндекс.Метрики. Перед включением дополнить политику cookies (dokumenty/): сейчас в ней написано, что счётчиков нет.",
+    "yandex_metrika": ""
+  },
+
+  "robots": {
+    "disallow": ["email/", "assets/tovar-v-dele-animation.html"],
+    "extra_sitemaps": []
+  },
+
+  "pages": [
+    {
+      "path": "",
+      "file": "index.html",
+      "title": "Фулфилмент в Туле для Wildberries, Ozon и Яндекс Маркета — Товар в деле",
+      "description": "Фулфилмент для маркетплейсов и интернет-магазинов: склад в Туле, FBS, FBO, хранение, маркировка «Честный знак». Цена за единицу в калькуляторе — до договора.",
+      "og_title": "Товар в деле — фулфилмент для маркетплейсов и интернет-магазинов",
+      "changefreq": "weekly",
+      "priority": 1.0,
+      "schema": ["website", "business", "faq"]
+    },
+    {
+      "path": "kontakty/",
+      "file": "kontakty/index.html",
+      "title": "Контакты и реквизиты — Товар в деле",
+      "description": "Контакты фулфилмента «Товар в деле»: телефон, Telegram, адрес склада в Туле (ул. Пролетарская, 127/1) и реквизиты ИП Зозуля М. А.",
+      "changefreq": "monthly",
+      "priority": 0.8,
+      "schema": ["business", "breadcrumbs"],
+      "breadcrumb": "Контакты"
+    },
+    {
+      "path": "dokumenty/",
+      "file": "dokumenty/index.html",
+      "title": "Документы — Товар в деле",
+      "description": "Политика обработки персональных данных, согласие, политика cookies и пользовательское соглашение сайта «Товар в деле».",
+      "changefreq": "yearly",
+      "priority": 0.3,
+      "schema": ["breadcrumbs"],
+      "breadcrumb": "Документы"
+    },
+    {
+      "path": "dokumenty/politika/",
+      "file": "dokumenty/politika/index.html",
+      "title": "Политика обработки персональных данных — Товар в деле",
+      "description": "Как и зачем мы обрабатываем персональные данные посетителей сайта и клиентов, кому их передаём и как их защищаем.",
+      "changefreq": "yearly",
+      "priority": 0.2,
+      "schema": ["breadcrumbs"],
+      "breadcrumb": "Политика обработки персональных данных"
+    },
+    {
+      "path": "dokumenty/soglasie/",
+      "file": "dokumenty/soglasie/index.html",
+      "title": "Согласие на обработку персональных данных — Товар в деле",
+      "description": "Текст согласия, которое пользователь даёт, отмечая галочку в форме «Получить точный расчёт».",
+      "changefreq": "yearly",
+      "priority": 0.2,
+      "schema": ["breadcrumbs"],
+      "breadcrumb": "Согласие на обработку персональных данных"
+    },
+    {
+      "path": "dokumenty/cookies/",
+      "file": "dokumenty/cookies/index.html",
+      "title": "Политика в отношении cookies — Товар в деле",
+      "description": "Какие cookies и технические данные используются при просмотре сайта и как их отключить.",
+      "changefreq": "yearly",
+      "priority": 0.2,
+      "schema": ["breadcrumbs"],
+      "breadcrumb": "Политика в отношении cookies"
+    },
+    {
+      "path": "dokumenty/soglashenie/",
+      "file": "dokumenty/soglashenie/index.html",
+      "title": "Пользовательское соглашение — Товар в деле",
+      "description": "Условия использования сайта: статус информации и цен калькулятора, права на материалы, ответственность.",
+      "changefreq": "yearly",
+      "priority": 0.2,
+      "schema": ["breadcrumbs"],
+      "breadcrumb": "Пользовательское соглашение"
+    }
+  ],
+
+  "llms": {
+    "_readme": "Текст для llms.txt (краткая справка для ИИ-поиска: Алиса, ChatGPT, Perplexity). Услуги и вопросы берутся с главной автоматически.",
+    "summary": "«Товар в деле» — фулфилмент для селлеров Wildberries, Ozon, Яндекс Маркета и интернет-магазинов. Склад в Туле, ул. Пролетарская, 127/1. Работаем от первой партии, без минимального ежемесячного платежа; цену за единицу можно посчитать в калькуляторе на сайте до договора.",
+    "facts": [
+      "Схемы работы: FBS (храним и отгружаем по заказам), FBO (готовим поставки на склады маркетплейсов), хранение.",
+      "Маркировка «Честный знак», стикеры и упаковка по требованиям маркетплейсов, проверка на брак.",
+      "Утерю и брак по вине склада возмещаем по закупочной цене, штрафы за пересорт компенсируем (пункты SLA в договоре).",
+      "Заявка на точный расчёт — через калькулятор на главной («Получить точный расчёт») или по телефону."
+    ]
+  }
+}

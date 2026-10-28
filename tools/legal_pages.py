@@ -9,11 +9,13 @@
 Тексты — типовые, под 152-ФЗ в редакции на 2025–2026 гг. Перед публикацией их должен проверить юрист.
 Если меняется текст согласия, поднять LEGAL_ED и CONSENT_ED в index.html (редакция пишется в письмо с заявкой).
 """
-import html, os, re
+import html, os, re, sys
 
 ROOT = os.path.join(os.path.dirname(__file__), '..')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import seo  # noqa: E402
 OUT = os.path.join(ROOT, 'dokumenty')
-BASE = 'https://x3-team.github.io/fulfillment-site/'
+BASE = 'https://tovarvdele.ru/'
 
 # ---- оператор ----
 OP = 'Индивидуальный предприниматель Зозуля Мария Алексеевна'
@@ -268,6 +270,7 @@ def main():
     with open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8') as f:
         f.write(page(src, 1, 'Документы', 'Политика обработки персональных данных, согласие, политика cookies и пользовательское соглашение сайта «Товар в деле».', 'dokumenty/', body))
     print('dokumenty/: index +', ', '.join(d[0] for d in DOCS))
+    seo.main()  # title, description, canonical, разметка — из data/seo.json
 
 
 if __name__ == '__main__':
