@@ -30,6 +30,6 @@
 Картинки (превью ссылки `img/og.png`, логотип `img/logo-512.png`, `favicon.ico`, `apple-touch-icon.png`)
 пересобирает `node tools/seo_images.js`.
 
-При переезде на свой домен: поменять `site.base_url` в `data/seo.json`, `BASE` в `tools/contacts_page.py`
-и `tools/legal_pages.py`, перезапустить генераторы. `robots.txt` поисковики читают только в корне домена,
-поэтому на `x3-team.github.io/fulfillment-site/` он не действует — sitemap там добавляется в Вебмастере вручную.
+Сайт открыт на домене https://tovarvdele.ru/ (хостинг reg.ru), он же прописан в `site.base_url`
+в `data/seo.json` и в `BASE` в `tools/contacts_page.py` и `tools/legal_pages.py`. При смене домена поменять
+все три и перезапустить генераторы.

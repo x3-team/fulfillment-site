@@ -3,7 +3,7 @@
 
   "site": {
     "name": "Товар в деле",
-    "base_url": "https://x3-team.github.io/fulfillment-site/",
+    "base_url": "https://tovarvdele.ru/",
     "lang": "ru",
     "locale": "ru_RU",
     "og_image": "img/og.png",
@@ -51,7 +51,7 @@
 
   "robots": {
     "disallow": ["email/", "assets/tovar-v-dele-animation.html"],
-    "extra_sitemaps": ["agency/sitemap.xml"]
+    "extra_sitemaps": []
   },
 
   "pages": [

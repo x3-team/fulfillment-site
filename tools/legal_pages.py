@@ -15,7 +15,7 @@ ROOT = os.path.join(os.path.dirname(__file__), '..')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import seo  # noqa: E402
 OUT = os.path.join(ROOT, 'dokumenty')
-BASE = 'https://x3-team.github.io/fulfillment-site/'
+BASE = 'https://tovarvdele.ru/'
 
 # ---- оператор ----
 OP = 'Индивидуальный предприниматель Зозуля Мария Алексеевна'
