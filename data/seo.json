@@ -50,7 +50,7 @@
   },
 
   "robots": {
-    "disallow": ["email/", "assets/tovar-v-dele-animation.html"],
+    "disallow": ["admin", "assets/tovar-v-dele-animation.html"],
     "extra_sitemaps": []
   },
 

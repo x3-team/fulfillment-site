@@ -15,8 +15,9 @@ contacts_page.py / legal_pages.py (они вызывают его сами).
 import ast, datetime, html, json, os, re, subprocess
 from urllib.parse import urlsplit
 
-ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
-CFG = os.path.join(ROOT, 'data', 'seo.json')
+REPO = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
+ROOT = os.path.join(REPO, 'public')  # сайт; страницы отдаёт Laravel из public/
+CFG = os.path.join(REPO, 'data', 'seo.json')
 START, END = '<!-- seo -->', '<!-- /seo -->'
 OG_W, OG_H = 1200, 630
 

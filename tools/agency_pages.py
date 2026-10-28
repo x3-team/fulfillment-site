@@ -13,7 +13,7 @@ from urllib.parse import quote
 sys.path.insert(0, os.path.dirname(__file__))
 from agency_services import GROUPS, SERVICES
 
-ROOT = os.path.join(os.path.dirname(__file__), '..', 'agency')
+ROOT = os.path.join(os.path.dirname(__file__), '..', 'public', 'agency')
 # Адрес сайта агентства. Когда агентство переедет на свой домен, поменять здесь и перезапустить.
 BASE = 'https://x3-team.github.io/fulfillment-site/agency/'
 BRAND = 'Бренд Digital'

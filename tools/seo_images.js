@@ -1,6 +1,6 @@
 // Картинки для SEO: img/og.png (превью ссылки 1200×630), img/logo-512.png (логотип для разметки),
 // apple-touch-icon.png, favicon.ico. favicon.svg — копия assets/tovar-v-dele-logo-mark.svg.
-// Запуск из корня репозитория: node tools/seo_images.js (нужен Playwright с Chromium).
+// Запуск из папки public/: node ../tools/seo_images.js (нужен Playwright с Chromium).
 const {chromium}=require('playwright');const fs=require('fs');
 const mark=fs.readFileSync('favicon.svg','utf8');
 (async()=>{const b=await chromium.launch();

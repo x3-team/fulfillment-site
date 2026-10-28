@@ -1,0 +1,34 @@
+@import 'tailwindcss';
+
+@theme {
+    --font-sans: 'Onest', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --color-ink: #0a1736;
+    --color-ink7: #233a72;
+    --color-ink5: #5b6b8c;
+    --color-ink3: #a9b6d0;
+    --color-paper: #f4f8fe;
+    --color-paper2: #e1ecfc;
+    --color-line: #d3e0f3;
+    --color-acc: #1a5cff;
+    --color-acc6: #1246d6;
+    --color-acc1: #e3edff;
+    --color-ok: #1f9d55;
+    --color-bad: #d63b3b;
+}
+
+@layer base {
+    body { @apply bg-paper text-ink antialiased; }
+}
+
+@layer components {
+    .inp { @apply w-full rounded-lg border border-line bg-white px-3 py-2 text-[15px] outline-none transition focus:border-acc focus:ring-2 focus:ring-acc1; }
+    .inp.num { @apply font-mono tabular-nums; }
+    .lbl { @apply mb-1 block text-[13px] font-medium text-ink5; }
+    .card { @apply rounded-2xl border border-line bg-white p-5 sm:p-6; }
+    .btn { @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-[15px] font-semibold transition disabled:opacity-50; }
+    .btn-primary { @apply bg-acc text-white hover:bg-acc6; }
+    .btn-line { @apply border border-line bg-white text-ink hover:border-ink3; }
+    .btn-ghost { @apply text-ink5 hover:text-ink; }
+    .err { @apply mt-1 text-[13px] text-bad; }
+}

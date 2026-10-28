@@ -1,35 +1,38 @@
-# Бренд — фулфилмент для маркетплейсов
+# Товар в деле — сайт фулфилмента и админка
 
-Главная страница сайта: один файл `index.html` (HTML + CSS + JS, 3D-сцена на three.js).
-Внешние зависимости грузятся с CDN: three.js r128 (cdnjs) и шрифты Onest / JetBrains Mono (Google Fonts).
+Сайт: https://tovarvdele.ru, админка: https://tovarvdele.ru/admin
 
-## Как выложить на GitHub Pages
-1. Создайте репозиторий (например, `fulfillment-site`).
-2. Загрузите `index.html` и `.nojekyll` в корень репозитория.
-3. Settings → Pages → Build and deployment → Source: «Deploy from a branch», Branch: `main`, папка `/ (root)` → Save.
-4. Через 1–2 минуты сайт откроется по адресу `https://<ваш-логин>.github.io/fulfillment-site/`.
+Laravel 12 + Inertia + Vue 3 + Tailwind (как в проекте alexallergotest).
 
-## Сайт агентства «Бренд Digital»
-Лежит в папке `agency/` и открывается по адресу `https://x3-team.github.io/fulfillment-site/agency/`.
-Ссылки между сайтами относительные (`agency/` и `../`). Если агентство переедет на свой домен, их нужно заменить на полные адреса.
+## Как устроено
+- `public/` — сам сайт: `index.html`, `kontakty/`, `dokumenty/`, `agency/`, картинки, стили. HTML-файлы здесь — шаблоны:
+  в них лежат значения «как в вёрстке».
+- Страницы отдаёт Laravel (`app/Site/PageRenderer.php`): берёт HTML из `public/` и подставляет то, что поменяли в админке
+  (цены калькулятора, контакты, заголовки блоков, частые вопросы, title и description). Готовые страницы кэшируются,
+  кэш сбрасывается при каждом сохранении в админке.
+- Настройки лежат в таблице `settings` (по записи на раздел). «Вернуть как в вёрстке» удаляет запись.
+- Что можно править, описано в `config/site.php`. Тексты на главной размечены комментариями `<!--t:ключ-->…<!--/t-->`.
+- Админка: `routes/web.php`, `app/Http/Controllers/Admin/`, страницы `resources/js/Pages/`.
 
-## Страница «Контакты»
-`kontakty/` генерируется скриптом `python3 tools/contacts_page.py` из шапки, подвала и стилей главной.
-Адрес склада (для Яндекс.Карты), координаты и телефон — константы `WAREHOUSE`, `COORDS`, `PHONE` в начале скрипта.
-После правок главной или констант перезапустить скрипт и закоммитить `kontakty/`.
+## Локально
+```bash
+composer install && npm install
+cp .env.example .env && php artisan key:generate
+touch database/database.sqlite && php artisan migrate
+php artisan admin:create you@example.com "Имя"   # печатает пароль
+npm run build && php artisan serve
+```
+Тесты: `php artisan test`.
 
-## SEO
-Все SEO-настройки — в `data/seo.json`: заголовки и описания страниц, адрес и координаты склада, телефон,
-часы работы, ссылки на соцсети и карточки (`same_as`), коды Яндекс.Вебмастера и Google Search Console,
-номер счётчика Яндекс.Метрики. После правок запустить `python3 tools/seo.py`: он обновит блок
-`<!-- seo --> … <!-- /seo -->` в `<head>` страниц (title, description, canonical, Open Graph, иконки,
-гео-метки, разметка schema.org: LocalBusiness, FAQ, хлебные крошки), продублирует «Частые вопросы» на главной
-статичным HTML и пересоберёт `robots.txt`, `sitemap.xml`, `llms.txt`. Генераторы контактов и документов
-запускают его сами. Новую страницу добавить в `pages` в `data/seo.json`.
+## Сервер
+- PHP 8.2+, MySQL (или SQLite), nginx — пример конфига в `deploy/nginx.conf` (важно: каталоги страниц идут в Laravel).
+- Выкладка: `composer install --no-dev -o`, `npm ci && npm run build`, `php artisan migrate --force`,
+  `php artisan config:cache route:cache`. Права на запись: `storage/`, `bootstrap/cache/`.
+- Первый админ: `php artisan admin:create почта "Имя"`.
 
-Картинки (превью ссылки `img/og.png`, логотип `img/logo-512.png`, `favicon.ico`, `apple-touch-icon.png`)
-пересобирает `node tools/seo_images.js`.
-
-Сайт открыт на домене https://tovarvdele.ru/ (хостинг reg.ru), он же прописан в `site.base_url`
-в `data/seo.json` и в `BASE` в `tools/contacts_page.py` и `tools/legal_pages.py`. При смене домена поменять
-все три и перезапустить генераторы.
+## Генераторы страниц (Python, `tools/`)
+- `tools/contacts_page.py` — `public/kontakty/` из шапки, подвала и стилей главной.
+- `tools/legal_pages.py` — `public/dokumenty/`.
+- `tools/agency_pages.py` — `public/agency/uslugi/`.
+- `tools/seo.py` — мета-теги, разметка, `robots.txt`, `sitemap.xml`, `llms.txt` по `data/seo.json`.
+После правок главной перезапустить нужный генератор и закоммитить результат.

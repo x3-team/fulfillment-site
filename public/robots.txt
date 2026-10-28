@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Disallow: /email/
+Disallow: /admin
 Disallow: /assets/tovar-v-dele-animation.html
 
 Sitemap: https://tovarvdele.ru/sitemap.xml
