@@ -60,6 +60,7 @@ EXTRA_CSS = '''
 @media (max-width:699px){.list a{grid-template-columns:40px 1fr;gap:12px}.list a b{grid-column:2}}
 '''
 
+FAQ_JS = "const f=$('#faqList');if(f)f.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)f.querySelectorAll('details').forEach(o=>{if(o!==d)o.open=false})}));"
 JS = '''<script>
 (function(){
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -130,6 +131,7 @@ def footer(r):
   <div><span class="mono">Свой канал</span>{col(GROUPS[1])}{col(GROUPS[2])}</div>
   <div><span class="mono">Компания</span><a href="{r}uslugi/">Все услуги</a><a href="{r}#cases">Кейсы</a><a href="{r}#plans">Цены</a><a href="{r}#process">Как мы работаем</a><a href="{r}../" target="_blank" rel="noopener">Фулфилмент ↗</a></div></div>
  <div class="legal"><span>© 2026 {BRAND} · ООО «—» · ИНН 0000000000 · Работаем по ЭДО</span><span><a href="#">Политика конфиденциальности</a> &nbsp;·&nbsp; <a href="#">Оферта</a></span></div>
+ <div class="made"><a href="https://solentica.agency/" target="_blank" rel="noopener">Сайт сделан в студии <b>Solentica</b><i aria-hidden="true">↗</i></a></div>
 </div></footer>
 
 <div class="menu" id="menu" aria-hidden="true"><div class="wrap">
@@ -233,7 +235,7 @@ def service_page(s):
 </div></section>
 
 {final(r, 'Покажем, где теряются продажи', 'Пришлите ссылку на магазин или артикулы. За 2 рабочих дня сделаем аудит и пришлём план с бюджетом и сроками.', s['slug'])}</main>
-''' + footer(r) + JS + '\n</body>\n</html>\n'
+''' + footer(r) + f'<script src="{r}accordion.js"></script>\n' + JS.replace(FAQ_JS, 'initAccordions();') + '\n</body>\n</html>\n'
 
 
 def index_page():
