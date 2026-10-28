@@ -570,7 +570,7 @@ calcEl.addEventListener('focusout',e=>{const t=e.target;if(t.type!=='number')ret
 calcEl.addEventListener('change',e=>{const t=e.target;if(t.checked&&OPS[t.name]&&OPS[t.name].excl)$$(`#${t.name} input[name="${t.name}"]`).forEach(x=>{if(x!==t)x.checked=false});calc()});
 $('#addStore').addEventListener('click',e=>{const b=e.currentTarget,on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.querySelector('span').textContent=on?'Убрать хранение':'Добавить хранение';$('#storeField').hidden=!on;if(on&&innerWidth<1000)$('#storeField').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});calc()});
 syncQty();calc();
-new IntersectionObserver(([e])=>document.documentElement.classList.toggle('in-calc',e.isIntersecting),{rootMargin:'-30% 0px -30% 0px'}).observe($('#calc'));
+{const seen=new Set(),cio=new IntersectionObserver(es=>{es.forEach(e=>e.isIntersecting?seen.add(e.target):seen.delete(e.target));document.documentElement.classList.toggle('in-calc',seen.size>0)});cio.observe(calcEl);cio.observe($('#calcOut'))}
 /* lead form → email to the manager via EmailJS (static hosting, no backend).
    Fill in the keys from the EmailJS dashboard; while they are empty the form runs in demo mode and only logs the request. */
 const LEAD={service:'',template:'',key:''};
