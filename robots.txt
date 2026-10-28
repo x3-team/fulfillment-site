@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /fulfillment-site/
+Disallow: /fulfillment-site/email/
+Disallow: /fulfillment-site/assets/tovar-v-dele-animation.html
+
+Sitemap: https://x3-team.github.io/fulfillment-site/sitemap.xml
+Sitemap: https://x3-team.github.io/fulfillment-site/agency/sitemap.xml

@@ -17,3 +17,19 @@
 `kontakty/` генерируется скриптом `python3 tools/contacts_page.py` из шапки, подвала и стилей главной.
 Адрес склада (для Яндекс.Карты), координаты и телефон — константы `WAREHOUSE`, `COORDS`, `PHONE` в начале скрипта.
 После правок главной или констант перезапустить скрипт и закоммитить `kontakty/`.
+
+## SEO
+Все SEO-настройки — в `data/seo.json`: заголовки и описания страниц, адрес и координаты склада, телефон,
+часы работы, ссылки на соцсети и карточки (`same_as`), коды Яндекс.Вебмастера и Google Search Console,
+номер счётчика Яндекс.Метрики. После правок запустить `python3 tools/seo.py`: он обновит блок
+`<!-- seo --> … <!-- /seo -->` в `<head>` страниц (title, description, canonical, Open Graph, иконки,
+гео-метки, разметка schema.org: LocalBusiness, FAQ, хлебные крошки), продублирует «Частые вопросы» на главной
+статичным HTML и пересоберёт `robots.txt`, `sitemap.xml`, `llms.txt`. Генераторы контактов и документов
+запускают его сами. Новую страницу добавить в `pages` в `data/seo.json`.
+
+Картинки (превью ссылки `img/og.png`, логотип `img/logo-512.png`, `favicon.ico`, `apple-touch-icon.png`)
+пересобирает `node tools/seo_images.js`.
+
+При переезде на свой домен: поменять `site.base_url` в `data/seo.json`, `BASE` в `tools/contacts_page.py`
+и `tools/legal_pages.py`, перезапустить генераторы. `robots.txt` поисковики читают только в корне домена,
+поэтому на `x3-team.github.io/fulfillment-site/` он не действует — sitemap там добавляется в Вебмастере вручную.

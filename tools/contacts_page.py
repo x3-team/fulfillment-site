@@ -8,10 +8,12 @@
 
 Когда появятся адрес склада и телефон — заполнить константы ниже и перезапустить.
 """
-import html, json, os, re
+import html, os, re, sys
 from urllib.parse import quote
 
 ROOT = os.path.join(os.path.dirname(__file__), '..')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import seo  # noqa: E402
 OUT = os.path.join(ROOT, 'kontakty')
 BASE = 'https://x3-team.github.io/fulfillment-site/'
 
@@ -145,15 +147,9 @@ def page(src):
     cards += f'<div class="kc"><div class="r"><span class="mono">Склад</span></div><b>{addr}</b><p>Приезжайте на экскурсию: покажем приёмку, упаковку и хранение вашего товара.</p></div>'
 
     rows = ''.join(f'<div class="row"><dt>{e(k)}</dt><dd>{e(v)}</dd><button class="cp" type="button" data-v="{e(v)}" aria-label="Скопировать: {e(k)}">{COPY}<span>Копировать</span></button></div>' for k, v in REQ)
-    ld = {'@context': 'https://schema.org', '@type': 'LocalBusiness', 'name': 'Товар в деле', 'url': BASE,
-          'legalName': REQ[0][1], 'taxID': REQ[1][1], 'description': 'Фулфилмент для маркетплейсов и интернет-магазинов',
-          'address': {'@type': 'PostalAddress', 'addressLocality': 'Тула', 'addressCountry': 'RU', **({'streetAddress': WAREHOUSE} if WAREHOUSE else {})}}
-    if PHONE:
-        ld['telephone'] = PHONE
 
     return f'''{head.rstrip()}
 {css_link}
-<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 </head>
 <body>
 {header}
@@ -188,6 +184,7 @@ def main():
     with open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8') as f:
         f.write(page(src))
     print('kontakty/index.html, kontakty/kontakty.css')
+    seo.main()  # title, description, разметка LocalBusiness — из data/seo.json
 
 
 if __name__ == '__main__':
