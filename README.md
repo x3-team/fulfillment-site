@@ -3,14 +3,14 @@
 Главная страница сайта: один файл `index.html` (HTML + CSS + JS, 3D-сцена на three.js).
 Внешние зависимости грузятся с CDN: three.js r128 (cdnjs) и шрифты Onest / JetBrains Mono (Google Fonts).
 
-## Как выложить на GitHub Pages
-1. Создайте репозиторий (например, `fulfillment-site`).
-2. Загрузите `index.html` и `.nojekyll` в корень репозитория.
-3. Settings → Pages → Build and deployment → Source: «Deploy from a branch», Branch: `main`, папка `/ (root)` → Save.
-4. Через 1–2 минуты сайт откроется по адресу `https://<ваш-логин>.github.io/fulfillment-site/`.
+## Где работает сайт
+Продакшен — https://tovarvdele.ru/ на собственном VPS. GitHub Pages больше не используется
+(был только для старта разработки). Из репозитория сайт сам не обновляется: после мержа файлы
+выкладываются на VPS.
 
 ## Сайт агентства «Бренд Digital»
-Лежит в папке `agency/` и открывается по адресу `https://x3-team.github.io/fulfillment-site/agency/`.
+Лежит в папке `agency/`. Это отдельный сайт со своим будущим доменом; адрес в `BASE` в `tools/agency_pages.py`
+(сейчас старый тестовый на github.io) поменять, когда домен агентства будет известен.
 Ссылки между сайтами относительные (`agency/` и `../`). Если агентство переедет на свой домен, их нужно заменить на полные адреса.
 
 ## Страница «Контакты»
@@ -30,6 +30,6 @@
 Картинки (превью ссылки `img/og.png`, логотип `img/logo-512.png`, `favicon.ico`, `apple-touch-icon.png`)
 пересобирает `node tools/seo_images.js`.
 
-Сайт открыт на домене https://tovarvdele.ru/ (хостинг reg.ru), он же прописан в `site.base_url`
+Сайт открыт на домене https://tovarvdele.ru/ (свой VPS), он же прописан в `site.base_url`
 в `data/seo.json` и в `BASE` в `tools/contacts_page.py` и `tools/legal_pages.py`. При смене домена поменять
 все три и перезапустить генераторы.
