@@ -28,4 +28,4 @@
 
 Переменные шаблона: `name`, `phone`, `phone_link`, `email`, `topic`, `services`, `services_html` (`{{{services_html}}}`), `shop`, `shop_html` (`{{{shop_html}}}`), `sent_at`, `page`.
 
-Открыть форму с другой страницы: ссылка на `agency/#lead` или `agency/#lead=Тема|Услуга,Услуга` (услуги — подписи чипов в форме).
+Открыть форму с другой страницы: ссылка на `https://madrocks.agency/#lead` или `https://madrocks.agency/#lead=Тема|Услуга,Услуга` (услуги — подписи чипов в форме).

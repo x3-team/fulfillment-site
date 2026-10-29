@@ -104,7 +104,7 @@ def relink(s):
     """Ссылки главной → ссылки со страницы kontakty/."""
     s = re.sub(r'href="#"', 'href="../"', s)
     s = re.sub(r'href="#([^"]*)"', r'href="../#\1"', s)
-    s = s.replace('href="agency/', 'href="../agency/').replace('href="dokumenty/', 'href="../dokumenty/').replace('href="kontakty/', 'href="./')
+    s = s.replace('href="dokumenty/', 'href="../dokumenty/').replace('href="kontakty/', 'href="./')
     return s
 
 

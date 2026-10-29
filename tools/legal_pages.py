@@ -216,7 +216,7 @@ def relink(s, up):
     p = '../' * up
     s = re.sub(r'href="#"', f'href="{p}"', s)
     s = re.sub(r'href="#([^"]*)"', rf'href="{p}#\1"', s)
-    return re.sub(r'href="(agency/|kontakty/|dokumenty/)', rf'href="{p}\1', s)
+    return re.sub(r'href="(kontakty/|dokumenty/)', rf'href="{p}\1', s)
 
 
 def page(src, up, title, desc, path, body):

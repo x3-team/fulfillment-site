@@ -15,7 +15,9 @@ from agency_services import GROUPS, SERVICES
 
 ROOT = os.path.join(os.path.dirname(__file__), '..', 'agency')
 # Адрес сайта агентства. Когда агентство переедет на свой домен, поменять здесь и перезапустить.
-BASE = 'https://x3-team.github.io/fulfillment-site/agency/'
+BASE = 'https://madrocks.agency/'
+# Сайт фулфилмента живёт на своём домене, ссылки на него только абсолютные.
+FF = 'https://tovarvdele.ru/'
 BRAND = 'Madrocks agency'
 TG = 'https://t.me/'
 BY_SLUG = {s['slug']: s for s in SERVICES}
@@ -115,7 +117,7 @@ def header(r):
     # Шапка как на главной агентства (и у «Товар в деле»): логотип, меню по центру, справа ссылка на заявку.
     return f'''<header class="hdr" id="hdr"><div class="wrap wide">
  <a class="logo" href="{r}" aria-label="{BRAND} — на главную">{LOGO}</a>
- <nav class="nav" aria-label="Основное"><a href="{r}">Главная</a><a href="{r}uslugi/">Услуги</a><a href="{r}#cases">Кейсы</a><a href="{r}#plans">Цены</a><a href="{r}../" target="_blank" rel="noopener">Фулфилмент ↗</a></nav>
+ <nav class="nav" aria-label="Основное"><a href="{r}">Главная</a><a href="{r}uslugi/">Услуги</a><a href="{r}#cases">Кейсы</a><a href="{r}#plans">Цены</a><a href="{FF}" target="_blank" rel="noopener">Фулфилмент ↗</a></nav>
  <a class="tel" href="{r}#lead">Обсудить проект</a>
  <div class="acts"><button class="btn ghost m" id="menuBtn" aria-controls="menu" aria-expanded="false"><span>Меню</span></button></div>
 </div></header>
@@ -135,7 +137,7 @@ def footer(r, slug=None):
  <div class="cols"><div><p style="max-width:320px;color:#A9B6D0;font-size:14px">Digital-агентство для селлеров: маркетплейсы, свой интернет-магазин и маркетинг в связке с фулфилментом.</p></div>
   <div><span class="mono">Маркетплейсы</span>{col(GROUPS[0])}</div>
   <div><span class="mono">Свой канал</span>{col(GROUPS[1])}{col(GROUPS[2])}</div>
-  <div><span class="mono">Компания</span><a href="{r}uslugi/">Все услуги</a><a href="{r}#cases">Кейсы</a><a href="{r}#plans">Цены</a><a href="{r}#process">Как мы работаем</a><a href="{r}../" target="_blank" rel="noopener">Фулфилмент ↗</a></div></div>
+  <div><span class="mono">Компания</span><a href="{r}uslugi/">Все услуги</a><a href="{r}#cases">Кейсы</a><a href="{r}#plans">Цены</a><a href="{r}#process">Как мы работаем</a><a href="{FF}" target="_blank" rel="noopener">Фулфилмент ↗</a></div></div>
  <div class="legal"><span>© 2026 {BRAND} · ООО «—» · ИНН 0000000000 · Работаем по ЭДО</span><span><a href="#">Политика конфиденциальности</a> &nbsp;·&nbsp; <a href="#">Оферта</a></span></div>
  <div class="made"><a href="https://solentica.agency/" target="_blank" rel="noopener">Сайт сделан в студии <b>Solentica</b><i aria-hidden="true">↗</i></a></div>
 </div></footer>
@@ -146,7 +148,7 @@ def footer(r, slug=None):
  <div class="cols">
   <nav class="prim" aria-label="Меню"><a href="{r}uslugi/"><span class="mono" style="color:var(--acc)">01</span>Услуги</a><a href="{r}#cases"><span class="mono muted">02</span>Кейсы</a><a href="{r}#plans"><span class="mono muted">03</span>Цены</a><a href="{r}#process"><span class="mono muted">04</span>Как мы работаем</a><a href="{r}#contact"><span class="mono muted">05</span>Контакты</a></nav>
   <div class="sub"><span class="mono">Услуги</span>{svc_links(r)}</div>
-  <div class="sub"><span class="mono">Фулфилмент · Товар в деле ↗</span><a href="{r}../" target="_blank" rel="noopener">FBS</a><a href="{r}../" target="_blank" rel="noopener">FBO</a><a href="{r}../" target="_blank" rel="noopener">Хранение</a><a href="{r}../#calc" target="_blank" rel="noopener">Калькулятор стоимости</a></div>
+  <div class="sub"><span class="mono">Фулфилмент · Товар в деле ↗</span><a href="{FF}" target="_blank" rel="noopener">FBS</a><a href="{FF}" target="_blank" rel="noopener">FBO</a><a href="{FF}" target="_blank" rel="noopener">Хранение</a><a href="{FF}#calc" target="_blank" rel="noopener">Калькулятор стоимости</a></div>
  </div>
 </div></div>
 '''
