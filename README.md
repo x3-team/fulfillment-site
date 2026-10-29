@@ -33,3 +33,7 @@
 Сайт открыт на домене https://tovarvdele.ru/ (свой VPS), он же прописан в `site.base_url`
 в `data/seo.json` и в `BASE` в `tools/contacts_page.py` и `tools/legal_pages.py`. При смене домена поменять
 все три и перезапустить генераторы.
+
+## Админка
+`/admin/` на чистом PHP (калькулятор, контакты, тексты и вопросы, SEO, история). Установка, создание админа
+и что делать после выкладки из git — в [admin/README.md](admin/README.md). Корневой `.htaccess` закрывает `data/`, `tools/`, `email/` и `*.md`.

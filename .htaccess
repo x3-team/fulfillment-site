@@ -1,0 +1,11 @@
+# tovarvdele.ru (shared-хостинг рег.ру): служебные папки и файлы репозитория не отдаём.
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(data|tools|email|\.git)(/|$) - [F,L]
+</IfModule>
+
+<FilesMatch "(\.(md|py|lock|sample)|^\.gitignore|^\.nojekyll)$">
+  Require all denied
+</FilesMatch>
