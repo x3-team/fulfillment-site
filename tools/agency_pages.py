@@ -21,6 +21,8 @@ TG = 'https://t.me/'
 BY_SLUG = {s['slug']: s for s in SERVICES}
 ARR = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 e = lambda s: html.escape(s, quote=True)
+LOGO = '<i></i><span>Бренд<br>Digital</span>'
+DOCK_ARR = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8 8 2M3.5 2H8v4.5" stroke="currentColor" stroke-width="1.4"/></svg>'
 
 EXTRA_CSS = '''
 /* ---- страницы услуг ---- */
@@ -69,6 +71,7 @@ const menu=$('#menu');const openMenu=o=>{menu.classList.toggle('open',o);menu.se
 $('#menuBtn').onclick=()=>openMenu(true);$('#menuClose').onclick=()=>openMenu(false);menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>openMenu(false)));addEventListener('keydown',e=>{if(e.key==='Escape')openMenu(false)});
 const f=$('#faqList');if(f)f.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)f.querySelectorAll('details').forEach(o=>{if(o!==d)o.open=false})}));
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target)}),{threshold:.15});$$('.rv').forEach(el=>io.observe(el));
+const ct=$('#contact');if(ct)new IntersectionObserver(es=>es.forEach(e=>document.documentElement.classList.toggle('in-form',e.isIntersecting))).observe(ct);
 const tick=()=>{const d=new Date(Date.now()+3*36e5);$('#ftClock').textContent=String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0')};tick();setInterval(tick,30000);
 })();
 </script>'''
@@ -99,7 +102,7 @@ def head(title, desc, canon, ld, r):
 <meta property="og:type" content="website"><meta property="og:locale" content="ru_RU"><meta property="og:site_name" content="{BRAND}">
 <meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{canon}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;900&family=JetBrains+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="{r}uslugi/uslugi.css">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False, separators=(',', ':'))}</script>
 </head>
@@ -108,10 +111,12 @@ def head(title, desc, canon, ld, r):
 
 
 def header(r):
-    return f'''<header class="hdr" id="hdr"><div class="wrap">
- <a class="logo" href="{r}"><i></i>{BRAND}</a>
- <nav class="nav" aria-label="Основное"><a href="{r}uslugi/">Услуги</a><a href="{r}#cases">Кейсы</a><a href="{r}#plans">Цены</a><a href="{r}#process">Процесс</a><a href="{r}../" target="_blank" rel="noopener">Фулфилмент ↗</a></nav>
- <div class="acts"><button class="btn ghost m" id="menuBtn" aria-controls="menu" aria-expanded="false"><span>Меню</span></button><a class="btn primary m" href="{r}#lead"><span>Обсудить проект</span><em>{ARR}</em></a></div>
+    # Шапка как на главной агентства (и у «Товар в деле»): логотип, меню по центру, справа ссылка на заявку.
+    return f'''<header class="hdr" id="hdr"><div class="wrap wide">
+ <a class="logo" href="{r}" aria-label="{BRAND} — на главную">{LOGO}</a>
+ <nav class="nav" aria-label="Основное"><a href="{r}">Главная</a><a href="{r}uslugi/">Услуги</a><a href="{r}#cases">Кейсы</a><a href="{r}#plans">Цены</a><a href="{r}../" target="_blank" rel="noopener">Фулфилмент ↗</a></nav>
+ <a class="tel" href="{r}#lead">Обсудить проект</a>
+ <div class="acts"><button class="btn ghost m" id="menuBtn" aria-controls="menu" aria-expanded="false"><span>Меню</span></button></div>
 </div></header>
 '''
 
@@ -120,7 +125,7 @@ def svc_links(r, cls=''):
     return ''.join(f'<a href="{r}uslugi/{s["slug"]}/">{e(s["short"])}</a>' for s in SERVICES)
 
 
-def footer(r):
+def footer(r, slug=None):
     col = lambda g: ''.join(f'<a href="{r}uslugi/{s["slug"]}/">{e(s["short"])}</a>' for s in SERVICES if s['group'] == g)
     return f'''<div class="tape"></div>
 <footer><div class="wrap">
@@ -134,8 +139,9 @@ def footer(r):
  <div class="made"><a href="https://solentica.agency/" target="_blank" rel="noopener">Сайт сделан в студии <b>Solentica</b><i aria-hidden="true">↗</i></a></div>
 </div></footer>
 
+<div class="dock"><div class="wrap wide"><p>Растим продажи — от карточки до своего магазина.</p><a href="{cta_href(r, slug)}">Заказать бесплатный аудит<i>{DOCK_ARR}</i></a></div></div>
 <div class="menu" id="menu" aria-hidden="true"><div class="wrap">
- <div class="bar"><a class="logo" href="{r}"><i></i>{BRAND}</a><button class="btn ghost m" id="menuClose"><span>Закрыть</span></button></div>
+ <div class="bar"><a class="logo" href="{r}" aria-label="{BRAND} — на главную">{LOGO}</a><button class="btn ghost m" id="menuClose"><span>Закрыть</span></button></div>
  <div class="cols">
   <nav class="prim" aria-label="Меню"><a href="{r}uslugi/"><span class="mono" style="color:var(--acc)">01</span>Услуги</a><a href="{r}#cases"><span class="mono muted">02</span>Кейсы</a><a href="{r}#plans"><span class="mono muted">03</span>Цены</a><a href="{r}#process"><span class="mono muted">04</span>Как мы работаем</a><a href="{r}#contact"><span class="mono muted">05</span>Контакты</a></nav>
   <div class="sub"><span class="mono">Услуги</span>{svc_links(r)}</div>
@@ -235,7 +241,7 @@ def service_page(s):
 </div></section>
 
 {final(r, 'Покажем, где теряются продажи', 'Пришлите ссылку на магазин или артикулы. За 2 рабочих дня сделаем аудит и пришлём план с бюджетом и сроками.', s['slug'])}</main>
-''' + footer(r) + f'<script src="{r}accordion.js"></script>\n' + JS.replace(FAQ_JS, 'initAccordions();') + '\n</body>\n</html>\n'
+''' + footer(r, s['slug']) + f'<script src="{r}accordion.js"></script>\n' + JS.replace(FAQ_JS, 'initAccordions();') + '\n</body>\n</html>\n'
 
 
 def index_page():
