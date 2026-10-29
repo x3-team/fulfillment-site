@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Генератор SEO-страниц услуг агентства «Бренд Digital».
+"""Генератор SEO-страниц услуг агентства «Madrocks agency».
 
 Запуск из корня репозитория:  python3 tools/agency_pages.py
 Пишет agency/uslugi/index.html, agency/uslugi/<slug>/index.html,
@@ -16,12 +16,12 @@ from agency_services import GROUPS, SERVICES
 ROOT = os.path.join(os.path.dirname(__file__), '..', 'agency')
 # Адрес сайта агентства. Когда агентство переедет на свой домен, поменять здесь и перезапустить.
 BASE = 'https://x3-team.github.io/fulfillment-site/agency/'
-BRAND = 'Бренд Digital'
+BRAND = 'Madrocks agency'
 TG = 'https://t.me/'
 BY_SLUG = {s['slug']: s for s in SERVICES}
 ARR = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 e = lambda s: html.escape(s, quote=True)
-LOGO = '<i></i><span>Бренд<br>Digital</span>'
+LOGO = '<svg viewBox="0 0 40 38" aria-hidden="true"><path fill="#0056E0" d="M10 3 25 1 38 12 35 31 18 37 2 26Z"/><path fill="#0047C2" d="M27 12 38 12 35 31 18 37 20 23Z"/><path fill="#63AAFD" d="M10 3 25 1 21 13Z"/><path fill="none" stroke="#fff" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" d="M8 27 13 13 20 23 27 12 31 27"/></svg><span>Madrocks<br>agency</span>'
 DOCK_ARR = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8 8 2M3.5 2H8v4.5" stroke="currentColor" stroke-width="1.4"/></svg>'
 
 EXTRA_CSS = '''
@@ -101,6 +101,7 @@ def head(title, desc, canon, ld, r):
 <link rel="canonical" href="{canon}">
 <meta property="og:type" content="website"><meta property="og:locale" content="ru_RU"><meta property="og:site_name" content="{BRAND}">
 <meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{canon}">
+<link rel="icon" href="{r}favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;900&family=JetBrains+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="{r}uslugi/uslugi.css">
@@ -130,7 +131,7 @@ def footer(r, slug=None):
     return f'''<div class="tape"></div>
 <footer><div class="wrap">
  <div class="top"><span class="tag light"><i>Берём новые проекты</i></span><span class="mono">Москва · <span id="ftClock">14:32</span> МСК · 2026</span></div>
- <div class="wm">Digital®</div>
+ <div class="wm">Madrocks®</div>
  <div class="cols"><div><p style="max-width:320px;color:#A9B6D0;font-size:14px">Digital-агентство для селлеров: маркетплейсы, свой интернет-магазин и маркетинг в связке с фулфилментом.</p></div>
   <div><span class="mono">Маркетплейсы</span>{col(GROUPS[0])}</div>
   <div><span class="mono">Свой канал</span>{col(GROUPS[1])}{col(GROUPS[2])}</div>
@@ -145,7 +146,7 @@ def footer(r, slug=None):
  <div class="cols">
   <nav class="prim" aria-label="Меню"><a href="{r}uslugi/"><span class="mono" style="color:var(--acc)">01</span>Услуги</a><a href="{r}#cases"><span class="mono muted">02</span>Кейсы</a><a href="{r}#plans"><span class="mono muted">03</span>Цены</a><a href="{r}#process"><span class="mono muted">04</span>Как мы работаем</a><a href="{r}#contact"><span class="mono muted">05</span>Контакты</a></nav>
   <div class="sub"><span class="mono">Услуги</span>{svc_links(r)}</div>
-  <div class="sub"><span class="mono">Фулфилмент · Бренд ↗</span><a href="{r}../" target="_blank" rel="noopener">FBS</a><a href="{r}../" target="_blank" rel="noopener">FBO</a><a href="{r}../" target="_blank" rel="noopener">Хранение</a><a href="{r}../#calc" target="_blank" rel="noopener">Калькулятор стоимости</a></div>
+  <div class="sub"><span class="mono">Фулфилмент · Товар в деле ↗</span><a href="{r}../" target="_blank" rel="noopener">FBS</a><a href="{r}../" target="_blank" rel="noopener">FBO</a><a href="{r}../" target="_blank" rel="noopener">Хранение</a><a href="{r}../#calc" target="_blank" rel="noopener">Калькулятор стоимости</a></div>
  </div>
 </div></div>
 '''
@@ -259,8 +260,8 @@ def index_page():
                 continue
             n += 1
             rows += f'<a href="{s["slug"]}/"><span class="num mono">({n:02d})</span><div><h2>{e(s["name"])}</h2><p>{e(s["lead"])}</p></div><b>{e(s["price"])}</b></a>'
-    title = 'Услуги для селлеров: маркетплейсы, интернет-магазин, маркетинг — Бренд Digital'
-    desc = 'Все услуги digital-агентства «Бренд Digital» для селлеров: подключение кабинетов WB и Ozon, инфографика, продвижение, SEO карточек, интернет-магазин, маркетинг, интеграции и аналитика.'
+    title = 'Услуги для селлеров: маркетплейсы, интернет-магазин, маркетинг — Madrocks agency'
+    desc = 'Все услуги digital-агентства «Madrocks agency» для селлеров: подключение кабинетов WB и Ozon, инфографика, продвижение, SEO карточек, интернет-магазин, маркетинг, интеграции и аналитика.'
     return head(title, desc, canon, ld, r) + header(r) + f'''
 <main>
 <section class="paper sh"><div class="wrap">

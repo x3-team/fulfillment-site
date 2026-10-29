@@ -1,8 +1,8 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Бренд Digital — анимация</title>
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Madrocks agency — анимация</title>
 <style>html,body{width:100%;height:100%;margin:0;overflow:hidden;background:transparent}#stage{position:absolute;inset:0}canvas{display:block;width:100%;height:100%}#fallback{position:absolute;inset:40% 8%;font:16px/1.5 Arial,sans-serif;text-align:center;color:#223760}[hidden]{display:none!important}</style></head>
 <body><div id="stage"><canvas id="scene" role="img" aria-label="Маркетолог оформляет карточку товара, запускает рекламу и следит за ростом продаж"></canvas><p id="fallback" hidden>Для 3D-анимации требуется браузер с поддержкой WebGL.</p></div>
 <script src="three.r160.js"></script>
-<script>/* Бренд Digital: процедурная изометрическая сцена в стиле анимации «Товар в деле».
+<script>/* Madrocks agency: процедурная изометрическая сцена в стиле анимации «Товар в деле».
    Цикл 24 с: карточка товара → реклама → рост продаж → аналитика. Единицы — метры. */
 (() => {
 'use strict';
@@ -135,7 +135,7 @@ function drawMon(q,fresh){const key=Math.round(q*60)+'|'+fresh;if(key===monKey)r
  if(fresh>0){ctx.globalAlpha=fresh;rr(ctx,356,14,132,46,8);ctx.fillStyle='#225bf1';ctx.fill();ctx.fillStyle='#fff';ctx.font='bold 30px Arial';ctx.fillText('+38%',372,48);ctx.globalAlpha=1}
  monT.tex.needsUpdate=true}
 
-/* Маркетолог: тот же круглый «игрушечный» персонаж; на кепке знак агентства */
+/* Маркетолог: тот же круглый «игрушечный» персонаж; на кепке «M» из знака Madrocks */
 const worker=new T.Group();root.add(worker);const body=new T.Group();worker.add(body);
 rounded(body,.48,.6,.29,.11,0,1.03,0,'blue');box(body,.34,.045,.021,0,1.15,.166,'white');box(body,.1,.12,.025,.13,.99,.16,'pale');
 ball(body,.13,0,1.37,0,'skin',.6,1,.65);ball(body,.205,0,1.57,.015,'skin',.91,1.1,.93);ball(body,.21,0,1.66,-.015,'navy',.94,.7,.94);
@@ -143,7 +143,7 @@ ball(body,.045,-.19,1.56,.02,'skin');ball(body,.045,.19,1.56,.02,'skin');ball(bo
 const cap=new T.Group();cap.position.set(0,1.69,.005);body.add(cap);
 const crown=new T.Mesh(new T.SphereGeometry(.224,32,20,0,Math.PI*2,0,Math.PI/2),mats.blue);crown.scale.set(1,.88,1);crown.castShadow=true;cap.add(crown);
 rounded(cap,.43,.03,.32,.13,0,.003,.205,'blue');ball(cap,.022,0,.2,0,'blue');
-const lc=document.createElement('canvas');lc.width=lc.height=256;const lx=lc.getContext('2d');lx.fillStyle='#fff';rr(lx,78,78,100,100,10);lx.fill();
+const lc=document.createElement('canvas');lc.width=lc.height=256;const lx=lc.getContext('2d');lx.strokeStyle='#fff';lx.lineWidth=20;lx.lineJoin=lx.lineCap='round';lx.beginPath();[[8,27],[13,13],[20,23],[27,12],[31,27]].forEach(([x,y],i)=>lx[i?'lineTo':'moveTo'](70+(x-8)*5,62+(y-12)*6));lx.stroke();
 const logoTex=new T.CanvasTexture(lc);logoTex.colorSpace=T.SRGBColorSpace;const capLogo=new T.Mesh(new T.SphereGeometry(.227,24,12,Math.PI/2-.42,.84,.62,.62),new T.MeshBasicMaterial({map:logoTex,transparent:true,depthWrite:false}));capLogo.scale.y=.88;cap.add(capLogo);
 function limb(x,y,ul,ll,arm){const a=new T.Group();a.position.set(x,y,0);body.add(a);const m=arm?'blue':'navy';ball(a,arm?.1:.115,0,0,0,m);rounded(a,arm?.15:.17,ul,arm?.17:.19,.055,0,-ul/2,0,m);
  const b=new T.Group();b.position.y=-ul;a.add(b);ball(b,.075,0,0,0,arm?'skin':'navy');rounded(b,arm?.115:.145,ll,arm?.13:.17,.05,0,-ll/2,0,arm?'skin':'navy');
