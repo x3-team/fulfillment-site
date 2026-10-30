@@ -28,6 +28,9 @@
 
 Агентство: `agency/uslugi/…` и `agency/ceny/` генерирует `python3 tools/agency_pages.py` (тексты и прайс —
 `tools/agency_services.py`, пакеты — `const PLANS` в `agency/index.html`).
+Он же через `tools/agency_legal.py` собирает `agency/kontakty/` и `agency/dokumenty/`: оператор и реквизиты те же,
+что у фулфилмента (константы в `tools/legal_pages.py` и `REQ` в `tools/contacts_page.py`), тексты документов — общий
+шаблон `docs()` из `legal_pages.py` с формулировками агентства.
 
 Файл `yandex_61639a54908f64cd.html` в корне — подтверждение Яндекс.Вебмастера, не удалять при выкладке.
 

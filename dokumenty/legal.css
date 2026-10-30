@@ -305,6 +305,7 @@ html.modal{overflow:hidden}
 .lh{padding:clamp(40px,6vw,72px) 0 clamp(32px,4vw,48px)}
 .lh .l{display:grid;gap:20px;justify-items:start}
 .lh h1{font-size:clamp(36px,5.6vw,80px);letter-spacing:-.035em;line-height:1;color:var(--acc);max-width:16ch}
+.lh h1{hyphens:auto;overflow-wrap:break-word}
 .lh .lead{max-width:60ch}.lh .mono{color:var(--ink5)}
 .lh+section{padding-top:0}
 .doc{display:grid;gap:40px}

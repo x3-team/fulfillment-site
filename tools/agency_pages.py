@@ -3,6 +3,7 @@
 
 Запуск из корня репозитория:  python3 tools/agency_pages.py
 Пишет agency/uslugi/index.html, agency/uslugi/<slug>/index.html, agency/ceny/index.html (прайс),
+через tools/agency_legal.py — agency/kontakty/ и agency/dokumenty/,
 agency/uslugi/uslugi.css, agency/sitemap.xml и agency/robots.txt.
 Пакеты на странице «Цены» берутся из const PLANS главной агентства.
 Стили берутся из <style> главной агентства, поэтому после правок дизайна
@@ -152,8 +153,8 @@ def footer(r, slug=None):
  <div class="cols"><div><p style="max-width:320px;color:#A9B6D0;font-size:14px">Digital-агентство для селлеров: маркетплейсы, свой интернет-магазин и маркетинг в связке с фулфилментом.</p></div>
   <div><span class="mono">Маркетплейсы</span>{col(GROUPS[0])}</div>
   <div><span class="mono">Свой канал</span>{col(GROUPS[1])}{col(GROUPS[2])}</div>
-  <div><span class="mono">Компания</span><a href="{r}uslugi/">Все услуги</a><a href="{r}#cases">Кейсы</a><a href="{r}ceny/">Цены</a><a href="{r}#process">Как мы работаем</a><a href="{FF}" target="_blank" rel="noopener">Фулфилмент ↗</a></div></div>
- <div class="legal"><span>© 2026 {BRAND} · ООО «—» · ИНН 0000000000 · Работаем по ЭДО</span><span><a href="#">Политика конфиденциальности</a> &nbsp;·&nbsp; <a href="#">Оферта</a></span></div>
+  <div><span class="mono">Компания</span><a href="{r}uslugi/">Все услуги</a><a href="{r}#cases">Кейсы</a><a href="{r}ceny/">Цены</a><a href="{r}#process">Как мы работаем</a><a href="{r}kontakty/">Контакты</a><a href="{r}kontakty/#rekvizity">Реквизиты</a><a href="{FF}" target="_blank" rel="noopener">Фулфилмент ↗</a></div></div>
+ <div class="legal"><span>© 2026 {BRAND} · ИП Зозуля М. А. · ИНН 710709737470 · Работаем по ЭДО</span><span class="docs"><a href="{r}dokumenty/politika/">Политика обработки персональных данных</a><a href="{r}dokumenty/soglasie/">Согласие на обработку данных</a><a href="{r}dokumenty/cookies/">Cookies</a><a href="{r}dokumenty/soglashenie/">Пользовательское соглашение</a></span></div>
  <div class="made"><a href="https://solentica.agency/" target="_blank" rel="noopener">Сайт сделан в студии <b>Solentica</b><i aria-hidden="true">↗</i></a></div>
 </div></footer>
 
@@ -161,7 +162,7 @@ def footer(r, slug=None):
 <div class="menu" id="menu" aria-hidden="true"><div class="wrap">
  <div class="bar"><a class="logo" href="{r}" aria-label="{BRAND} — на главную">{LOGO}</a><button class="btn ghost m" id="menuClose"><span>Закрыть</span></button></div>
  <div class="cols">
-  <nav class="prim" aria-label="Меню"><a href="{r}uslugi/"><span class="mono" style="color:var(--acc)">01</span>Услуги</a><a href="{r}#cases"><span class="mono muted">02</span>Кейсы</a><a href="{r}ceny/"><span class="mono muted">03</span>Цены</a><a href="{r}#process"><span class="mono muted">04</span>Как мы работаем</a><a href="{r}#contact"><span class="mono muted">05</span>Контакты</a></nav>
+  <nav class="prim" aria-label="Меню"><a href="{r}uslugi/"><span class="mono" style="color:var(--acc)">01</span>Услуги</a><a href="{r}#cases"><span class="mono muted">02</span>Кейсы</a><a href="{r}ceny/"><span class="mono muted">03</span>Цены</a><a href="{r}#process"><span class="mono muted">04</span>Как мы работаем</a><a href="{r}kontakty/"><span class="mono muted">05</span>Контакты</a></nav>
   <div class="sub"><span class="mono">Услуги</span>{svc_links(r)}</div>
   <div class="sub"><span class="mono">Фулфилмент · Товар в деле ↗</span><a href="{FF}" target="_blank" rel="noopener">FBS</a><a href="{FF}" target="_blank" rel="noopener">FBO</a><a href="{FF}" target="_blank" rel="noopener">Хранение</a><a href="{FF}#calc" target="_blank" rel="noopener">Калькулятор стоимости</a></div>
  </div>
@@ -355,7 +356,10 @@ def main():
         w(os.path.join(out, s['slug'], 'index.html'), service_page(s))
     os.makedirs(os.path.join(ROOT, 'ceny'), exist_ok=True)
     w(os.path.join(ROOT, 'ceny', 'index.html'), prices_page(src))
-    urls = [BASE, url(), BASE + 'ceny/'] + [url(s['slug']) for s in SERVICES]
+    import agency_legal  # документы и контакты: та же шапка и подвал
+    agency_legal.main()
+    urls = ([BASE, url(), BASE + 'ceny/'] + [url(s['slug']) for s in SERVICES]
+            + [BASE + 'kontakty/', BASE + 'dokumenty/'] + [BASE + f'dokumenty/{d}/' for d in ('politika', 'soglasie', 'cookies', 'soglashenie')])
     w(os.path.join(ROOT, 'sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
       + ''.join(f'  <url><loc>{u}</loc></url>\n' for u in urls) + '</urlset>\n')
     w(os.path.join(ROOT, 'robots.txt'), f'User-agent: *\nAllow: /\n\nSitemap: {BASE}sitemap.xml\n')
