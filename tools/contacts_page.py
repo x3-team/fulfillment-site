@@ -25,7 +25,7 @@ WAREHOUSE = 'Тула, ул. Пролетарская, д. 127/1'
 COORDS = '37.640777,54.206822'
 # Телефон в любом виде, например '+7 (495) 123-45-67'. Пока пусто — карточка не показывается.
 PHONE = '+7 (916) 728-42-46'
-TG = 'https://t.me/'
+TG = 'https://t.me/tovarvdele_bot'
 
 # Реквизиты: по просьбе заказчика только ИП, ИНН и банковские (без адресов и ОГРНИП).
 REQ = [
@@ -104,7 +104,7 @@ def relink(s):
     """Ссылки главной → ссылки со страницы kontakty/."""
     s = re.sub(r'href="#"', 'href="../"', s)
     s = re.sub(r'href="#([^"]*)"', r'href="../#\1"', s)
-    s = s.replace('href="dokumenty/', 'href="../dokumenty/').replace('href="kontakty/', 'href="./')
+    s = s.replace('href="dokumenty/', 'href="../dokumenty/').replace('href="uslugi/', 'href="../uslugi/').replace('href="ceny/', 'href="../ceny/').replace('href="kontakty/', 'href="./')
     return s
 
 
