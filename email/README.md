@@ -29,3 +29,6 @@
 Переменные шаблона: `name`, `phone`, `phone_link`, `email`, `topic`, `services`, `services_html` (`{{{services_html}}}`), `shop`, `shop_html` (`{{{shop_html}}}`), `sent_at`, `page`, `consent` (согласие на обработку ПДн с датой и редакцией).
 
 Открыть форму с другой страницы: ссылка на `https://madrocks.agency/#lead` или `https://madrocks.agency/#lead=Тема|Услуга,Услуга` (услуги — подписи чипов в форме).
+
+## С 30.10.2026 основной канал — Telegram
+Заявки сначала уходят в Telegram через `api/lead.php` (см. README в корне). EmailJS — запасной канал: срабатывает, только если эндпоинт не ответил `ok`, и только когда заполнены ключи в `const LEAD`. Без ключей запасного канала нет, а демо-режим убран.

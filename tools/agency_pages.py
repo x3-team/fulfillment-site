@@ -92,7 +92,8 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return
 const ct=$('#contact');if(ct)new IntersectionObserver(es=>es.forEach(e=>document.documentElement.classList.toggle('in-form',e.isIntersecting))).observe(ct);
 const tick=()=>{const d=new Date(Date.now()+3*36e5);$('#ftClock').textContent=String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0')};tick();setInterval(tick,30000);
 })();
-</script>'''
+</script>
+<script>/* UTM и источник перехода: запоминаем на входе на сайт, уходят в заявку (api/lead.php) */(()=>{try{const q=new URLSearchParams(location.search),u={};['utm_source','utm_medium','utm_campaign','utm_content','utm_term','yclid','gclid'].forEach(k=>{const v=q.get(k);if(v)u[k]=v.slice(0,300)});const s=sessionStorage;if(Object.keys(u).length||!s.getItem('lead-utm')){const r=document.referrer;if(r&&new URL(r).host!==location.host)u.referrer=r.slice(0,300);u.landing=location.href.split('#')[0].slice(0,300);s.setItem('lead-utm',JSON.stringify(u))}}catch(_){}})();</script>'''
 
 
 def url(slug=None):
@@ -362,7 +363,7 @@ def main():
             + [BASE + 'kontakty/', BASE + 'dokumenty/'] + [BASE + f'dokumenty/{d}/' for d in ('politika', 'soglasie', 'cookies', 'soglashenie')])
     w(os.path.join(ROOT, 'sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
       + ''.join(f'  <url><loc>{u}</loc></url>\n' for u in urls) + '</urlset>\n')
-    w(os.path.join(ROOT, 'robots.txt'), f'User-agent: *\nAllow: /\n\nSitemap: {BASE}sitemap.xml\n')
+    w(os.path.join(ROOT, 'robots.txt'), f'User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: {BASE}sitemap.xml\n')
     print(f'{len(SERVICES)} страниц услуг + список, ceny/, sitemap: {len(urls)} адресов')
     print('Плейсхолдеры цен агентства (все цены страницы agency/ceny/ и пакетов):')
     for s in SERVICES:
