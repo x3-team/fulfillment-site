@@ -69,6 +69,7 @@
   "robots": {
     "disallow": [
       "email/",
+      "api/",
       "assets/tovar-v-dele-animation.html"
     ],
     "extra_sitemaps": []

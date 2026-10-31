@@ -484,6 +484,7 @@ html.modal{overflow:hidden}
 
 <div class="ck" id="ck" role="region" aria-label="Уведомление о cookies"><p>Сайт и встроенные сервисы (Яндекс Метрика, Яндекс Карты, шрифты) используют cookies и технические данные браузера. Продолжая пользоваться сайтом, вы соглашаетесь с <a href="dokumenty/cookies/">политикой cookies</a>.</p><button type="button" class="btn dark m" id="ckOk"><span>Понятно</span></button></div>
 <script>(()=>{const k='ck-ok',c=document.getElementById('ck');let seen=false;try{seen=localStorage.getItem(k)==='1'}catch(_){}if(seen)return;const d=document.querySelector('.dock');if(d)document.documentElement.style.setProperty('--dock-h',d.offsetHeight+'px');c.classList.add('on');document.getElementById('ckOk').onclick=()=>{c.classList.remove('on');try{localStorage.setItem(k,'1')}catch(_){}}})()</script>
+<script>/* UTM и источник перехода: запоминаем на входе на сайт, уходят в заявку (api/lead.php) */(()=>{try{const q=new URLSearchParams(location.search),u={};['utm_source','utm_medium','utm_campaign','utm_content','utm_term','yclid','gclid'].forEach(k=>{const v=q.get(k);if(v)u[k]=v.slice(0,300)});const s=sessionStorage;if(Object.keys(u).length||!s.getItem('lead-utm')){const r=document.referrer;if(r&&new URL(r).host!==location.host)u.referrer=r.slice(0,300);u.landing=location.href.split('#')[0].slice(0,300);s.setItem('lead-utm',JSON.stringify(u))}}catch(_){}})();</script>
 <dialog class="lead-dlg" id="leadDlg" aria-labelledby="leadTtl">
  <button type="button" class="x" data-close aria-label="Закрыть"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3 3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
  <div class="lead-g">
@@ -600,14 +601,14 @@ syncQty();calc();
 {const m=/^#calc=([\w,]+)$/.exec(location.hash);if(m){const want=m[1].split(','),pick=want.filter(k=>k!=='store');if(pick.length){$$('#work input,#fbs input,#fbo input').forEach(x=>x.checked=pick.includes(x.value))}
  if(want.includes('store')&&$('#addStore').getAttribute('aria-pressed')!=='true')$('#addStore').click();calc();history.replaceState(null,'',location.pathname+location.search+'#calc');requestAnimationFrame(()=>$('#calc').scrollIntoView())}}
 {const seen=new Set(),cio=new IntersectionObserver(es=>{es.forEach(e=>e.isIntersecting?seen.add(e.target):seen.delete(e.target));document.documentElement.classList.toggle('in-calc',seen.size>0)});cio.observe(calcEl);cio.observe($('#calcOut'))}
-/* lead form → email to the manager via EmailJS (static hosting, no backend).
-   Fill in the keys from the EmailJS dashboard; while they are empty the form runs in demo mode and only logs the request. */
+/* lead form → Telegram via api/lead.php (PHP on the hosting, token outside docroot).
+   EmailJS is the fallback channel: fill in the keys from the EmailJS dashboard; while they are empty there is no fallback. */
 const LEAD={service:'',template:'',key:''};
 const CONSENT_ED='30.10.2026';/* редакция dokumenty/soglasie/, менять вместе с LEGAL_ED в tools/legal_pages.py */
 const dlg=$('#leadDlg'),lf=$('#leadForm'),esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fillSum=()=>{const c=CALC;$('#lTotal').textContent=money(c.total);$('#lUnits').textContent=fmt(c.n)+' ед.';$('#lPer').textContent=money(c.per);$('#lDisc').textContent=money(c.total*(1-DISC));$('#lOps').textContent=c.ops;$('#lNote').textContent=`${fmt(c.n)} ед. · ${money(c.per)} за единицу · со скидкой 10%: ${money(c.total*(1-DISC))}`;
  $('#lLines').innerHTML=c.rows.map(r=>`<div><span>${esc(r[0])}</span><span>${money(r[1])}</span></div>`).join('')};
-const openLead=()=>{fillSum();dlg.classList.remove('sent');lf.classList.remove('failed');$('#lDet').open=innerWidth>=860;document.documentElement.classList.add('modal');dlg.showModal();if(matchMedia('(hover:hover)').matches)setTimeout(()=>lf.name.focus(),50);else dlg.scrollTop=0};
+const openLead=()=>{fillSum();lf.dataset.t=Date.now();dlg.classList.remove('sent');lf.classList.remove('failed');$('#lDet').open=innerWidth>=860;document.documentElement.classList.add('modal');dlg.showModal();if(matchMedia('(hover:hover)').matches)setTimeout(()=>lf.name.focus(),50);else dlg.scrollTop=0};
 dlg.addEventListener('close',()=>document.documentElement.classList.remove('modal'));
 dlg.addEventListener('click',e=>{if(e.target===dlg||e.target.closest('[data-close]'))dlg.close()});
 $('#leadBtn').addEventListener('click',openLead);
@@ -620,6 +621,12 @@ lf.agree.addEventListener('change',()=>valid('agree'));
 lf.addEventListener('input',e=>{const f=e.target.name;if(CHECK[f]&&e.target.closest('.fld').classList.contains('bad'))valid(f)});
 lf.addEventListener('focusout',e=>{const f=e.target.name;if(CHECK[f]&&e.target.value)valid(f)});
 const td='font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:22px;padding:12px 0;border-top:1px solid #E1ECFC;';
+const tgParams=p=>{const c=CALC;return{form:'calc',name:p.name,phone:p.phone,email:p.email,page:p.page,consent:p.consent,
+ calc:{units:p.units+' ед.',total:p.total,per_unit:p.per_unit,discount:p.discount,ops:p.ops,lines:c.rows.map(r=>[r[0],money(r[1])])}}};
+/* заявка → Telegram через api/lead.php; если эндпоинт не ответил ok — запасной канал EmailJS */
+const utm=()=>{try{return JSON.parse(sessionStorage.getItem('lead-utm')||'{}')}catch(_){return{}}};
+const toTg=async p=>{try{const r=await fetch('api/lead.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...p,utm:utm(),ts:+lf.dataset.t||0,company:lf.company.value})});const j=await r.json().catch(()=>null);return r.ok&&!!j&&j.ok===true}catch(_){return false}};
+const toMail=async p=>{if(!LEAD.key)return false;try{return(await fetch('https://api.emailjs.com/api/v1.0/email/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({service_id:LEAD.service,template_id:LEAD.template,user_id:LEAD.key,template_params:p})})).ok}catch(_){return false}};
 const leadParams=()=>{const c=CALC,now=new Date(Date.now()+3*36e5),pad=x=>String(x).padStart(2,'0');return{
  name:lf.name.value.trim(),phone:lf.phone.value.trim(),phone_link:'+'+digits(lf.phone.value),email:lf.email.value.trim(),
  total:money(c.total),per_unit:money(c.per),discount:money(c.total*(1-DISC)),units:fmt(c.n),ops:String(c.ops),
@@ -631,8 +638,7 @@ lf.addEventListener('submit',async e=>{e.preventDefault();const bad=['name','pho
  const b=$('#leadSend');if(b.getAttribute('aria-busy'))return;lf.classList.remove('failed');b.setAttribute('aria-busy','true');b.querySelector('span').textContent='Отправляем…';
  const params=leadParams();let ok=false;
  try{if(lf.company.value)ok=true;/* bot filled the hidden field: pretend success */
-  else if(!LEAD.key){console.info('[lead demo] EmailJS keys are not set, request not sent',params);await new Promise(r=>setTimeout(r,700));ok=true}
-  else ok=(await fetch('https://api.emailjs.com/api/v1.0/email/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({service_id:LEAD.service,template_id:LEAD.template,user_id:LEAD.key,template_params:params})})).ok}catch(_){ok=false}
+  else ok=await toTg(tgParams(params))||await toMail(params)}catch(_){ok=false}
  b.removeAttribute('aria-busy');b.querySelector('span').textContent='Отправить расчёт';
  if(!ok){lf.classList.add('failed');return}
  $('#lOkTxt').textContent=`${params.name}, свяжемся с вами в течение рабочего дня: позвоним на ${params.phone} и пришлём точную цену и проект договора на ${params.email}.`;
