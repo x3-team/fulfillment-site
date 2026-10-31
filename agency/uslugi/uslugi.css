@@ -173,6 +173,8 @@ footer .wm{font-size:clamp(44px,13vw,200px);line-height:.9;font-weight:700;lette
 footer .cols{display:grid;gap:40px}@media (min-width:800px){footer .cols{grid-template-columns:2fr 1fr 1fr 1fr}}
 footer .cols .mono{color:#A9B6D0;margin-bottom:12px;display:block}footer .cols a{display:block;font-size:14px;margin-top:10px}footer .cols a:hover{color:#5C8DFF}
 footer .legal{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;margin-top:48px;padding-top:24px;border-top:1px solid var(--dark7);font-size:14px;color:#A9B6D0}
+.legal .docs{display:flex;flex-wrap:wrap;gap:8px 24px}
+.legal a:hover{color:#fff}
 footer .made{margin-top:20px;font-size:13px;color:#7F8DAE}footer .made a{color:#7F8DAE;display:inline-flex;align-items:center;gap:6px;transition:color var(--fast)}footer .made b{color:#fff;font-weight:600;letter-spacing:.01em}footer .made i{font-style:normal;color:#5C8DFF;transition:transform var(--base) var(--std)}footer .made a:hover{color:#fff}footer .made a:hover i{transform:translate(2px,-2px)}
 /* menu */
 .menu{position:fixed;inset:0;z-index:50;background:var(--paper);padding:24px 0 48px;overflow:auto;transform:translateY(-100%);visibility:hidden;transition:transform var(--reveal) var(--emph),visibility 0s var(--reveal)}
@@ -226,7 +228,8 @@ html.modal{overflow:hidden}
 .chips input:focus-visible+span{outline:2px solid var(--acc);outline-offset:2px}
 .lead-f .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .lead-f .btn{width:100%}.lead-f .btn>span{flex:1;justify-content:center}
-.lead-f .agree{font-size:13px;color:var(--ink5);margin:0}.lead-f .agree a{text-decoration:underline}
+.chk{display:grid;grid-template-columns:20px 1fr;gap:4px 12px;align-items:start;font-size:13px;line-height:1.45;color:var(--ink5);cursor:pointer}.chk a{text-decoration:underline;color:inherit}.chk a:hover{color:var(--acc)}
+.chk input{width:20px;height:20px;margin:0;accent-color:var(--acc);cursor:pointer}.chk .err{grid-column:2;display:none;font-size:13px;color:#C62F34}.chk.bad .err{display:block}.chk.bad input{outline:2px solid #E5484D;outline-offset:1px}
 .lead-f .fail{display:none;margin:0;padding:12px 14px;border-radius:2px;background:#FFF5F5;color:#C62F34;font-size:14px}.lead-f.failed .fail{display:block}
 .lead-ok{display:none;padding:56px 40px;align-content:center;gap:16px;justify-items:start}.lead-ok .ic{width:56px;height:56px;display:grid;place-items:center;background:var(--ok);border-radius:2px}
 .lead-ok h2{font-size:clamp(28px,3vw,36px);letter-spacing:-.02em;margin:8px 0 0}.lead-ok p{color:var(--ink5);margin:0;max-width:44ch}
@@ -275,3 +278,17 @@ html.modal{overflow:hidden}
 .list a p{color:var(--ink5);margin-top:8px;max-width:70ch}.list a b{white-space:nowrap;font-weight:600;font-size:18px}
 .list a:hover h2{color:var(--acc6);transform:translateX(8px)}
 @media (max-width:699px){.list a{grid-template-columns:40px 1fr;gap:12px}.list a b{grid-column:2}}
+/* ---- страница «Цены» ---- */
+.links{display:flex;flex-wrap:wrap;gap:12px 24px;margin-top:32px}.links a{color:var(--acc);font-weight:500}.links a:hover{color:var(--acc6)}
+.pt{display:grid;gap:16px}
+.pg{display:grid;gap:8px 48px;padding:28px 28px 20px;background:var(--card);border:1px solid var(--line);border-radius:4px}
+@media (min-width:1000px){.pg{grid-template-columns:300px 1fr}}
+.pg .h{display:grid;gap:12px;align-content:start;justify-items:start}.pg .h h2{font-size:clamp(26px,2.6vw,34px)}
+.pg .h a{color:var(--acc);font-weight:500;font-size:15px}.pg .h a:hover{color:var(--acc6)}
+.pg table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.pg td{padding:14px 0;border-top:1px solid var(--line);vertical-align:baseline}.pg tr:first-child td{border-top:0}
+.pg td:first-child{padding-right:24px}.pg td.p{text-align:right;white-space:nowrap;font-weight:600;font-size:18px;color:var(--acc6)}
+.pg td.u{text-align:right;white-space:nowrap;color:var(--ink5);font-size:14px;padding-left:12px;width:150px}
+@media (max-width:599px){.pg{padding:22px 20px 14px}.pg tr{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:12px 0;border-top:1px solid var(--line)}.pg tr:first-child{border-top:0}
+ .pg td{padding:0;border:0}.pg td:first-child{grid-column:1/-1;padding:0}.pg td.p{text-align:left}.pg td.u{width:auto}}
+.pnote{display:grid;gap:12px;margin-top:32px;max-width:80ch;color:var(--ink5)}

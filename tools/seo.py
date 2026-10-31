@@ -12,10 +12,11 @@
 Запускать после правок data/seo.json, текстов главной и после генераторов
 contacts_page.py / legal_pages.py (они вызывают его сами).
 """
-import ast, datetime, html, json, os, re, subprocess
+import ast, datetime, html, json, os, re, subprocess, sys
 from urllib.parse import urlsplit
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 CFG = os.path.join(ROOT, 'data', 'seo.json')
 START, END = '<!-- seo -->', '<!-- /seo -->'
 OG_W, OG_H = 1200, 630
@@ -135,6 +136,37 @@ def clean(o):
     return o
 
 
+def ff_graph(cfg, page, kinds):
+    """Разметка страниц услуг и цен (tools/ff_pages.py): Service, список услуг, прайс."""
+    if not {'service', 'service_faq', 'services', 'prices'} & set(kinds):
+        return []
+    from ff_services import PRICES, SERVICES
+    base = cfg['site']['base_url']
+    biz = {'@id': base + '#business'}
+    num = lambda p: re.sub(r'[^\d,]', '', p).replace(',', '.') or None
+    g = []
+    s = next((x for x in SERVICES if x['slug'] == page.get('service')), None)
+    if s and 'service' in kinds:
+        g.append({'@type': 'Service', 'name': s['name'], 'serviceType': s['name'], 'description': s['description'],
+                  'url': base + page['path'], 'provider': biz, 'areaServed': {'@type': 'Country', 'name': 'Россия'},
+                  'offers': {'@type': 'Offer', 'priceCurrency': 'RUB', 'description': f'{s["price"]} {s["unit"]}',
+                             'priceSpecification': {'@type': 'UnitPriceSpecification', 'price': num(s['price']),
+                                                    'priceCurrency': 'RUB', 'unitText': s['unit']}}})
+    if s and 'service_faq' in kinds:
+        g.append({'@type': 'FAQPage', 'mainEntity': [
+            {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in s['faq']]})
+    if 'services' in kinds:
+        g.append({'@type': 'ItemList', 'itemListElement': [
+            {'@type': 'ListItem', 'position': i + 1, 'name': x['name'], 'url': f'{base}uslugi/{x["slug"]}/'} for i, x in enumerate(SERVICES)]})
+    if 'prices' in kinds:
+        g.append({'@type': 'OfferCatalog', 'name': 'Цены на фулфилмент', 'url': base + page['path'], 'itemListElement': [
+            {'@type': 'OfferCatalog', 'name': grp['name'], 'itemListElement': [
+                {'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': n, 'provider': biz}, 'priceCurrency': 'RUB',
+                 'priceSpecification': {'@type': 'UnitPriceSpecification', 'price': num(pr), 'priceCurrency': 'RUB', 'unitText': u}}
+                for n, pr, u, _ in grp['rows'] if num(pr)]} for grp in PRICES]})
+    return g
+
+
 def graph(cfg, page, svc, qa):
     site, base = cfg['site'], cfg['site']['base_url']
     kinds, g = page.get('schema', []), []
@@ -148,6 +180,7 @@ def graph(cfg, page, svc, qa):
             {'@type': 'Question', 'name': text(q), 'acceptedAnswer': {'@type': 'Answer', 'text': text(a)}} for q, a in qa]})
     if 'breadcrumbs' in kinds:
         g.append(breadcrumbs(cfg, page))
+    g += ff_graph(cfg, page, kinds)
     return clean({'@context': 'https://schema.org', '@graph': g}) if g else None
 
 
@@ -204,8 +237,8 @@ def head_block(cfg, page, svc, qa):
 METRIKA = ('<script>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();'
            'for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}'
            'k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})'
-           '(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");'
-           'ym({ID},"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:false});</script>'
+           '(window,document,"script","https://mc.yandex.ru/metrika/tag.js?id={ID}","ym");'
+           'ym({ID},"init",{ssr:true,webvisor:true,clickmap:true,ecommerce:"dataLayer",referrer:document.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true});</script>'
            '<noscript><div><img src="https://mc.yandex.ru/watch/{ID}" style="position:absolute;left:-9999px" alt=""></div></noscript>')
 
 

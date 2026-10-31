@@ -1,6 +1,5 @@
 {
   "_readme": "SEO сайта «Товар в деле». Правьте значения здесь, затем запустите python3 tools/seo.py — он обновит <head> страниц, robots.txt, sitemap.xml и llms.txt. Пустая строка = поле не выводится.",
-
   "site": {
     "name": "Товар в деле",
     "base_url": "https://tovarvdele.ru/",
@@ -11,7 +10,6 @@
     "theme_color": "#0056E0",
     "title_suffix": " — Товар в деле"
   },
-
   "organization": {
     "name": "Товар в деле",
     "alternate_name": "Фулфилмент «Товар в деле»",
@@ -22,7 +20,9 @@
     "email": "",
     "logo": "img/logo-512.png",
     "price_range": "₽",
-    "area_served": ["Россия"],
+    "area_served": [
+      "Россия"
+    ],
     "address": {
       "street": "ул. Пролетарская, д. 127/1",
       "locality": "Тула",
@@ -31,29 +31,48 @@
       "postal_code": "",
       "country": "RU"
     },
-    "geo": { "lat": 54.206822, "lon": 37.640777 },
+    "geo": {
+      "lat": 54.206822,
+      "lon": 37.640777
+    },
     "opening_hours": [],
-    "_opening_hours_example": [{ "days": ["Mo", "Tu", "We", "Th", "Fr"], "opens": "09:00", "closes": "20:00" }],
-    "same_as": [],
-    "_same_as_example": ["https://t.me/tovarvdele", "https://yandex.ru/maps/org/..."]
+    "_opening_hours_example": [
+      {
+        "days": [
+          "Mo",
+          "Tu",
+          "We",
+          "Th",
+          "Fr"
+        ],
+        "opens": "09:00",
+        "closes": "20:00"
+      }
+    ],
+    "same_as": [
+      "https://t.me/tovarvdele_bot"
+    ],
+    "_same_as_example": [
+      "https://t.me/tovarvdele",
+      "https://yandex.ru/maps/org/..."
+    ]
   },
-
   "verification": {
     "_readme": "Коды из Яндекс.Вебмастера и Google Search Console (способ «Метатег»), только значение content.",
     "yandex": "",
     "google": ""
   },
-
   "analytics": {
-    "_readme": "Номер счётчика Яндекс.Метрики. Перед включением дополнить политику cookies (dokumenty/): сейчас в ней написано, что счётчиков нет.",
-    "yandex_metrika": ""
+    "_readme": "Номер счётчика Яндекс.Метрики (включён 30.10.2026, с Вебвизором; политика cookies в dokumenty/ это описывает). Пусто = счётчика нет.",
+    "yandex_metrika": "113902413"
   },
-
   "robots": {
-    "disallow": ["email/", "assets/tovar-v-dele-animation.html"],
+    "disallow": [
+      "email/",
+      "assets/tovar-v-dele-animation.html"
+    ],
     "extra_sitemaps": []
   },
-
   "pages": [
     {
       "path": "",
@@ -63,7 +82,11 @@
       "og_title": "Товар в деле — фулфилмент для маркетплейсов и интернет-магазинов",
       "changefreq": "weekly",
       "priority": 1.0,
-      "schema": ["website", "business", "faq"]
+      "schema": [
+        "website",
+        "business",
+        "faq"
+      ]
     },
     {
       "path": "kontakty/",
@@ -72,7 +95,10 @@
       "description": "Контакты фулфилмента «Товар в деле»: телефон, Telegram, адрес склада в Туле (ул. Пролетарская, 127/1) и реквизиты ИП Зозуля М. А.",
       "changefreq": "monthly",
       "priority": 0.8,
-      "schema": ["business", "breadcrumbs"],
+      "schema": [
+        "business",
+        "breadcrumbs"
+      ],
       "breadcrumb": "Контакты"
     },
     {
@@ -82,7 +108,9 @@
       "description": "Политика обработки персональных данных, согласие, политика cookies и пользовательское соглашение сайта «Товар в деле».",
       "changefreq": "yearly",
       "priority": 0.3,
-      "schema": ["breadcrumbs"],
+      "schema": [
+        "breadcrumbs"
+      ],
       "breadcrumb": "Документы"
     },
     {
@@ -92,7 +120,9 @@
       "description": "Как и зачем мы обрабатываем персональные данные посетителей сайта и клиентов, кому их передаём и как их защищаем.",
       "changefreq": "yearly",
       "priority": 0.2,
-      "schema": ["breadcrumbs"],
+      "schema": [
+        "breadcrumbs"
+      ],
       "breadcrumb": "Политика обработки персональных данных"
     },
     {
@@ -102,7 +132,9 @@
       "description": "Текст согласия, которое пользователь даёт, отмечая галочку в форме «Получить точный расчёт».",
       "changefreq": "yearly",
       "priority": 0.2,
-      "schema": ["breadcrumbs"],
+      "schema": [
+        "breadcrumbs"
+      ],
       "breadcrumb": "Согласие на обработку персональных данных"
     },
     {
@@ -112,7 +144,9 @@
       "description": "Какие cookies и технические данные используются при просмотре сайта и как их отключить.",
       "changefreq": "yearly",
       "priority": 0.2,
-      "schema": ["breadcrumbs"],
+      "schema": [
+        "breadcrumbs"
+      ],
       "breadcrumb": "Политика в отношении cookies"
     },
     {
@@ -122,11 +156,143 @@
       "description": "Условия использования сайта: статус информации и цен калькулятора, права на материалы, ответственность.",
       "changefreq": "yearly",
       "priority": 0.2,
-      "schema": ["breadcrumbs"],
+      "schema": [
+        "breadcrumbs"
+      ],
       "breadcrumb": "Пользовательское соглашение"
+    },
+    {
+      "path": "uslugi/",
+      "file": "uslugi/index.html",
+      "title": "Услуги фулфилмента для Wildberries, Ozon и Яндекс Маркета — Товар в деле",
+      "description": "Все услуги фулфилмента «Товар в деле»: FBS, FBO, хранение, приёмка, маркировка «Честный знак», упаковка, возвраты и доставка до складов маркетплейсов. Склад в Туле.",
+      "changefreq": "monthly",
+      "priority": 0.9,
+      "schema": [
+        "breadcrumbs",
+        "services"
+      ],
+      "breadcrumb": "Услуги"
+    },
+    {
+      "path": "ceny/",
+      "file": "ceny/index.html",
+      "title": "Цены на фулфилмент: прайс на FBS, FBO, хранение и маркировку — Товар в деле",
+      "description": "Прайс фулфилмента «Товар в деле»: приёмка от 5 ₽, FBS от 10 ₽, FBO от 5 ₽ за единицу, хранение 0,07 ₽ за литр в сутки, первые 14 дней бесплатно.",
+      "changefreq": "monthly",
+      "priority": 0.9,
+      "schema": [
+        "breadcrumbs",
+        "prices"
+      ],
+      "breadcrumb": "Цены"
+    },
+    {
+      "path": "uslugi/fbs/",
+      "file": "uslugi/fbs/index.html",
+      "title": "Фулфилмент FBS в Туле: хранение и отгрузка заказов — Товар в деле",
+      "description": "FBS-фулфилмент для Wildberries, Ozon и Яндекс Маркета: храним товар на складе в Туле, собираем и отгружаем заказы дважды в день. От 10 ₽ за заказ.",
+      "changefreq": "monthly",
+      "priority": 0.8,
+      "schema": [
+        "breadcrumbs",
+        "service",
+        "service_faq"
+      ],
+      "breadcrumb": "FBS",
+      "service": "fbs"
+    },
+    {
+      "path": "uslugi/fbo/",
+      "file": "uslugi/fbo/index.html",
+      "title": "Фулфилмент FBO: подготовка поставок на склады WB и Ozon — Товар в деле",
+      "description": "Готовим поставки FBO на склады Wildberries, Ozon и Яндекс Маркета: маркировка, сборка коробов и паллет, документы, доставка. Сборка от 5 ₽ за единицу.",
+      "changefreq": "monthly",
+      "priority": 0.8,
+      "schema": [
+        "breadcrumbs",
+        "service",
+        "service_faq"
+      ],
+      "breadcrumb": "FBO",
+      "service": "fbo"
+    },
+    {
+      "path": "uslugi/hranenie/",
+      "file": "uslugi/hranenie/index.html",
+      "title": "Хранение товаров для маркетплейсов на складе в Туле — Товар в деле",
+      "description": "Адресное хранение товаров для селлеров: ячейки, паллетные места, учёт в WMS. 0,07 ₽ за литр в сутки, первые 14 дней бесплатно.",
+      "changefreq": "monthly",
+      "priority": 0.8,
+      "schema": [
+        "breadcrumbs",
+        "service",
+        "service_faq"
+      ],
+      "breadcrumb": "Хранение",
+      "service": "hranenie"
+    },
+    {
+      "path": "uslugi/priemka/",
+      "file": "uslugi/priemka/index.html",
+      "title": "Приёмка товара на фулфилмент: пересчёт и проверка на брак — Товар в деле",
+      "description": "Приёмка товара на складе в Туле: разгрузка коробов и паллет, пересчёт, проверка на брак, акт с фото расхождений в день поставки. От 5 ₽ за единицу.",
+      "changefreq": "monthly",
+      "priority": 0.8,
+      "schema": [
+        "breadcrumbs",
+        "service",
+        "service_faq"
+      ],
+      "breadcrumb": "Приёмка и проверка",
+      "service": "priemka"
+    },
+    {
+      "path": "uslugi/markirovka-i-upakovka/",
+      "file": "uslugi/markirovka-i-upakovka/index.html",
+      "title": "Маркировка «Честный знак» и упаковка для маркетплейсов — Товар в деле",
+      "description": "Маркировка товаров «Честный знак», стикеры WB, Ozon и Яндекс Маркета, упаковка, сборка комплектов и вложения. От 5 ₽ за единицу.",
+      "changefreq": "monthly",
+      "priority": 0.8,
+      "schema": [
+        "breadcrumbs",
+        "service",
+        "service_faq"
+      ],
+      "breadcrumb": "Маркировка и упаковка",
+      "service": "markirovka-i-upakovka"
+    },
+    {
+      "path": "uslugi/vozvraty/",
+      "file": "uslugi/vozvraty/index.html",
+      "title": "Обработка возвратов с Wildberries и Ozon, переупаковка — Товар в деле",
+      "description": "Забираем возвраты с маркетплейсов, проверяем, переупаковываем и возвращаем товар в продажу. Каждый возврат — с фото и актом. От 25 ₽ за единицу.",
+      "changefreq": "monthly",
+      "priority": 0.8,
+      "schema": [
+        "breadcrumbs",
+        "service",
+        "service_faq"
+      ],
+      "breadcrumb": "Возвраты",
+      "service": "vozvraty"
+    },
+    {
+      "path": "uslugi/zabor-i-dostavka/",
+      "file": "uslugi/zabor-i-dostavka/index.html",
+      "title": "Забор товара и доставка на склады WB, Ozon, Яндекс Маркета — Товар в деле",
+      "description": "Забираем товар у поставщика, с рынка или из ТК и доставляем до сортировочных центров и складов Wildberries, Ozon и Яндекс Маркета своим транспортом.",
+      "changefreq": "monthly",
+      "priority": 0.8,
+      "schema": [
+        "breadcrumbs",
+        "service",
+        "service_faq"
+      ],
+      "breadcrumb": "Забор и доставка",
+      "service": "zabor-i-dostavka"
     }
   ],
-
   "llms": {
     "_readme": "Текст для llms.txt (краткая справка для ИИ-поиска: Алиса, ChatGPT, Perplexity). Услуги и вопросы берутся с главной автоматически.",
     "summary": "«Товар в деле» — фулфилмент для селлеров Wildberries, Ozon, Яндекс Маркета и интернет-магазинов. Склад в Туле, ул. Пролетарская, 127/1. Работаем от первой партии, без минимального ежемесячного платежа; цену за единицу можно посчитать в калькуляторе на сайте до договора.",
