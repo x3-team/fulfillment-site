@@ -177,10 +177,10 @@ function render_file(string $rel, array $s): string
     $lazy = function () use (&$d) {
         return $d ??= defaults();
     };
+    if (isset($s['calculator'])) {
+        $out = put_calculator($out, $s['calculator']);   // CALC_CFG на главной + цены на страницах услуг и цен
+    }
     if ($rel === 'index.html') {
-        if (isset($s['calculator'])) {
-            $out = put_calculator($out, $s['calculator']);
-        }
         if (isset($s['texts'])) {
             $out = put_texts($out, $s['texts']);
         }
@@ -214,10 +214,20 @@ function ru_num(float|int $v): string
 function put_calculator(string $html, array $c): string
 {
     $html = preg_replace_callback('/const CALC_CFG=\{.*?\};\n/', fn () => 'const CALC_CFG=' . json_encode($c, JS_JSON) . ";\n", $html, 1);
-    $vals = ['cfg-disc' => ru_num($c['discount']), 'cfg-rate' => ru_num($c['storage']['rate']), 'cfg-free' => (string) (int) $c['storage']['free_days']];
-    foreach ($vals as $cls => $v) {
-        $html = preg_replace_callback('/(<span class="' . $cls . '">)[^<]*(<\/span>)/', fn ($m) => $m[1] . $v . $m[2], $html);
+    $vals = ['disc' => ru_num($c['discount']), 'rate' => ru_num($c['storage']['rate']), 'free' => (string) (int) $c['storage']['free_days']];
+    foreach ($vals as $k => $v) {
+        $html = preg_replace_callback('/(<span class="cfg-' . $k . '">)[^<]*(<\/span>)/', fn ($m) => $m[1] . $v . $m[2], $html);
     }
+    // Страницы услуг и цен (tools/ff_pages.py): <span class="cfg-p" data-k="id"> — цена строки калькулятора по id.
+    // Если строку удалили из калькулятора, на странице остаётся цена из вёрстки.
+    $vals['accept'] = ru_num($c['accept']);
+    foreach (['unload', 'work', 'fbs', 'fbo'] as $g) {
+        foreach ($c[$g] ?? [] as $it) {
+            $vals[$it['id']] ??= ru_num($it['price']);
+        }
+    }
+    $html = preg_replace_callback('/(<span class="cfg-p" data-k="(\w+)">)([^<]*)(<\/span>)/',
+        fn ($m) => $m[1] . ($vals[$m[2]] ?? $m[3]) . $m[4], $html);
     // То же в разметке для поисковиков (описание услуги «Хранение»)
     return mapJsonLd($html, function (array $n) use ($c) {
         array_walk_recursive($n, function (&$v) use ($c) {

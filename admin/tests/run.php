@@ -44,7 +44,7 @@ $d = defaults();
 ok($d['calculator']['accept'] === 5 && $d['calculator']['unload'][0]['price'] === 35 && $d['calculator']['storage']['rate'] === 0.07, 'цены калькулятора читаются из index.html');
 ok(count($d['faq']) === 6 && count($d['texts']) === 17, 'вопросы и тексты читаются');
 ok($d['contacts']['phone'] === '+7 (916) 728-42-46' && $d['contacts']['address'] !== '', 'контакты читаются из data/seo.json');
-ok(count(managed_files()) === 8, 'админка управляет 7 страницами и llms.txt');
+ok(count(managed_files()) === 17 && in_array('ceny/index.html', managed_files(), true) && in_array('uslugi/fbs/index.html', managed_files(), true), 'админка управляет 16 страницами (с услугами и ценами) и llms.txt');
 ok(apply_settings([]) === [], 'без правок сайт не меняется');
 
 echo "Калькулятор\n";
@@ -59,6 +59,7 @@ foreach (CALC_GROUPS as $g => $_) {
 ok($same === null && !$err, 'форма без изменений = «как в вёрстке»');
 $post['ops']['work'][0]['name'] = 'Маркировка </script><b>';
 $post['ops']['work'][] = ['id' => '', 'name' => 'Фото товара', 'price' => '12', 'per' => 'за ед.'];
+$post['ops']['fbs'][1]['price'] = '17';   // fbschz
 [$calc, $err] = form_calculator($post, $d['calculator']);
 ok(!$err && $calc['accept'] === 6.5 && $calc['storage']['rate'] === 0.1 && count($calc['work']) === 5, 'числа с запятой и новая операция');
 apply_settings(['calculator' => $calc]);
@@ -67,6 +68,11 @@ ok(str_contains($h, '"accept":6.5') && str_contains($h, '"name":"Фото тов
 ok(!str_contains($h, 'Маркировка </script>') && str_contains($h, 'Маркировка \\u003C/script\\u003E'), '</script> в названии экранирован');
 ok(substr_count($h, '<span class="cfg-disc">15</span>') === 3 && str_contains($h, '<span class="cfg-rate">0,1</span>') && substr_count($h, '<span class="cfg-free">10</span>') === 2, 'скидка и хранение в текстах');
 ok(str_contains($h, 'Первые 10 дней бесплатно') && !str_contains($h, 'Первые 14 дней бесплатно'), 'и в разметке для поисковиков');
+$cn = f('ceny/index.html');
+ok(str_contains($cn, '<span class="cfg-p" data-k="fbschz">17</span> ₽') && str_contains($cn, '<span class="cfg-p" data-k="accept">6,5</span> ₽')
+    && str_contains($cn, 'Скидка <span class="cfg-p" data-k="disc">15</span>%') && str_contains($cn, '<span class="cfg-p" data-k="rate">0,1</span> ₽'), 'цены на странице «Цены»');
+ok(str_contains(f('uslugi/fbs/index.html'), 'С «Честным знаком» — <span class="cfg-p" data-k="fbschz">17</span> ₽') && str_contains(f('uslugi/hranenie/index.html'), 'первые <span class="cfg-p" data-k="free">10</span> дней'), 'цены на страницах услуг');
+ok(str_contains($h, '<div class="pr"><span><span class="cfg-p" data-k="rate">0,1</span> ₽') && str_contains($h, 'приёмка — <span class="cfg-p" data-k="accept">6,5</span> ₽'), 'цены в блоке «Что мы делаем» на главной');
 $bad = $post;
 $bad['ops']['fbs'][0]['price'] = '-1';
 $bad['ops']['unload'] = [];

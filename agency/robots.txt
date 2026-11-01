@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
-Sitemap: https://x3-team.github.io/fulfillment-site/agency/sitemap.xml
+Sitemap: https://madrocks.agency/sitemap.xml

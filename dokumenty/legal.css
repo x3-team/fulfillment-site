@@ -95,7 +95,7 @@ section{padding:clamp(72px,9vw,120px) 0}
 .acc details.on summary .num{color:var(--acc)}.acc details.on summary .pl::after{transform:rotate(0)}.acc details.on summary .pl::before,.acc details.on summary .pl::after{background:var(--acc)}
 .acc .body{display:grid;gap:24px;padding:0 0 32px 0}
 @media (min-width:900px){.acc .body{grid-template-columns:72px 1fr 360px;gap:32px}.acc .body>:first-child{grid-column:2}}
-.acc .body .pr{display:flex;align-items:center;gap:24px;margin-top:20px;font-weight:600;font-size:20px}
+.acc .body .pr{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;margin-top:20px;font-weight:600;font-size:20px}
 .acc .ph{aspect-ratio:9/5;border-radius:4px;background:var(--paper2);display:grid;place-items:center;color:var(--ink5)}
 /* calculator */
 .calc{display:grid;gap:16px;align-items:start}@media (min-width:1000px){.calc{grid-template-columns:1fr 480px}.calc .out{position:sticky;top:96px}}
@@ -305,6 +305,7 @@ html.modal{overflow:hidden}
 .lh{padding:clamp(40px,6vw,72px) 0 clamp(32px,4vw,48px)}
 .lh .l{display:grid;gap:20px;justify-items:start}
 .lh h1{font-size:clamp(36px,5.6vw,80px);letter-spacing:-.035em;line-height:1;color:var(--acc);max-width:16ch}
+.lh h1{hyphens:auto;overflow-wrap:break-word}
 .lh .lead{max-width:60ch}.lh .mono{color:var(--ink5)}
 .lh+section{padding-top:0}
 .doc{display:grid;gap:40px}
