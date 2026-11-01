@@ -140,28 +140,28 @@ def ff_graph(cfg, page, kinds):
     """Разметка страниц услуг и цен (tools/ff_pages.py): Service, список услуг, прайс."""
     if not {'service', 'service_faq', 'services', 'prices'} & set(kinds):
         return []
-    from ff_services import PRICES, SERVICES
+    from ff_services import PRICES, SERVICES, plain
     base = cfg['site']['base_url']
     biz = {'@id': base + '#business'}
-    num = lambda p: re.sub(r'[^\d,]', '', p).replace(',', '.') or None
+    num = lambda p: re.sub(r'[^\d,]', '', plain(p)).replace(',', '.') or None
     g = []
     s = next((x for x in SERVICES if x['slug'] == page.get('service')), None)
     if s and 'service' in kinds:
-        g.append({'@type': 'Service', 'name': s['name'], 'serviceType': s['name'], 'description': s['description'],
+        g.append({'@type': 'Service', 'name': s['name'], 'serviceType': s['name'], 'description': plain(s['description']),
                   'url': base + page['path'], 'provider': biz, 'areaServed': {'@type': 'Country', 'name': 'Россия'},
-                  'offers': {'@type': 'Offer', 'priceCurrency': 'RUB', 'description': f'{s["price"]} {s["unit"]}',
+                  'offers': {'@type': 'Offer', 'priceCurrency': 'RUB', 'description': plain(f'{s["price"]} {s["unit"]}'),
                              'priceSpecification': {'@type': 'UnitPriceSpecification', 'price': num(s['price']),
                                                     'priceCurrency': 'RUB', 'unitText': s['unit']}}})
     if s and 'service_faq' in kinds:
         g.append({'@type': 'FAQPage', 'mainEntity': [
-            {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in s['faq']]})
+            {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': plain(a)}} for q, a in s['faq']]})
     if 'services' in kinds:
         g.append({'@type': 'ItemList', 'itemListElement': [
             {'@type': 'ListItem', 'position': i + 1, 'name': x['name'], 'url': f'{base}uslugi/{x["slug"]}/'} for i, x in enumerate(SERVICES)]})
     if 'prices' in kinds:
         g.append({'@type': 'OfferCatalog', 'name': 'Цены на фулфилмент', 'url': base + page['path'], 'itemListElement': [
             {'@type': 'OfferCatalog', 'name': grp['name'], 'itemListElement': [
-                {'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': n, 'provider': biz}, 'priceCurrency': 'RUB',
+                {'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': plain(n), 'provider': biz}, 'priceCurrency': 'RUB',
                  'priceSpecification': {'@type': 'UnitPriceSpecification', 'price': num(pr), 'priceCurrency': 'RUB', 'unitText': u}}
                 for n, pr, u, _ in grp['rows'] if num(pr)]} for grp in PRICES]})
     return g

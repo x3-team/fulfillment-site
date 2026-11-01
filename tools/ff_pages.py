@@ -16,7 +16,7 @@ import html, json, os, re, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import seo  # noqa: E402
-from ff_services import GROUPS, PRICES, SERVICES  # noqa: E402
+from ff_services import GROUPS, PRICES, SERVICES, marked, plain  # noqa: E402
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
 BASE = 'https://tovarvdele.ru/'
@@ -27,7 +27,8 @@ BY_SLUG = {s['slug']: s for s in SERVICES}
 HOME = {'FBS': 'fbs', 'FBO': 'fbo', 'Хранение': 'hranenie', 'Маркировка и упаковка': 'markirovka-i-upakovka',
         'Возвраты и переупаковка': 'vozvraty', 'Забор товара и доставка до СЦ': 'zabor-i-dostavka'}
 
-e = lambda s: html.escape(s, quote=True)
+# {id} в текстах — цена из калькулятора, см. ff_services.py: в HTML — <span class="cfg-p">, её меняет админка
+e = lambda s: marked(html.escape(s, quote=True))
 ARR = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 
 EXTRA_CSS = '''
@@ -267,7 +268,7 @@ def prices_page(src):
 
 <section class="white"><div class="wrap">
  <div class="pt">{groups}</div>
- <div class="pnote"><p>Цены указаны за операцию, без НДС. Скидка 10% на первую партию. Минимального объёма и ежемесячного платежа нет.</p><p>Это справочный прайс, не публичная оферта. Точная стоимость зависит от габаритов и объёмов и фиксируется в приложении к договору.</p></div>
+ <div class="pnote"><p>Цены указаны за операцию, без НДС. Скидка {e("{disc}")}% на первую партию. Минимального объёма и ежемесячного платежа нет.</p><p>Это справочный прайс, не публичная оферта. Точная стоимость зависит от габаритов и объёмов и фиксируется в приложении к договору.</p></div>
  <p class="links"><a href="{AGENCY}ceny/" target="_blank" rel="noopener">Цены на маркетинг, контент и интернет-магазин — у агентства Madrocks ↗</a></p>
 </div></section>
 {final(r, 'Посчитаем вашу партию за 15 минут', 'Отметьте операции в калькуляторе и нажмите «Получить точный расчёт» — менеджер пришлёт расчёт по каждой строке прайса и проект договора.')}'''
@@ -305,7 +306,7 @@ def seo_pages():
             'description': 'Прайс фулфилмента «Товар в деле»: приёмка от 5 ₽, FBS от 10 ₽, FBO от 5 ₽ за единицу, хранение 0,07 ₽ за литр в сутки, первые 14 дней бесплатно.',
             'changefreq': 'monthly', 'priority': 0.9, 'schema': ['breadcrumbs', 'prices'], 'breadcrumb': 'Цены'}]
     new += [{'path': f'uslugi/{s["slug"]}/', 'file': f'uslugi/{s["slug"]}/index.html', 'title': s['title'],
-             'description': s['description'], 'changefreq': 'monthly', 'priority': 0.8,
+             'description': plain(s['description']), 'changefreq': 'monthly', 'priority': 0.8,
              'schema': ['breadcrumbs', 'service', 'service_faq'], 'breadcrumb': s['short'], 'service': s['slug']} for s in SERVICES]
     add = [p for p in new if p['path'] not in have]
     if add:
@@ -329,12 +330,12 @@ def main():
     seo_pages()
     print(f'uslugi/: {len(SERVICES)} страниц услуг + список, ceny/')
     ph = [(g['name'], a, b, c) for g in PRICES for a, b, c, p in g['rows'] if p]
-    ph += [(s['name'], 'цена на странице услуги', s['price'], s['unit']) for s in SERVICES
+    ph += [(s['name'], 'цена на странице услуги', plain(s['price']), s['unit']) for s in SERVICES
            if s.get('price_ph') and not any(b == s['price'] for _, _, b, _ in ph)]
     if ph:
         print('Плейсхолдеры цен (заменить на цены заказчика):')
         for g, a, b, c in ph:
-            print(f'  - {g} · {a}: {b} {c}')
+            print(f'  - {g} · {plain(a)}: {plain(b)} {c}')
     seo.main()
 
 
