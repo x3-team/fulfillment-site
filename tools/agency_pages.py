@@ -254,7 +254,8 @@ def index_page():
         ld_crumbs([(BRAND, BASE), ('Услуги', canon)]),
         {'@type': 'ItemList', 'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'name': s['name'], 'url': url(s['slug'])} for i, s in enumerate(SERVICES)]},
     ]}
-    cards = ''.join(svc_card(r, s, wide=(i == 0)) for i, s in enumerate(SERVICES))
+    acc = L.accordion([(s['group'], s['name'], s['lead'], e(s['price']), '', f'{r}uslugi/{s["slug"]}/', ART[s['slug']], s['tags'])
+                       for g in GROUPS for s in SERVICES if s['group'] == g], GROUPS)
     facts = [('8 направлений', 'от первой карточки до своего магазина', 'layers'), ('2 дня', 'бесплатный аудит карточек и рекламы', 'clock'),
              ('без %', 'от оборота: фиксированная цена', 'wallet'), ('отчёт', 'по выручке и ДРР каждую неделю', 'chart')]
     kick = '<span class="tag"><b>→</b><i>Все услуги</i></span><span class="mono">Wildberries · Ozon · Яндекс Маркет · свой сайт</span>'
@@ -272,7 +273,7 @@ def index_page():
                   ctas, 'ag_hero_services', [('Карточки · реклама · аналитика', 'tl', False), ('Свой интернет-магазин', 'tr', False), ('Связка с фулфилментом', 'br', True)], facts) + f'''
 <section class="white"><div class="wrap">
  <div class="sec-head rv"><div class="l"><span class="tag"><b>01</b><i>Услуги</i></span><h2>Выберите, с чего начать</h2></div><p class="lead muted">Любую услугу можно заказать отдельно или в пакете. Цены «от», без процента от оборота.</p></div>
- <div class="cards">{cards}</div>
+ {acc}
  <p class="links"><a href="{FF}uslugi/" target="_blank" rel="noopener">Склад, FBS, FBO и доставка — у фулфилмента «Товар в деле» ↗</a></p>
 </div></section>
 
@@ -283,7 +284,7 @@ def index_page():
 {final(r, 'Не знаете, с чего начать?', 'Начните с бесплатного аудита: за 2 рабочих дня разберём карточки и рекламу и покажем, какие услуги дадут результат быстрее всего.')}</main>
 '''
     return (head(title, desc, canon, ld, r) + header(r).replace('<a href="../uslugi/">Услуги</a>', '<a href="../uslugi/" aria-current="page">Услуги</a>')
-            + '\n<main>\n' + body + footer(r) + JS + '\n</body>\n</html>\n')
+            + '\n<main>\n' + body + footer(r) + f'<script src="{r}accordion.js"></script>\n' + JS.replace(FAQ_JS, 'initAccordions();') + '\n</body>\n</html>\n')
 
 
 def plans(src):

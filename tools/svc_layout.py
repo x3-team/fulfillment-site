@@ -66,6 +66,9 @@ CSS = '''
 @media (min-width:1000px){.cards{grid-template-columns:repeat(3,1fr)}.card.wide{grid-column:span 2;grid-template-columns:1fr 1fr;align-items:stretch}
  .card.wide .ilbox{aspect-ratio:auto;height:100%;min-height:260px}.card.wide .ilbox svg{max-height:240px}.card.wide .b{padding:28px 30px 28px 8px;align-content:center}
  .card.wide h2{font-size:clamp(26px,2.4vw,34px)}.card.wide p{-webkit-line-clamp:3}}
+/* список услуг раскрывашками (стили .acc — с главной) */
+.acc .body ul{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}.acc .body li{padding:6px 10px;border-radius:2px;background:var(--acc1);color:var(--acc6)}
+.acc .ilbox{aspect-ratio:9/6}
 /* путь товара / связки услуг */
 .path{list-style:none;margin:0;padding:0;display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
 @media (min-width:700px){.path{grid-template-columns:repeat(3,1fr)}}@media (min-width:1000px){.path{grid-template-columns:repeat(6,1fr)}}
@@ -146,6 +149,24 @@ def card(href, art, label_html, name, text, price_html, unit='', wide=False, tag
     return (f'<a class="card rv{" wide" if wide else ""}" href="{href}"><div class="ilbox isogrid">{ART[art]()}</div>'
             f'<div class="b"><span class="mono">{label_html}</span><{tag}>{e(name)}</{tag}><p>{e(text)}</p>'
             f'<div class="r"><b>{price_html}{unit_html}</b><em>{ARR}</em></div></div></a>')
+
+
+def accordion(items, groups=()):
+    """Раскрывающийся список услуг как в блоке «Что мы делаем» на главной: [(группа, имя, лид, цена HTML, единица,
+    href, сцена, теги)]. groups — порядок групп (подписи между пунктами); первый пункт открыт."""
+    out, n, cur = '', 0, None
+    for g, name, lead, price_html, unit, href, art, tags in items:
+        if groups and g != cur:
+            cur = g
+            out += f'<p class="grp mono">{e(g)}</p>'
+        n += 1
+        tg = f'<ul class="mono">{"".join(f"<li>{e(t)}</li>" for t in tags)}</ul>' if tags else ''
+        unit_html = f' {e(unit)}' if unit else ''
+        out += (f'<details{" open" if n == 1 else ""}><summary><span class="num mono">({n:02d})</span><h3>{e(name)}</h3><span class="pl"></span></summary>'
+                f'<div class="body"><div><p class="lead">{e(lead)}</p>{tg}<div class="pr"><span>{price_html}{unit_html}</span>'
+                f'<a class="btn ghost m" href="{href}"><span>Подробнее</span><em>{ARR}</em></a></div></div>'
+                f'<div class="ilbox isogrid">{ART[art]()}</div></div></details>')
+    return f'<div class="acc" id="acc">{out}</div>'
 
 
 def includes(items, icons):

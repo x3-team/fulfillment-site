@@ -293,6 +293,9 @@ html.modal{overflow:hidden}
 @media (min-width:1000px){.cards{grid-template-columns:repeat(3,1fr)}.card.wide{grid-column:span 2;grid-template-columns:1fr 1fr;align-items:stretch}
  .card.wide .ilbox{aspect-ratio:auto;height:100%;min-height:260px}.card.wide .ilbox svg{max-height:240px}.card.wide .b{padding:28px 30px 28px 8px;align-content:center}
  .card.wide h2{font-size:clamp(26px,2.4vw,34px)}.card.wide p{-webkit-line-clamp:3}}
+/* список услуг раскрывашками (стили .acc — с главной) */
+.acc .body ul{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}.acc .body li{padding:6px 10px;border-radius:2px;background:var(--acc1);color:var(--acc6)}
+.acc .ilbox{aspect-ratio:9/6}
 /* путь товара / связки услуг */
 .path{list-style:none;margin:0;padding:0;display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
 @media (min-width:700px){.path{grid-template-columns:repeat(3,1fr)}}@media (min-width:1000px){.path{grid-template-columns:repeat(6,1fr)}}

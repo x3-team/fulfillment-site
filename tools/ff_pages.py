@@ -42,6 +42,15 @@ const menu=$('#menu');const openMenu=o=>{menu.classList.toggle('open',o);menu.se
 $('#menuBtn').onclick=()=>openMenu(true);$('#menuClose').onclick=()=>openMenu(false);menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>openMenu(false)));addEventListener('keydown',e=>{if(e.key==='Escape')openMenu(false)});
 const f=$('#faqList');if(f){const ds=f.querySelectorAll('details');ds.forEach(d=>{d.classList.toggle('on',d.open);d.addEventListener('toggle',()=>{d.classList.toggle('on',d.open);if(d.open)ds.forEach(o=>{if(o!==d)o.open=false})})})}
 if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target)}),{threshold:.15});$$('.rv').forEach(el=>io.observe(el))}else $$('.rv').forEach(el=>el.classList.add('in'));
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,EASE='cubic-bezier(.22,.8,.24,1)';
+const slide=(d,open)=>{const b=d.querySelector('summary').nextElementSibling;d.classList.toggle('on',open);if(reduce){d.open=open;return}
+  const cs=getComputedStyle(b),h0=d.open?b.offsetHeight:0,t0=d.open?cs.paddingTop:'0px',b0=d.open?cs.paddingBottom:'0px';if(d._a){d._a.cancel();d._a=null}
+  d.open=true;const nat=getComputedStyle(b),pt=nat.paddingTop,pb=nat.paddingBottom,h1=open?b.offsetHeight:0;
+  b.style.overflow='hidden';const a=d._a=b.animate([{height:h0+'px',paddingTop:t0,paddingBottom:b0},{height:h1+'px',paddingTop:open?pt:'0px',paddingBottom:open?pb:'0px'}],{duration:open?460:360,easing:open?EASE:'cubic-bezier(.4,0,.2,1)'});
+  a.onfinish=()=>{b.style.overflow='';d._a=null;if(!open)d.open=false};a.oncancel=()=>{b.style.overflow=''}};
+const acc=$('#acc');if(acc)acc.querySelectorAll('details').forEach(d=>{d.classList.toggle('on',d.open);d.querySelector('summary').addEventListener('click',e=>{e.preventDefault();
+  const s=e.currentTarget,y0=s.getBoundingClientRect().top,open=!d.classList.contains('on');slide(d,open);if(open)acc.querySelectorAll('details.on').forEach(o=>{if(o!==d)slide(o,false)});
+  if(reduce)return;const t0=performance.now(),pin=()=>{const dy=s.getBoundingClientRect().top-y0;if(Math.abs(dy)>.5)window.scrollBy({top:dy,behavior:'instant'});if(performance.now()-t0<560)requestAnimationFrame(pin)};requestAnimationFrame(pin)})});
 const tick=()=>{const d=new Date(Date.now()+3*36e5);$('#ftClock').textContent=String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0')};tick();setInterval(tick,30000);
 })();
 </script>'''
@@ -207,7 +216,8 @@ def service_page(src, s):
 
 def index_page(src):
     r = '../'
-    cards = ''.join(svc_card(r, s, wide=(i == 0 or i == len(SERVICES) - 1)) for i, s in enumerate(SERVICES))
+    acc = L.accordion([(s['group'], s['name'], s['lead'], e(s['price']), s['unit'], f'{r}uslugi/{s["slug"]}/', ART[s['slug']], ())
+                       for g in GROUPS for s in SERVICES if s['group'] == g], GROUPS)
     facts = [('7 услуг', 'от приёмки до доставки покупателю', 'layers'), ('2 отгрузки', 'в день: 12:00 и 21:00', 'clock'),
              ('14 дней', 'хранения бесплатно', 'calendar'), ('Тула', 'склад, свой транспорт до СЦ', 'map')]
     kick = '<span class="tag"><b>→</b><i>Все услуги</i></span><span class="mono">Wildberries · Ozon · Яндекс Маркет</span>'
@@ -223,7 +233,7 @@ def index_page(src):
                   ctas, 'hero_services', [('Склад в Туле', 'tl', False), ('FBS · FBO · хранение', 'tr', False), ('Отгрузка дважды в день', 'br', True)], facts) + f'''
 <section class="white"><div class="wrap">
  <div class="sec-head rv"><div class="l"><span class="tag"><b>01</b><i>Услуги</i></span><h2>Выберите, что нужно товару</h2></div><p class="lead muted">Любую услугу можно заказать отдельно. Цены — за операцию, без минимального платежа.</p></div>
- <div class="cards">{cards}</div>
+ {acc}
  <p class="links"><a href="{AGENCY}uslugi/" target="_blank" rel="noopener">Интернет-магазин, маркетинг и контент — в агентстве Madrocks ↗</a></p>
 </div></section>
 
