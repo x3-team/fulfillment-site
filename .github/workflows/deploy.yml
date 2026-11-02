@@ -1,0 +1,112 @@
+# Выкладка сайтов на хостинг reg.ru по SFTP (облачный раннер GitHub, без self-hosted).
+#   Корень репозитория без agency/ и служебных файлов → tovarvdele.ru
+#   Папка agency/ → madrocks.agency
+# Запуск: каждый пуш (мерж) в main и вручную — Actions → «Деплой на хостинг» → Run workflow.
+# Файлы только загружаются и перезаписываются; с сервера ничего не удаляется
+# (yandex-*.html, .htaccess хостинга и прочее, чего нет в репо, останется на месте).
+#
+# Настройки — Settings → Secrets and variables → Actions:
+#   секреты:    SFTP_HOST, SFTP_USER и SFTP_PASSWORD (или SFTP_KEY — приватный SSH-ключ)
+#   переменные: FF_PATH (по умолчанию www/tovarvdele.ru), AGENCY_PATH (по умолчанию www/madrocks.agency) —
+#               папки сайтов от домашней папки пользователя SFTP
+name: Деплой на хостинг
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      site:
+        description: Что выкладывать
+        type: choice
+        options: [оба сайта, tovarvdele.ru, madrocks.agency]
+        default: оба сайта
+
+concurrency:
+  group: deploy-hosting
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SFTP_HOST: ${{ secrets.SFTP_HOST }}
+      SFTP_USER: ${{ secrets.SFTP_USER }}
+      SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+      SFTP_KEY: ${{ secrets.SFTP_KEY }}
+      FF_PATH: ${{ vars.FF_PATH || 'www/tovarvdele.ru' }}
+      AGENCY_PATH: ${{ vars.AGENCY_PATH || 'www/madrocks.agency' }}
+      FF_URL: https://tovarvdele.ru/
+      AGENCY_URL: https://madrocks.agency/
+      SITE: ${{ inputs.site || 'оба сайта' }}
+    steps:
+      - name: Проверка настроек
+        id: cfg
+        run: |
+          if [ -z "$SFTP_HOST" ] || [ -z "$SFTP_USER" ] || { [ -z "$SFTP_PASSWORD" ] && [ -z "$SFTP_KEY" ]; }; then
+            echo "::warning::Деплой пропущен: не заданы секреты SFTP_HOST, SFTP_USER и SFTP_PASSWORD или SFTP_KEY (Settings → Secrets and variables → Actions)."
+            if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then exit 1; fi
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.cfg.outputs.ok == 'true'
+
+      - name: Установить lftp
+        if: steps.cfg.outputs.ok == 'true'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp >/dev/null
+
+      - name: Подключение
+        if: steps.cfg.outputs.ok == 'true'
+        run: |
+          {
+            echo "set sftp:auto-confirm yes"
+            echo "set net:max-retries 3"
+            echo "set net:timeout 30"
+            if [ -n "$SFTP_KEY" ]; then
+              install -m 600 /dev/null ~/deploy_key && printf '%s\n' "$SFTP_KEY" > ~/deploy_key
+              echo "set sftp:connect-program 'ssh -a -x -i $HOME/deploy_key -o StrictHostKeyChecking=accept-new'"
+              echo "open -u '$SFTP_USER', sftp://$SFTP_HOST"
+            else
+              echo "open -u '$SFTP_USER','$SFTP_PASSWORD' sftp://$SFTP_HOST"
+            fi
+          } > ~/lftp-open
+          chmod 600 ~/lftp-open
+          lftp -c "source ~/lftp-open; cls -1 '$FF_PATH' >/dev/null && echo 'Папка tovarvdele.ru найдена: $FF_PATH'"
+          if [ "$SITE" != "tovarvdele.ru" ]; then
+            lftp -c "source ~/lftp-open; cls -1 '$AGENCY_PATH' >/dev/null && echo 'Папка madrocks.agency найдена: $AGENCY_PATH'"
+          fi
+
+      - name: tovarvdele.ru
+        if: steps.cfg.outputs.ok == 'true' && env.SITE != 'madrocks.agency'
+        run: |
+          lftp -c "source ~/lftp-open; mirror -R --verbose=1 --parallel=4 --no-perms \
+            -X .git/ -X .github/ -X agency/ -X tools/ -X '*.md' -X .gitignore \
+            ./ '$FF_PATH'"
+
+      - name: madrocks.agency
+        if: steps.cfg.outputs.ok == 'true' && env.SITE != 'tovarvdele.ru'
+        run: |
+          lftp -c "source ~/lftp-open; mirror -R --verbose=1 --parallel=4 --no-perms -X '*.md' agency/ '$AGENCY_PATH'"
+
+      - name: Проверка, что сайты отдают новую версию
+        if: steps.cfg.outputs.ok == 'true'
+        run: |
+          check() { # $1 — адрес, $2 — локальный файл
+            for i in 1 2 3; do
+              if [ "$(curl -fsSL --max-time 30 "$1" | sha256sum | cut -c1-64)" = "$(sha256sum "$2" | cut -c1-64)" ]; then echo "✓ $1"; return 0; fi
+              sleep 5
+            done
+            echo "::error::$1 отдаёт не тот файл, что в репозитории. Проверьте FF_PATH / AGENCY_PATH: возможно, это не папка сайта."; return 1
+          }
+          ok=0
+          if [ "$SITE" != "madrocks.agency" ]; then check "${FF_URL}uslugi/" uslugi/index.html || ok=1; fi
+          if [ "$SITE" != "tovarvdele.ru" ]; then check "${AGENCY_URL}uslugi/" agency/uslugi/index.html || ok=1; fi
+          exit $ok
+
+      - name: Убрать доступы
+        if: always()
+        run: rm -f ~/lftp-open ~/deploy_key

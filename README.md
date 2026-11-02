@@ -5,8 +5,17 @@
 
 ## Где работает сайт
 Продакшен — https://tovarvdele.ru/ на хостинге reg.ru. GitHub Pages больше не используется
-(был только для старта разработки). Из репозитория сайт сам не обновляется: после мержа файлы
-выкладываются на хостинг по SFTP.
+(был только для старта разработки).
+
+Выкладка — GitHub Actions, `.github/workflows/deploy.yml` («Деплой на хостинг»): после каждого мержа в `main`
+файлы загружаются по SFTP (облачный раннер ubuntu-latest). Корень репозитория без `agency/`, `tools/`, `.github/`
+и `*.md` уходит в папку tovarvdele.ru, содержимое `agency/` — в папку madrocks.agency. Файлы только загружаются,
+с сервера ничего не удаляется. В конце workflow сверяет, что сайты отдают те же `uslugi/index.html`, что в репо.
+Вручную: Actions → «Деплой на хостинг» → Run workflow (можно выбрать один сайт).
+
+Настройки в Settings → Secrets and variables → Actions: секреты `SFTP_HOST`, `SFTP_USER` и `SFTP_PASSWORD`
+(или `SFTP_KEY` — приватный SSH-ключ); переменные `FF_PATH` и `AGENCY_PATH` — папки сайтов от домашней папки
+SFTP-пользователя (по умолчанию `www/tovarvdele.ru` и `www/madrocks.agency`). Пока секретов нет, деплой пропускается.
 
 ## Сайт агентства «Madrocks agency»
 Лежит в папке `agency/`, на проде это отдельный домен https://madrocks.agency/ (содержимое `agency/` выкладывается в его корень,
