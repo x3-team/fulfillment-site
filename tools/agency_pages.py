@@ -13,6 +13,7 @@ import ast, html, json, os, re, sys
 from urllib.parse import quote
 
 sys.path.insert(0, os.path.dirname(__file__))
+import svc_layout as L  # общая вёрстка страниц услуг и цен (иллюстрации, иконки, CSS)
 from agency_services import GROUPS, PRICES, SERVICES
 
 ROOT = os.path.join(os.path.dirname(__file__), '..', 'agency')
@@ -25,60 +26,11 @@ TG = 'https://t.me/'
 BY_SLUG = {s['slug']: s for s in SERVICES}
 ARR = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 e = lambda s: html.escape(s, quote=True)
+L.e = e
 LOGO = '<svg viewBox="0 0 40 38" aria-hidden="true"><path fill="#0056E0" d="M10 3 25 1 38 12 35 31 18 37 2 26Z"/><path fill="#0047C2" d="M27 12 38 12 35 31 18 37 20 23Z"/><path fill="#63AAFD" d="M10 3 25 1 21 13Z"/><path fill="none" stroke="#fff" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" d="M8 27 13 13 20 23 27 12 31 27"/></svg><span>Madrocks<br>agency</span>'
 DOCK_ARR = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8 8 2M3.5 2H8v4.5" stroke="currentColor" stroke-width="1.4"/></svg>'
 
-EXTRA_CSS = '''
-/* ---- страницы услуг ---- */
-.crumbs{margin-bottom:28px;color:var(--ink5)}.crumbs ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 10px}
-.crumbs li{display:flex;gap:10px;align-items:center}.crumbs li+li::before{content:"/";color:var(--ink3)}
-.crumbs a:hover{color:var(--acc)}.crumbs [aria-current]{color:var(--ink)}
-.sh{padding:32px 0 clamp(64px,8vw,104px)}
-.sh h1{max-width:22ch;font-size:clamp(36px,4.6vw,64px)}
-.sh .row{display:grid;gap:32px;margin-top:32px;align-items:start}
-@media (min-width:1000px){.sh .row{grid-template-columns:1fr 400px;gap:64px}}
-.sh .lead{max-width:60ch}
-.pcard{display:grid;gap:16px;padding:28px 28px 30px;background:var(--card);border:1px solid var(--line);border-radius:4px;box-shadow:0 12px 32px rgba(10,23,54,.07)}
-.pcard .r{display:flex;justify-content:space-between;gap:12px;color:var(--ink5)}.pcard .r .mono:last-child{color:var(--acc)}
-.pcard .price{font-size:clamp(32px,3.2vw,40px);line-height:1;font-weight:500;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.pcard .note{color:var(--ink5);font-size:15px}
-.pcard ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}.pcard li{padding:6px 10px;border-radius:2px;background:var(--acc1);color:var(--acc6)}
-.pcard .btn{width:100%}.pcard .btn>span{flex:1;justify-content:center}
-.inc{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}@media (min-width:1000px){.inc{grid-template-columns:repeat(3,1fr)}}
-.inc article{display:grid;gap:12px;align-content:start;padding:26px 28px 30px;background:var(--paper);border-radius:4px;border:1px solid transparent;transition:border-color var(--base)}
-.inc article:hover{border-color:var(--acc)}.inc .mono{color:var(--acc)}.inc h3{font-size:22px}.inc p{color:var(--ink5)}
-.white .who article{background:var(--paper)}.paper .who article{background:var(--card)}
-.who h3{font-size:24px}
-.flow.f4{grid-template-columns:none}@media (min-width:900px){.flow.f4{grid-template-columns:repeat(4,1fr)}}
-.prose{display:grid;gap:24px}@media (min-width:1000px){.prose{grid-template-columns:400px 1fr;gap:80px}}
-.prose .l{display:grid;gap:20px;justify-items:start;align-content:start}
-.prose .t{display:grid;gap:18px;max-width:68ch;font-size:18px;line-height:1.65;color:var(--ink7)}
-.rel{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-.rel a{display:grid;gap:12px;align-content:space-between;min-height:180px;padding:24px 26px;background:var(--card);border:1px solid var(--line);border-radius:4px;transition:border-color var(--base),transform var(--base) var(--std)}
-.rel a:hover{border-color:var(--acc);transform:translateY(-4px)}.rel .mono{color:var(--ink5)}.rel h3{font-size:22px}
-.rel .r{display:flex;justify-content:space-between;align-items:center;font-weight:600}.rel .r em{width:36px;height:36px;display:grid;place-items:center;background:var(--acc);color:#fff;border-radius:2px;font-style:normal}
-.final .ctas{margin-top:40px}
-.list{border-top:1px solid var(--line)}.list .grp{padding:28px 0 12px;color:var(--ink5)}
-.list a{display:grid;grid-template-columns:72px 1fr auto;gap:24px;align-items:center;padding:24px 0;border-top:1px solid var(--line)}
-.list a .num{color:var(--ink5)}.list a h2{font-size:clamp(24px,3.2vw,44px);transition:color var(--fast),transform var(--base) var(--std)}
-.list a p{color:var(--ink5);margin-top:8px;max-width:70ch}.list a b{white-space:nowrap;font-weight:600;font-size:18px}
-.list a:hover h2{color:var(--acc6);transform:translateX(8px)}
-@media (max-width:699px){.list a{grid-template-columns:40px 1fr;gap:12px}.list a b{grid-column:2}}
-/* ---- страница «Цены» ---- */
-.links{display:flex;flex-wrap:wrap;gap:12px 24px;margin-top:32px}.links a{color:var(--acc);font-weight:500}.links a:hover{color:var(--acc6)}
-.pt{display:grid;gap:16px}
-.pg{display:grid;gap:8px 48px;padding:28px 28px 20px;background:var(--card);border:1px solid var(--line);border-radius:4px}
-@media (min-width:1000px){.pg{grid-template-columns:300px 1fr}}
-.pg .h{display:grid;gap:12px;align-content:start;justify-items:start}.pg .h h2{font-size:clamp(26px,2.6vw,34px)}
-.pg .h a{color:var(--acc);font-weight:500;font-size:15px}.pg .h a:hover{color:var(--acc6)}
-.pg table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-.pg td{padding:14px 0;border-top:1px solid var(--line);vertical-align:baseline}.pg tr:first-child td{border-top:0}
-.pg td:first-child{padding-right:24px}.pg td.p{text-align:right;white-space:nowrap;font-weight:600;font-size:18px;color:var(--acc6)}
-.pg td.u{text-align:right;white-space:nowrap;color:var(--ink5);font-size:14px;padding-left:12px;width:150px}
-@media (max-width:599px){.pg{padding:22px 20px 14px}.pg tr{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:12px 0;border-top:1px solid var(--line)}.pg tr:first-child{border-top:0}
- .pg td{padding:0;border:0}.pg td:first-child{grid-column:1/-1;padding:0}.pg td.p{text-align:left}.pg td.u{width:auto}}
-.pnote{display:grid;gap:12px;margin-top:32px;max-width:80ch;color:var(--ink5)}
-'''
+EXTRA_CSS = L.CSS
 
 FAQ_JS = "const f=$('#faqList');if(f)f.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)f.querySelectorAll('details').forEach(o=>{if(o!==d)o.open=false})}));"
 JS = '''<script>
@@ -196,10 +148,48 @@ def final(r, h2, lead, slug=None):
 '''
 
 
+# Графика страниц услуг агентства: большое слово первого экрана, сцена (tools/iso_scenes.py), факты,
+# иконки «Что входит» / «Кому подходит», картинки этапов. Ключи — slug из agency_services.py.
+BIG = {'podklyuchenie-kabinetov': 'Кабинеты', 'kontent-i-infografika': 'Контент', 'prodvizhenie-na-marketplejsah': 'Продвижение',
+       'seo-kartochek': 'SEO', 'razrabotka-internet-magazina': 'Магазин', 'internet-marketing': 'Маркетинг',
+       'integracii-i-chestnyj-znak': 'Интеграции', 'skvoznaya-analitika': 'Аналитика'}
+ART = {'podklyuchenie-kabinetov': 'ag_cabinets', 'kontent-i-infografika': 'ag_content', 'prodvizhenie-na-marketplejsah': 'ag_promo',
+       'seo-kartochek': 'ag_seo', 'razrabotka-internet-magazina': 'ag_shop', 'internet-marketing': 'ag_marketing',
+       'integracii-i-chestnyj-znak': 'ag_integr', 'skvoznaya-analitika': 'ag_analytics'}
+FACTS = {'podklyuchenie-kabinetov': [('2 недели', 'от брифа до первых продаж', 'calendar'), ('3 площадки', 'WB, Ozon, Яндекс Маркет', 'layers'), ('ЭДО', 'договоры и документы за вас', 'doc')],
+         'kontent-i-infografika': [('от 5 дней', 'на партию карточек', 'clock'), ('CTR ↑', 'главная цель инфографики', 'trend'), ('фото · видео · rich', 'весь контент карточки', 'photo')],
+         'prodvizhenie-na-marketplejsah': [('1–2 недели', 'до первых данных', 'clock'), ('ДРР', 'отчёт по доле рекламных расходов еженедельно', 'percent'), ('без % от оборота', 'фиксированная цена', 'wallet')],
+         'seo-kartochek': [('5 дней', 'до загрузки новых текстов', 'clock'), ('позиции', 'мониторинг каждую неделю', 'trend'), ('юнит-экономика', 'считаем прибыль по каждому SKU', 'rub')],
+         'razrabotka-internet-magazina': [('от 3 недель', 'до запуска', 'calendar'), ('каталог', 'из вашего учёта', 'grid'), ('фулфилмент', 'связка со складом «Товар в деле»', 'warehouse')],
+         'internet-marketing': [('1–2 недели', 'до первых заявок', 'clock'), ('Директ · таргет · SEO', 'каналы под задачу', 'megaphone'), ('повторные продажи', 'email и ретаргетинг', 'repeat')],
+         'integracii-i-chestnyj-znak': [('от 1 недели', 'аудит, настройка, тест', 'clock'), ('1С · МойСклад · CRM', 'учёт в одном месте', 'link'), ('«Честный знак»', 'коды и отчётность', 'label')],
+         'skvoznaya-analitika': [('2 недели', 'до первого дашборда', 'calendar'), ('маржа по SKU', 'а не по магазину в целом', 'rub'), ('все площадки', 'в одном отчёте', 'layers')]}
+INC_ICONS = {'podklyuchenie-kabinetov': ['users', 'layers', 'doc', 'boxes', 'warehouse', 'key'], 'kontent-i-infografika': ['search', 'list', 'photo', 'palette', 'monitor', 'edit'],
+             'prodvizhenie-na-marketplejsah': ['search', 'target', 'megaphone', 'percent', 'star', 'chart'], 'seo-kartochek': ['search', 'edit', 'list', 'trend', 'users', 'rub'],
+             'razrabotka-internet-magazina': ['palette', 'grid', 'wallet', 'users', 'link', 'bolt'], 'internet-marketing': ['target', 'globe', 'megaphone', 'users', 'send', 'chart'],
+             'integracii-i-chestnyj-znak': ['search', 'link', 'users', 'api', 'label', 'warehouse'], 'skvoznaya-analitika': ['api', 'rub', 'boxes', 'megaphone', 'chart', 'send']}
+WHO_ICONS = {'podklyuchenie-kabinetov': ['flag', 'globe', 'settings'], 'kontent-i-infografika': ['eye', 'chat', 'bolt'], 'prodvizhenie-na-marketplejsah': ['wallet', 'clock', 'trend'],
+             'seo-kartochek': ['search', 'chart', 'wallet'], 'razrabotka-internet-magazina': ['layers', 'users', 'trend'], 'internet-marketing': ['globe', 'rub', 'repeat'],
+             'integracii-i-chestnyj-znak': ['boxes', 'label', 'list'], 'skvoznaya-analitika': ['layers', 'wallet', 'target']}
+STEP_ART = {'kontent-i-infografika': ['flow_req', 'flow_doc', 'flow_card', 'flow_work'], 'razrabotka-internet-magazina': ['flow_doc', 'flow_card', 'flow_work', 'flow_shop'],
+            'integracii-i-chestnyj-znak': ['flow_req', 'flow_link', 'flow_work', 'flow_chart'], 'podklyuchenie-kabinetov': ['flow_req', 'flow_doc', 'flow_work', 'flow_shop']}
+STEP_DEFAULT = ['flow_req', 'flow_doc', 'flow_work', 'flow_chart']
+
+
+def chips(s):
+    return [(t, pos, i == 2) for i, (t, pos) in enumerate(zip(s['tags'][:3], ('tl', 'tr', 'br')))]
+
+
+def svc_card(r, s, wide=False, tag='h2'):
+    n = SERVICES.index(s) + 1
+    return L.card(f'{r}uslugi/{s["slug"]}/', ART[s['slug']], f'<b>{n:02d}</b> · {e(s["group"])}', s['name'], s['lead'], e(s['price']), wide=wide, tag=tag)
+
+
 def service_page(s):
     r = '../../'
     n = SERVICES.index(s) + 1
-    canon = url(s['slug'])
+    k = s['slug']
+    canon = url(k)
     price_num = re.sub(r'\D', '', s['price'].split('₽')[0])
     ld = {'@context': 'https://schema.org', '@graph': [
         {'@type': 'Service', 'name': s['name'], 'serviceType': s['name'], 'description': s['description'], 'url': canon,
@@ -210,58 +200,51 @@ def service_page(s):
         ld_crumbs([(BRAND, BASE), ('Услуги', url()), (s['name'], canon)]),
         {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in s['faq']]},
     ]}
-    inc = ''.join(f'<article class="rv"><span class="mono">{i + 1:02d}</span><h3>{e(t)}</h3><p>{e(d)}</p></article>' for i, (t, d) in enumerate(s['includes']))
-    who = ''.join(f'<article class="rv"><span class="chip mono">Ситуация {i + 1}</span><h3>{e(t)}</h3><p>{e(d)}</p></article>' for i, (t, d) in enumerate(s['who']))
-    flow = ''.join(f'<li><span class="n">{i + 1}</span><span class="mono d">{e(a)}</span><h3>{e(b)}</h3><p>{e(c)}</p></li>' for i, (a, b, c) in enumerate(s['steps']))
-    text = ''.join(f'<p>{e(p)}</p>' for p in s['text'])
-    faq = ''.join(f'<details{"" if i else " open"}><summary><span class="num mono">0{i + 1}</span><span>{e(q)}</span><span class="pl"></span></summary><div class="a">{e(a)}</div></details>' for i, (q, a) in enumerate(s['faq']))
-    rel = ''.join(f'<a class="rv" href="{r}uslugi/{x["slug"]}/"><span class="mono">{e(x["group"])}</span><h3>{e(x["name"])}</h3><div class="r"><span>{e(x["price"])}</span><em>{ARR}</em></div></a>' for x in (BY_SLUG[k] for k in s['related']))
-    tags = ''.join(f'<li class="mono">{e(t)}</li>' for t in s['tags'])
-    return head(s['title'], s['description'], canon, ld, r) + header(r) + f'''
-<main>
-<section class="paper sh"><div class="wrap">
- {crumbs(r, [(BRAND, r), ('Услуги', r + 'uslugi/'), (s['short'], None)])}
- <p class="eyebrow mono" style="color:var(--ink5);margin-bottom:20px">[ <b style="color:var(--acc);font-weight:500">Услуга {n:02d}</b> · {e(s['group'])} ]</p>
- <h1>{e(s['h1'])}</h1>
- <div class="row">
-  <div><p class="lead">{e(s['lead'])}</p>
-   <div class="ctas"><a class="btn primary" href="{cta_href(r, s['slug'])}"><span>Заказать бесплатный аудит</span><em>{ARR}</em></a><a class="btn ghost" href="{r}ceny/#{s['slug']}"><span>Цены и пакеты</span></a></div></div>
-  <aside class="pcard" aria-label="Стоимость"><div class="r"><span class="mono">Стоимость</span><span class="mono">Срок · {e(s['term'])}</span></div><div class="price">{e(s['price'])}</div><p class="note">{e(s['price_note'])}. Цена фиксируется в договоре до старта работ.</p><ul>{tags}</ul><a href="{r}ceny/#{s['slug']}" style="color:var(--acc);font-size:15px">Все цены на странице «Цены» →</a></aside>
- </div>
-</div></section>
-
+    rel = ''.join(svc_card(r, BY_SLUG[x], tag='h3') for x in s['related'])
+    rows = ''.join(f'<tr><td>{e(a)}</td><td class="p">{e(b)}</td><td class="u">{e(c)}</td></tr>' for a, b, c in PRICES[k])
+    facts = [(e(s['price']), s['price_note'], 'rub')] + FACTS[k]
+    kick = f'<span class="tag"><b>{n:02d}</b><i>{e(s["group"])}</i></span><span class="mono">{e(s["term"])}</span>'
+    ctas = f'<a class="btn primary" href="{cta_href(r, k)}"><span>Заказать бесплатный аудит</span><em>{ARR}</em></a><a class="btn ghost" href="#tarify"><span>Цены</span></a>'
+    body = L.hero(crumbs(r, [(BRAND, r), ('Услуги', r + 'uslugi/'), (s['short'], None)]), kick, s['h1'], BIG[k], s['lead'], ctas, ART[k], chips(s), facts) + f'''
 <section class="white"><div class="wrap">
  <div class="sec-head rv"><div class="l"><span class="tag"><b>01</b><i>Что входит</i></span><h2>Что входит в услугу</h2></div><p class="lead muted">Можно заказать услугу целиком или отдельные пункты. Состав работ фиксируем в договоре.</p></div>
- <div class="inc">{inc}</div>
+ <div class="inc">{L.includes(s['includes'], INC_ICONS[k])}</div>
 </div></section>
 
 <section class="paper"><div class="wrap">
- <div class="sec-head rv"><div class="l"><span class="tag"><b>02</b><i>Кому подходит</i></span><h2>С чем к нам приходят</h2></div><p class="lead muted">Если узнали себя хотя бы в одной ситуации, начните с бесплатного аудита: покажем, что исправить в первую очередь.</p></div>
- <div class="who">{who}</div>
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>02</b><i>Кому подходит</i></span><h2>С чем к нам приходят</h2></div><p class="lead muted">Узнали себя? Начните с бесплатного аудита: покажем, что исправить в первую очередь.</p></div>
+ <div class="who w3">{L.who(s['who'], WHO_ICONS[k])}</div>
 </div></section>
 
 <section class="white"><div class="wrap">
- <div class="sec-head rv"><div class="l"><span class="tag"><b>03</b><i>Как работаем</i></span><h2>Этапы и сроки</h2></div><p class="lead muted">Каждый шаг виден в общем чате и трекере. Отчёт — по выручке и заказам, а не по количеству сделанных задач.</p></div>
- <ol class="flow f4 rv">{flow}</ol>
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>03</b><i>Как работаем</i></span><h2>Этапы и сроки</h2></div><p class="lead muted">Каждый шаг виден в общем чате и трекере. Отчёт — по выручке и заказам, а не по количеству задач.</p></div>
+ <ol class="flow f4 rv">{L.flow(s['steps'], STEP_ART.get(k, STEP_DEFAULT))}</ol>
 </div></section>
 
-<section class="paper"><div class="wrap prose">
- <div class="l rv"><span class="tag"><b>04</b><i>Подробнее</i></span><h2>{e(s['name'])}: как это устроено</h2></div>
- <div class="t rv">{text}</div>
+<section class="paper" id="tarify"><div class="wrap">
+ <div class="pg rv"><div class="h"><span class="tag"><b>04</b><i>Цены</i></span><h2>Сколько стоит</h2><p style="color:var(--ink5)">{e(s['price_note'])}. Цена фиксируется в договоре до старта работ.</p><a href="{r}ceny/#{k}">Все цены и пакеты →</a></div>
+ <table><tbody>{rows}</tbody></table></div>
 </div></section>
 
-<section class="white" id="faq"><div class="wrap faq">
- <div class="l rv"><span class="tag"><b>05</b><i>Вопросы</i></span><h2>Частые вопросы</h2><p class="muted">Не нашли свой вопрос? Задайте его на аудите — ответим на ваших цифрах.</p><a class="btn ghost" href="{TG}" target="_blank" rel="noopener"><span>Задать вопрос в Telegram</span></a></div>
- <div id="faqList">{faq}</div>
+<section class="white"><div class="wrap prose">
+ <div class="l rv"><span class="tag"><b>05</b><i>Подробнее</i></span><h2>{e(s['name'])}: как это устроено</h2></div>
+ <div class="t rv">{''.join(f'<p>{e(p)}</p>' for p in s['text'])}</div>
 </div></section>
 
-<section class="paper"><div class="wrap">
- <div class="sec-head rv"><div class="l"><span class="tag"><b>06</b><i>Ещё услуги</i></span><h2>Часто заказывают вместе</h2></div><p class="lead muted">Услуги работают в связке: контент, реклама и учёт дают больше, чем каждая по отдельности. <a href="{r}uslugi/" style="color:var(--acc)">Все услуги →</a></p></div>
- <div class="rel">{rel}</div>
+<section class="paper" id="faq"><div class="wrap faq">
+ <div class="l rv"><span class="tag"><b>06</b><i>Вопросы</i></span><h2>Частые вопросы</h2><p class="muted">Не нашли свой вопрос? Задайте его на аудите — ответим на ваших цифрах.</p><a class="btn ghost" href="{TG}" target="_blank" rel="noopener"><span>Задать вопрос в Telegram</span></a>{L.faq_art()}</div>
+ <div id="faqList">{L.faq(s['faq'])}</div>
 </div></section>
 
-{final(r, 'Покажем, где теряются продажи', 'Пришлите ссылку на магазин или артикулы. За 2 рабочих дня сделаем аудит и пришлём план с бюджетом и сроками.', s['slug'])}</main>
-''' + footer(r, s['slug']) + f'<script src="{r}accordion.js"></script>\n' + JS.replace(FAQ_JS, 'initAccordions();') + '\n</body>\n</html>\n'
+<section class="white"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>07</b><i>Ещё услуги</i></span><h2>Часто заказывают вместе</h2></div><p class="lead muted">Контент, реклама и учёт в связке дают больше, чем по отдельности. <a href="{r}uslugi/" style="color:var(--acc)">Все услуги →</a></p></div>
+ <div class="cards">{rel}</div>
+</div></section>
+
+{final(r, 'Покажем, где теряются продажи', 'Пришлите ссылку на магазин или артикулы. За 2 рабочих дня сделаем аудит и пришлём план с бюджетом и сроками.', k)}</main>
+'''
+    return (head(s['title'], s['description'], canon, ld, r) + header(r).replace('<a href="../../uslugi/">Услуги</a>', '<a href="../../uslugi/" aria-current="page">Услуги</a>')
+            + '\n<main>\n' + body + footer(r, k) + f'<script src="{r}accordion.js"></script>\n' + JS.replace(FAQ_JS, 'initAccordions();') + '\n</body>\n</html>\n')
 
 
 def index_page():
@@ -271,26 +254,36 @@ def index_page():
         ld_crumbs([(BRAND, BASE), ('Услуги', canon)]),
         {'@type': 'ItemList', 'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'name': s['name'], 'url': url(s['slug'])} for i, s in enumerate(SERVICES)]},
     ]}
-    rows, n = '', 0
-    for g in GROUPS:
-        rows += f'<p class="grp mono">{e(g)}</p>'
-        for s in SERVICES:
-            if s['group'] != g:
-                continue
-            n += 1
-            rows += f'<a href="{s["slug"]}/"><span class="num mono">({n:02d})</span><div><h2>{e(s["name"])}</h2><p>{e(s["lead"])}</p></div><b>{e(s["price"])}</b></a>'
+    cards = ''.join(svc_card(r, s, wide=(i == 0)) for i, s in enumerate(SERVICES))
+    facts = [('8 направлений', 'от первой карточки до своего магазина', 'layers'), ('2 дня', 'бесплатный аудит карточек и рекламы', 'clock'),
+             ('без %', 'от оборота: фиксированная цена', 'wallet'), ('отчёт', 'по выручке и ДРР каждую неделю', 'chart')]
+    kick = '<span class="tag"><b>→</b><i>Все услуги</i></span><span class="mono">Wildberries · Ozon · Яндекс Маркет · свой сайт</span>'
+    ctas = f'<a class="btn primary" href="{cta_href(r)}"><span>Заказать бесплатный аудит</span><em>{ARR}</em></a><a class="btn ghost" href="{r}ceny/"><span>Цены</span></a>'
+    way = L.path([('flow_work', 'Кабинеты', 'Регистрация, схема, ЭДО.', f'{r}uslugi/podklyuchenie-kabinetov/'),
+                  ('flow_card', 'Контент', 'Фото, инфографика, rich-контент.', f'{r}uslugi/kontent-i-infografika/'),
+                  ('flow_req', 'SEO', 'Семантика, тексты, позиции.', f'{r}uslugi/seo-kartochek/'),
+                  ('flow_chart', 'Продвижение', 'Реклама, акции, отзывы.', f'{r}uslugi/prodvizhenie-na-marketplejsah/'),
+                  ('flow_shop', 'Свой магазин', 'Сайт, маркетинг, повторные продажи.', f'{r}uslugi/razrabotka-internet-magazina/'),
+                  ('flow_link', 'Учёт и аналитика', 'Интеграции, маржа по SKU.', f'{r}uslugi/skvoznaya-analitika/')])
     title = 'Услуги для селлеров: маркетплейсы, интернет-магазин, маркетинг — Madrocks agency'
     desc = 'Все услуги digital-агентства «Madrocks agency» для селлеров: подключение кабинетов WB и Ozon, инфографика, продвижение, SEO карточек, интернет-магазин, маркетинг, интеграции и аналитика.'
-    return head(title, desc, canon, ld, r) + header(r) + f'''
-<main>
-<section class="paper sh"><div class="wrap">
- {crumbs(r, [(BRAND, r), ('Услуги', None)])}
- <h1>Услуги для селлеров маркетплейсов</h1>
- <div class="row"><p class="lead">Восемь направлений, которые закрывают весь путь селлера: от первой карточки до собственного магазина. Любую услугу можно заказать отдельно или в пакете.</p></div>
- <div class="list" style="margin-top:48px">{rows}</div>
+    body = L.hero(crumbs(r, [(BRAND, r), ('Услуги', None)]), kick, 'Услуги для селлеров маркетплейсов и интернет-магазинов', 'Услуги',
+                  'Восемь направлений, которые закрывают весь путь селлера: от первой карточки до собственного магазина. Любую услугу можно заказать отдельно.',
+                  ctas, 'ag_hero_services', [('Карточки · реклама · аналитика', 'tl', False), ('Свой интернет-магазин', 'tr', False), ('Связка с фулфилментом', 'br', True)], facts) + f'''
+<section class="white"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>01</b><i>Услуги</i></span><h2>Выберите, с чего начать</h2></div><p class="lead muted">Любую услугу можно заказать отдельно или в пакете. Цены «от», без процента от оборота.</p></div>
+ <div class="cards">{cards}</div>
+ <p class="links"><a href="{FF}uslugi/" target="_blank" rel="noopener">Склад, FBS, FBO и доставка — у фулфилмента «Товар в деле» ↗</a></p>
+</div></section>
+
+<section class="paper"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>02</b><i>Путь селлера</i></span><h2>От первой карточки до своего магазина</h2></div><p class="lead muted">Услуги работают в связке: контент, реклама и учёт дают больше, чем каждая по отдельности.</p></div>
+ {way}
 </div></section>
 {final(r, 'Не знаете, с чего начать?', 'Начните с бесплатного аудита: за 2 рабочих дня разберём карточки и рекламу и покажем, какие услуги дадут результат быстрее всего.')}</main>
-''' + footer(r) + JS + '\n</body>\n</html>\n'
+'''
+    return (head(title, desc, canon, ld, r) + header(r).replace('<a href="../uslugi/">Услуги</a>', '<a href="../uslugi/" aria-current="page">Услуги</a>')
+            + '\n<main>\n' + body + footer(r) + JS + '\n</body>\n</html>\n')
 
 
 def plans(src):
@@ -316,19 +309,18 @@ def prices_page(src):
     for g in GROUPS:
         for s in (x for x in SERVICES if x['group'] == g):
             rows = ''.join(f'<tr><td>{e(a)}</td><td class="p">{e(b)}</td><td class="u">{e(c)}</td></tr>' for a, b, c in PRICES[s['slug']])
-            groups += (f'<div class="pg rv" id="{s["slug"]}"><div class="h"><span class="mono">{e(g)}</span><h2>{e(s["short"])}</h2>'
+            groups += (f'<div class="pg rv" id="{s["slug"]}"><div class="h"><div class="th isogrid">{L.ART[ART[s["slug"]]]()}</div><span class="mono">{e(g)}</span><h2>{e(s["short"])}</h2>'
                        f'<a href="{r}uslugi/{s["slug"]}/">Подробнее об услуге →</a></div><table><tbody>{rows}</tbody></table></div>')
+    facts = [(e(BY_SLUG[k]['price']), lbl, ic) for k, lbl, ic in (
+        ('podklyuchenie-kabinetov', 'Подключение кабинетов · разово', 'key'), ('kontent-i-infografika', 'Инфографика · за слайд', 'photo'),
+        ('prodvizhenie-na-marketplejsah', 'Продвижение · в месяц', 'megaphone'), ('razrabotka-internet-magazina', 'Интернет-магазин · разово', 'cart'))]
+    kick = '<span class="tag"><b>₽</b><i>Прайс</i></span><span class="mono">цены «от» · без НДС</span>'
+    ctas = f'<a class="btn primary" href="{cta_href(r)}"><span>Заказать бесплатный аудит</span><em>{ARR}</em></a><a class="btn ghost" href="#pakety"><span>Пакеты</span></a>'
     title = 'Цены на продвижение на маркетплейсах, контент и интернет-магазин — Madrocks agency'
     desc = 'Прайс digital-агентства Madrocks agency: подключение кабинетов от 30 000 ₽, инфографика от 1 500 ₽ за слайд, продвижение от 40 000 ₽ в месяц, интернет-магазин от 350 000 ₽. Пакеты и цены «от».'
-    return head(title, desc, canon, ld, r) + header(r).replace('<a href="../ceny/">Цены</a>', '<a href="../ceny/" aria-current="page">Цены</a>') + f'''
-<main>
-<section class="paper sh"><div class="wrap">
- {crumbs(r, [(BRAND, r), ('Цены', None)])}
- <h1>Цены на услуги агентства</h1>
- <div class="row"><p class="lead">Обобщённый прайс по группам услуг: цены «от» и единицы. Точную стоимость считаем после бесплатного аудита и фиксируем в договоре до старта работ.</p></div>
- <div class="ctas"><a class="btn primary" href="{cta_href(r)}"><span>Заказать бесплатный аудит</span><em>{ARR}</em></a><a class="btn ghost" href="{r}uslugi/"><span>Все услуги</span></a></div>
-</div></section>
-
+    body = L.hero(crumbs(r, [(BRAND, r), ('Цены', None)]), kick, 'Цены на услуги агентства для селлеров', 'Цены',
+                  'Пакеты с понятной ценой и прайс по услугам. Точную стоимость считаем после бесплатного аудита и фиксируем в договоре.', ctas, 'ag_hero_prices',
+                  [('Без процента от оборота', 'tl', False), ('Рекламный бюджет — напрямую площадке', 'tr', False), ('Цена фиксируется до старта', 'br', True)], facts) + f'''
 <section class="white" id="pakety"><div class="wrap">
  <div class="sec-head rv"><div class="l"><span class="tag"><b>01</b><i>Пакеты</i></span><h2>Пакеты с понятной ценой</h2></div><p class="lead muted">Пакет закрывает типовую задачу целиком. Любую услугу из прайса ниже можно взять отдельно.</p></div>
  <div class="plans">{cards}</div>
@@ -341,7 +333,9 @@ def prices_page(src):
  <p class="links"><a href="{FF}ceny/" target="_blank" rel="noopener">Цены на фулфилмент — у «Товар в деле» ↗</a></p>
 </div></section>
 {final(r, 'Посчитаем бюджет под вашу задачу', 'Пришлите ссылку на магазин или артикулы. За 2 рабочих дня сделаем аудит и пришлём план с бюджетом и сроками.')}</main>
-''' + footer(r) + JS + '\n</body>\n</html>\n'
+'''
+    return (head(title, desc, canon, ld, r) + header(r).replace('<a href="../ceny/">Цены</a>', '<a href="../ceny/" aria-current="page">Цены</a>')
+            + '\n<main>\n' + body + footer(r) + JS + '\n</body>\n</html>\n')
 
 
 def main():

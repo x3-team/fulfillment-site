@@ -16,6 +16,7 @@ import html, json, os, re, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import seo  # noqa: E402
+import svc_layout as L  # noqa: E402  общая вёрстка страниц услуг и цен (иллюстрации, иконки, CSS)
 from ff_services import GROUPS, PRICES, SERVICES  # noqa: E402
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
@@ -28,62 +29,10 @@ HOME = {'FBS': 'fbs', 'FBO': 'fbo', 'Хранение': 'hranenie', 'Марки�
         'Возвраты и переупаковка': 'vozvraty', 'Забор товара и доставка до СЦ': 'zabor-i-dostavka'}
 
 e = lambda s: html.escape(s, quote=True)
+L.e = e  # экранирование общее с вёрсткой (с админкой — оборачивает цены калькулятора)
 ARR = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 
-EXTRA_CSS = '''
-/* ---- страницы услуг и цен ---- */
-.hdr .nav a[aria-current]{color:var(--ink)}
-.crumbs{margin-bottom:28px;color:var(--ink5)}.crumbs ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 10px}
-.crumbs li{display:flex;gap:10px;align-items:center}.crumbs li+li::before{content:"/";color:var(--ink3)}
-.crumbs a:hover{color:var(--acc)}.crumbs [aria-current]{color:var(--ink)}
-.sh{padding:32px 0 clamp(64px,8vw,104px)}
-.sh h1{max-width:22ch;font-size:clamp(36px,4.6vw,64px)}
-.sh .row{display:grid;gap:32px;margin-top:32px;align-items:start}
-@media (min-width:1000px){.sh .row{grid-template-columns:1fr 400px;gap:64px}}
-.sh .lead{max-width:60ch}
-.pcard{display:grid;gap:16px;padding:28px 28px 30px;background:var(--card);border:1px solid var(--line);border-radius:4px;box-shadow:0 12px 32px rgba(10,23,54,.07)}
-.pcard .r{display:flex;justify-content:space-between;gap:12px;color:var(--ink5)}.pcard .r .mono:last-child{color:var(--acc)}
-.pcard .price{font-size:clamp(32px,3.2vw,40px);line-height:1;font-weight:500;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.pcard .price small{font-size:16px;letter-spacing:0;color:var(--ink5);margin-left:8px}
-.pcard .note{color:var(--ink5);font-size:15px}
-.pcard ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}.pcard li{padding:6px 10px;border-radius:2px;background:var(--acc1);color:var(--acc6)}
-.pcard .btn{width:100%}.pcard .btn>span{flex:1;justify-content:center}
-.pcard a.all{color:var(--acc);font-size:15px}
-.inc{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}@media (min-width:1000px){.inc{grid-template-columns:repeat(3,1fr)}}
-.inc article{display:grid;gap:12px;align-content:start;padding:26px 28px 30px;background:var(--paper);border-radius:4px;border:1px solid transparent;transition:border-color var(--base)}
-.inc article:hover{border-color:var(--acc)}.inc .mono{color:var(--acc)}.inc h3{font-size:22px}.inc p{color:var(--ink5)}
-.who.w3{display:grid;gap:16px}@media (min-width:900px){.who.w3{grid-template-columns:repeat(3,1fr)}}
-.paper .who article{background:var(--card)}.who.w3 article{padding:28px 28px 32px}.who.w3 article>*{margin:0}
-.flow.f4{grid-template-columns:none}@media (min-width:900px){.flow.f4{grid-template-columns:repeat(4,1fr)}}
-.prose{display:grid;gap:24px}@media (min-width:1000px){.prose{grid-template-columns:400px 1fr;gap:80px}}
-.prose .l{display:grid;gap:20px;justify-items:start;align-content:start}
-.prose .t{display:grid;gap:18px;max-width:68ch;font-size:18px;line-height:1.65;color:var(--ink7)}
-.rel{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.rel a{display:grid;gap:12px;align-content:space-between;min-height:180px;padding:24px 26px;background:var(--card);border:1px solid var(--line);border-radius:4px;transition:border-color var(--base),transform var(--base) var(--std)}
-.rel a:hover{border-color:var(--acc);transform:translateY(-4px)}.rel .mono{color:var(--ink5)}.rel h3{font-size:22px}
-.rel .r{display:flex;justify-content:space-between;align-items:center;font-weight:600}.rel .r em{width:36px;height:36px;display:grid;place-items:center;background:var(--acc);color:#fff;border-radius:2px;font-style:normal}
-.final .ctas{margin-top:40px}
-.list{border-top:1px solid var(--line)}.list .grp{padding:28px 0 12px;color:var(--ink5)}
-.list a{display:grid;grid-template-columns:72px 1fr auto;gap:24px;align-items:center;padding:24px 0;border-top:1px solid var(--line)}
-.list a .num{color:var(--ink5)}.list a h2{font-size:clamp(24px,3.2vw,44px);transition:color var(--fast),transform var(--base) var(--std)}
-.list a p{color:var(--ink5);margin-top:8px;max-width:70ch}.list a b{white-space:nowrap;font-weight:600;font-size:18px;color:var(--acc6)}
-.list a b small{display:block;font-weight:400;font-size:14px;color:var(--ink5);text-align:right}
-.list a:hover h2{color:var(--acc6);transform:translateX(8px)}
-@media (max-width:699px){.list a{grid-template-columns:40px 1fr;gap:12px}.list a b{grid-column:2}.list a b small{text-align:left}}
-.links{display:flex;flex-wrap:wrap;gap:12px 24px;margin-top:32px}.links a{color:var(--acc);font-weight:500}.links a:hover{color:var(--acc6)}
-.pt{display:grid;gap:16px}
-.pg{display:grid;gap:8px 48px;padding:28px 28px 20px;background:var(--card);border:1px solid var(--line);border-radius:4px}
-@media (min-width:1000px){.pg{grid-template-columns:300px 1fr}}
-.pg .h{display:grid;gap:12px;align-content:start;justify-items:start}.pg .h h2{font-size:clamp(26px,2.6vw,34px)}
-.pg .h a{color:var(--acc);font-weight:500;font-size:15px}.pg .h a:hover{color:var(--acc6)}
-.pg table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-.pg td{padding:14px 0;border-top:1px solid var(--line);vertical-align:baseline}.pg tr:first-child td{border-top:0}
-.pg td:first-child{padding-right:24px}.pg td.p{text-align:right;white-space:nowrap;font-weight:600;font-size:18px;color:var(--acc6)}
-.pg td.u{text-align:right;white-space:nowrap;color:var(--ink5);font-size:14px;padding-left:12px;width:150px}
-@media (max-width:599px){.pg{padding:22px 20px 14px}.pg tr{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:12px 0;border-top:1px solid var(--line)}.pg tr:first-child{border-top:0}
- .pg td{padding:0;border:0}.pg td:first-child{grid-column:1/-1;padding:0}.pg td.p{text-align:left}.pg td.u{width:auto}}
-.pnote{display:grid;gap:12px;margin-top:32px;max-width:80ch;color:var(--ink5)}
-'''
+EXTRA_CSS = L.CSS
 
 JS = '''<script>
 (function(){
@@ -166,62 +115,90 @@ def price_rows(slug):
     return g['rows'] if g else []
 
 
+# Графика страниц услуг: большое слово первого экрана, сцена, чипы над сценой, факты,
+# иконки «Что входит» / «Кому подходит», картинки этапов. Ключи — slug из ff_services.py.
+BIG = {'fbs': 'FBS', 'fbo': 'FBO', 'hranenie': 'Хранение', 'priemka': 'Приёмка', 'markirovka-i-upakovka': 'Маркировка',
+       'vozvraty': 'Возвраты', 'zabor-i-dostavka': 'Доставка'}
+ART = {'fbs': 'svc_fbs', 'fbo': 'svc_fbo', 'hranenie': 'svc_store', 'priemka': 'svc_accept', 'markirovka-i-upakovka': 'svc_pack',
+       'vozvraty': 'svc_returns', 'zabor-i-dostavka': 'svc_truck'}
+CHIPS = {'fbs': [('Wildberries · Ozon · Яндекс Маркет', 'tl', False), ('Отгрузка 12:00 и 21:00', 'br', True), ('Остатки онлайн в WMS', 'tr', False)],
+         'fbo': [('Короба и паллеты по правилам площадки', 'tl', False), ('Слоты бронируем сами', 'tr', False), ('Приёмка с первого раза', 'br', True)],
+         'hranenie': [('Адресные ячейки', 'tl', False), ('Тёплый склад', 'tr', False), ('Первые 14 дней бесплатно', 'br', True)],
+         'priemka': [('Пересчёт каждой единицы', 'tl', False), ('Проверка на брак', 'tr', False), ('Акт с фото в день поставки', 'br', True)],
+         'markirovka-i-upakovka': [('«Честный знак» и стикеры ШК', 'tl', False), ('Комплекты и вложения', 'tr', False), ('Проверка перед отправкой', 'br', True)],
+         'vozvraty': [('Забор из ПВЗ и СЦ', 'tl', False), ('Фото и акт на каждый возврат', 'tr', False), ('Годный товар — снова в продажу', 'br', True)],
+         'zabor-i-dostavka': [('Свой транспорт', 'tl', False), ('СЦ и склады WB, Ozon, ЯМ', 'tr', False), ('Доставка к забронированному слоту', 'br', True)]}
+FACTS = {'fbs': [('12:00 и 21:00', 'две отгрузки каждый день', 'clock'), ('3–4 дня', 'от расчёта до первой отгрузки', 'calendar'), ('3 площадки', 'общий остаток для WB, Ozon и ЯМ', 'layers')],
+         'fbo': [('1–2 дня', 'подготовка партии', 'clock'), ('с 1-го раза', 'приёмка на складе маркетплейса', 'check'), ('WB · Ozon · ЯМ', 'везём на любые склады', 'truck')],
+         'hranenie': [('14 дней', 'бесплатно с даты приёмки', 'calendar'), ('по литрам', 'платите за объём, а не за ячейку', 'cube'), ('онлайн', 'остатки и движения в WMS', 'wms')],
+         'priemka': [('в день поставки', 'пересчёт и акт с фото', 'clock'), ('100%', 'пересчитываем каждую единицу', 'scan'), ('короба и паллеты', 'разгружаем любую поставку', 'pallet')],
+         'markirovka-i-upakovka': [('от 2 часов', 'на партию', 'clock'), ('«Честный знак»', 'и стикеры WB, Ozon, ЯМ', 'tag'), ('по правилам', 'каждой площадки', 'check')],
+         'vozvraty': [('1–2 дня', 'возврат годного товара в продажу', 'clock'), ('фото + акт', 'на каждый возврат', 'photo'), ('переупаковка', 'и перемаркировка', 'repeat')],
+         'zabor-i-dostavka': [('свой транспорт', 'Тула и область', 'truck'), ('СЦ и склады', 'WB, Ozon, Яндекс Маркет', 'warehouse'), ('в слот', 'доставка к забронированному времени', 'calendar')]}
+INC_ICONS = {'fbs': ['api', 'scan', 'box', 'truck', 'wms', 'repeat'], 'fbo': ['doc', 'tag', 'pallet', 'calendar', 'truck', 'check'],
+             'hranenie': ['grid', 'wms', 'thermo', 'list', 'boxes', 'shield'], 'priemka': ['truck', 'scan', 'eye', 'photo', 'grid'],
+             'markirovka-i-upakovka': ['tag', 'box', 'boxes', 'layers', 'check'], 'vozvraty': ['truck', 'eye', 'box', 'repeat', 'photo'],
+             'zabor-i-dostavka': ['map', 'warehouse', 'route', 'pallet']}
+WHO_ICONS = {'fbs': ['wallet', 'layers', 'eye'], 'fbo': ['trend', 'shield', 'clock'], 'hranenie': ['pallet', 'rub', 'calendar'],
+             'priemka': ['users', 'undo', 'globe'], 'markirovka-i-upakovka': ['label', 'cube', 'star'], 'vozvraty': ['tag', 'map', 'shield'],
+             'zabor-i-dostavka': ['truck', 'route', 'calendar']}
+STEP_ART = {'fbs': ['flow_doc', 'flow_work', 'flow_accept', 'flow_fbs'], 'fbo': ['flow_doc', 'flow_accept', 'flow_fbo', 'flow_pick'],
+            'hranenie': ['flow_req', 'flow_doc', 'flow_accept', 'flow_store'], 'priemka': ['flow_req', 'flow_pick', 'flow_accept', 'flow_doc'],
+            'markirovka-i-upakovka': ['flow_doc', 'flow_req', 'flow_fbo', 'flow_fbs'], 'vozvraty': ['flow_pick', 'flow_accept', 'flow_fbo', 'flow_store'],
+            'zabor-i-dostavka': ['flow_req', 'flow_doc', 'flow_pick', 'flow_accept']}
+
+
+def svc_card(r, s, wide=False, tag='h2'):
+    n = SERVICES.index(s) + 1
+    return L.card(f'{r}uslugi/{s["slug"]}/', ART[s['slug']], f'<b>{n:02d}</b> · {e(s["group"])}', s['name'], s['lead'],
+                  e(s['price']), s['unit'], wide=wide, tag=tag)
+
+
 def service_page(src, s):
     r = '../../'
     n = SERVICES.index(s) + 1
-    inc = ''.join(f'<article class="rv"><span class="mono">{i + 1:02d}</span><h3>{e(t)}</h3><p>{e(d)}</p></article>' for i, (t, d) in enumerate(s['includes']))
-    who = ''.join(f'<article class="rv"><span class="chip mono">Ситуация {i + 1}</span><h3>{e(t)}</h3><p>{e(d)}</p></article>' for i, (t, d) in enumerate(s['who']))
-    flow = ''.join(f'<li><span class="n">{i + 1}</span><span class="mono d">{e(a)}</span><h3>{e(b)}</h3><p>{e(c)}</p></li>' for i, (a, b, c) in enumerate(s['steps']))
-    text = ''.join(f'<p>{e(p)}</p>' for p in s['text'])
-    faq = ''.join(f'<details{"" if i else " open"}><summary><span class="num mono">0{i + 1}</span><span>{e(q)}</span><span class="pl"></span></summary><div class="a">{e(a)}</div></details>' for i, (q, a) in enumerate(s['faq']))
-    rel = ''.join(f'<a class="rv" href="{r}uslugi/{x["slug"]}/"><span class="mono">{e(x["group"])}</span><h3>{e(x["name"])}</h3><div class="r"><span>{e(x["price"])} {e(x["unit"])}</span><em>{ARR}</em></div></a>' for x in (BY_SLUG[k] for k in s['related']))
-    tags = ''.join(f'<li class="mono">{e(t)}</li>' for t in s['tags'])
-    rows = ''.join(f'<tr><td>{e(a)}</td><td class="p">{e(b)}</td><td class="u">{e(c)}</td></tr>' for a, b, c, _ in price_rows(s['slug']))
+    k = s['slug']
+    rel = ''.join(svc_card(r, BY_SLUG[x], tag='h3') for x in s['related'])
+    rows = ''.join(f'<tr><td>{e(a)}</td><td class="p">{e(b)}</td><td class="u">{e(c)}</td></tr>' for a, b, c, _ in price_rows(k))
     tariff = f'''
-<section class="white" id="tarify"><div class="wrap">
- <div class="pg rv"><div class="h"><span class="tag"><b>04</b><i>Тарифы</i></span><h2>Сколько стоит</h2><a href="{r}ceny/#{s['slug']}">Весь прайс →</a></div>
+<section class="paper" id="tarify"><div class="wrap">
+ <div class="pg rv"><div class="h"><span class="tag"><b>04</b><i>Тарифы</i></span><h2>Сколько стоит</h2><p style="color:var(--ink5)">{e(s['price_note'])}. Точную цену фиксируем в приложении к договору.</p><a href="{r}ceny/#{k}">Весь прайс →</a></div>
  <table><tbody>{rows}</tbody></table></div>
 </div></section>
 ''' if rows else ''
-    body = f'''<section class="paper sh"><div class="wrap">
- {crumbs(r, [('Главная', r), ('Услуги', r + 'uslugi/'), (s['short'], None)])}
- <p class="mono" style="color:var(--ink5);margin-bottom:20px">[ <b style="color:var(--acc);font-weight:500">Услуга {n:02d}</b> · {e(s['group'])} ]</p>
- <h1>{e(s['h1'])}</h1>
- <div class="row">
-  <div><p class="lead">{e(s['lead'])}</p>
-   <div class="ctas"><a class="btn primary" href="{calc_href(r, s)}"><span>Рассчитать стоимость</span><em>{ARR}</em></a><a class="btn ghost" href="{r}ceny/#{s['slug']}"><span>Цены</span></a></div></div>
-  <aside class="pcard" aria-label="Стоимость"><div class="r"><span class="mono">Стоимость</span><span class="mono">{e(s['term'])}</span></div><div class="price">{e(s['price'])}<small>{e(s['unit'])}</small></div><p class="note">{e(s['price_note'])}. Точную цену фиксируем в приложении к договору.</p><ul>{tags}</ul><a class="all" href="{r}ceny/#{s['slug']}">Все тарифы на странице «Цены» →</a></aside>
- </div>
-</div></section>
-
+    facts = [(e(s['price']), s['unit'], 'rub')] + FACTS[k]
+    kick = f'<span class="tag"><b>{n:02d}</b><i>{e(s["group"])}</i></span><span class="mono">{e(s["term"])}</span>'
+    ctas = f'<a class="btn primary" href="{calc_href(r, s)}"><span>Рассчитать стоимость</span><em>{ARR}</em></a><a class="btn ghost" href="#tarify"><span>Тарифы</span></a>'
+    body = L.hero(crumbs(r, [('Главная', r), ('Услуги', r + 'uslugi/'), (s['short'], None)]), kick, s['h1'], BIG[k], s['lead'], ctas,
+                  ART[k], CHIPS[k], facts) + f'''
 <section class="white"><div class="wrap">
- <div class="sec-head rv"><div class="l"><span class="tag"><b>01</b><i>Что входит</i></span><h2>Что входит в услугу</h2></div><p class="lead muted">Состав работ и тарифы фиксируем в договоре. Платите только за операции, которые мы выполнили.</p></div>
- <div class="inc">{inc}</div>
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>01</b><i>Что входит</i></span><h2>Что входит в услугу</h2></div><p class="lead muted">Платите только за операции, которые мы выполнили. Состав работ фиксируем в договоре.</p></div>
+ <div class="inc">{L.includes(s['includes'], INC_ICONS[k])}</div>
 </div></section>
 
 <section class="paper"><div class="wrap">
  <div class="sec-head rv"><div class="l"><span class="tag"><b>02</b><i>Кому подходит</i></span><h2>Когда это выгодно</h2></div><p class="lead muted">Работаем от первой партии и без минимального ежемесячного платежа.</p></div>
- <div class="who w3">{who}</div>
+ <div class="who w3">{L.who(s['who'], WHO_ICONS[k])}</div>
 </div></section>
 
 <section class="white"><div class="wrap">
  <div class="sec-head rv"><div class="l"><span class="tag"><b>03</b><i>Как работаем</i></span><h2>Этапы и сроки</h2></div><p class="lead muted">Каждая операция видна в нашей WMS, персональный менеджер на связи в мессенджере.</p></div>
- <ol class="flow f4 rv">{flow}</ol>
+ <ol class="flow f4 rv">{L.flow(s['steps'], STEP_ART[k])}</ol>
 </div></section>
 {tariff}
-<section class="paper"><div class="wrap prose">
+<section class="white"><div class="wrap prose">
  <div class="l rv"><span class="tag"><b>05</b><i>Подробнее</i></span><h2>{e(s['name'])}: как это устроено</h2></div>
- <div class="t rv">{text}</div>
+ <div class="t rv">{''.join(f'<p>{e(p)}</p>' for p in s['text'])}</div>
 </div></section>
 
-<section class="white" id="faq"><div class="wrap faq">
- <div class="l rv"><span class="tag"><b>06</b><i>Вопросы</i></span><h2>Частые вопросы</h2><p class="muted">Не нашли свой вопрос? Спросите менеджера — ответим лично.</p><a class="btn ghost" href="{TG}" target="_blank" rel="noopener"><span>Задать вопрос в Telegram</span></a></div>
- <div id="faqList">{faq}</div>
+<section class="paper" id="faq"><div class="wrap faq">
+ <div class="l rv"><span class="tag"><b>06</b><i>Вопросы</i></span><h2>Частые вопросы</h2><p class="muted">Не нашли свой вопрос? Спросите менеджера — ответим лично.</p><a class="btn ghost" href="{TG}" target="_blank" rel="noopener"><span>Задать вопрос в Telegram</span></a>{L.faq_art()}</div>
+ <div id="faqList">{L.faq(s['faq'])}</div>
 </div></section>
 
-<section class="paper"><div class="wrap">
+<section class="white"><div class="wrap">
  <div class="sec-head rv"><div class="l"><span class="tag"><b>07</b><i>Ещё услуги</i></span><h2>Часто заказывают вместе</h2></div><p class="lead muted"><a href="{r}uslugi/" style="color:var(--acc)">Все услуги →</a></p></div>
- <div class="rel">{rel}</div>
+ <div class="cards">{rel}</div>
 </div></section>
 
 {final(r, 'Посчитайте свою партию', 'Отметьте операции в калькуляторе и нажмите «Получить точный расчёт». Менеджер сверит габариты и объёмы и пришлёт расчёт по каждой строке прайса и проект договора.', s)}'''
@@ -230,21 +207,29 @@ def service_page(src, s):
 
 def index_page(src):
     r = '../'
-    rows, n = '', 0
-    for g in GROUPS:
-        rows += f'<p class="grp mono">{e(g)}</p>'
-        for s in SERVICES:
-            if s['group'] != g:
-                continue
-            n += 1
-            rows += f'<a href="{s["slug"]}/"><span class="num mono">({n:02d})</span><div><h2>{e(s["name"])}</h2><p>{e(s["lead"])}</p></div><b>{e(s["price"])}<small>{e(s["unit"])}</small></b></a>'
-    body = f'''<section class="paper sh"><div class="wrap">
- {crumbs(r, [('Главная', r), ('Услуги', None)])}
- <h1>Услуги фулфилмента для маркетплейсов</h1>
- <div class="row"><p class="lead">Всё, что происходит с товаром между поставщиком и покупателем: приёмка, хранение, маркировка, сборка заказов FBS и поставок FBO, возвраты и доставка. Склад в Туле, работаем с Wildberries, Ozon, Яндекс Маркетом и интернет-магазинами.</p></div>
- <div class="ctas"><a class="btn primary" href="{r}#calc"><span>Рассчитать стоимость</span><em>{ARR}</em></a><a class="btn ghost" href="{r}ceny/"><span>Цены на все услуги</span></a></div>
- <div class="list" style="margin-top:48px">{rows}</div>
+    cards = ''.join(svc_card(r, s, wide=(i == 0 or i == len(SERVICES) - 1)) for i, s in enumerate(SERVICES))
+    facts = [('7 услуг', 'от приёмки до доставки покупателю', 'layers'), ('2 отгрузки', 'в день: 12:00 и 21:00', 'clock'),
+             ('14 дней', 'хранения бесплатно', 'calendar'), ('Тула', 'склад, свой транспорт до СЦ', 'map')]
+    kick = '<span class="tag"><b>→</b><i>Все услуги</i></span><span class="mono">Wildberries · Ozon · Яндекс Маркет</span>'
+    ctas = f'<a class="btn primary" href="{r}#calc"><span>Рассчитать стоимость</span><em>{ARR}</em></a><a class="btn ghost" href="{r}ceny/"><span>Цены</span></a>'
+    way = L.path([('flow_pick', 'Забор', 'У поставщика, из ТК или с рынка.', f'{r}uslugi/zabor-i-dostavka/'),
+                  ('flow_accept', 'Приёмка', 'Пересчёт, проверка на брак, акт с фото.', f'{r}uslugi/priemka/'),
+                  ('flow_store', 'Хранение', 'Адресные ячейки, остатки онлайн.', f'{r}uslugi/hranenie/'),
+                  ('flow_doc', 'Маркировка', '«Честный знак», стикеры, упаковка.', f'{r}uslugi/markirovka-i-upakovka/'),
+                  ('flow_fbs', 'Сборка', 'Заказы FBS и поставки FBO.', f'{r}uslugi/fbs/'),
+                  ('flow_fbo', 'Доставка', 'До СЦ и складов маркетплейсов.', f'{r}uslugi/fbo/')])
+    body = L.hero(crumbs(r, [('Главная', r), ('Услуги', None)]), kick, 'Услуги фулфилмента для маркетплейсов и интернет-магазинов', 'Услуги',
+                  'Всё, что происходит с товаром между поставщиком и покупателем. Склад в Туле, цены за операцию, расчёт в калькуляторе за минуту.',
+                  ctas, 'hero_services', [('Склад в Туле', 'tl', False), ('FBS · FBO · хранение', 'tr', False), ('Отгрузка дважды в день', 'br', True)], facts) + f'''
+<section class="white"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>01</b><i>Услуги</i></span><h2>Выберите, что нужно товару</h2></div><p class="lead muted">Любую услугу можно заказать отдельно. Цены — за операцию, без минимального платежа.</p></div>
+ <div class="cards">{cards}</div>
  <p class="links"><a href="{AGENCY}uslugi/" target="_blank" rel="noopener">Интернет-магазин, маркетинг и контент — в агентстве Madrocks ↗</a></p>
+</div></section>
+
+<section class="paper"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>02</b><i>Путь товара</i></span><h2>От поставщика до покупателя</h2></div><p class="lead muted">Шесть шагов, каждый виден в WMS. Подключайте те, что нужны именно вашему товару.</p></div>
+ {way}
 </div></section>
 {final(r, 'Не знаете, какая схема выгоднее?', 'Посчитайте партию в калькуляторе и оставьте контакты. Менеджер сравнит FBS и FBO на ваших объёмах и пришлёт точный расчёт.')}'''
     return shell(src, 1, '../uslugi/', body)
@@ -256,16 +241,20 @@ def prices_page(src):
     for g in PRICES:
         s = BY_SLUG[g['slug']]
         rows = ''.join(f'<tr><td>{e(a)}</td><td class="p">{e(b)}</td><td class="u">{e(c)}</td></tr>' for a, b, c, _ in g['rows'])
-        groups += (f'<div class="pg rv" id="{g["slug"]}"><div class="h"><h2>{e(g["name"])}</h2><a href="{r}uslugi/{g["slug"]}/">{e(s["name"])}: подробнее →</a></div>'
+        groups += (f'<div class="pg rv" id="{g["slug"]}"><div class="h"><div class="th isogrid">{L.ART[ART[g["slug"]]]()}</div><h2>{e(g["name"])}</h2><a href="{r}uslugi/{g["slug"]}/">{e(s["name"])}: подробнее →</a></div>'
                    f'<table><tbody>{rows}</tbody></table></div>')
-    body = f'''<section class="paper sh"><div class="wrap">
- {crumbs(r, [('Главная', r), ('Цены', None)])}
- <h1>Цены на фулфилмент</h1>
- <div class="row"><p class="lead">Базовый прайс по группам услуг. Итог складывается из операций, которые нужны вашему товару: посчитайте партию в калькуляторе — он считает по этим же ценам.</p></div>
- <div class="ctas"><a class="btn primary" href="{r}#calc"><span>Рассчитать стоимость партии</span><em>{ARR}</em></a><a class="btn ghost" href="{r}uslugi/"><span>Все услуги</span></a></div>
-</div></section>
-
+    facts = [(e(BY_SLUG[k]['price']), BY_SLUG[k]['short'] + ' · ' + BY_SLUG[k]['unit'], ic)
+             for k, ic in (('priemka', 'scan'), ('fbs', 'phone'), ('fbo', 'pallet'), ('hranenie', 'warehouse'))]
+    kick = '<span class="tag"><b>₽</b><i>Прайс</i></span><span class="mono">за операцию · без НДС</span>'
+    ctas = f'<a class="btn primary" href="{r}#calc"><span>Рассчитать стоимость партии</span><em>{ARR}</em></a><a class="btn ghost" href="{r}uslugi/"><span>Все услуги</span></a>'
+    form = L.formula([('scan', 'Приёмка', 'за единицу + разгрузка'), ('tag', 'Работы с товаром', 'маркировка, упаковка, комплекты'),
+                      ('boxes', 'Сборка', 'заказ FBS или поставка FBO'), ('rub', 'Цена за единицу', 'хранение — после 14 бесплатных дней')])
+    body = L.hero(crumbs(r, [('Главная', r), ('Цены', None)]), kick, 'Цены на фулфилмент для маркетплейсов', 'Цены',
+                  'Платите за операции, которые нужны вашему товару. Калькулятор на главной считает по этим же ценам.', ctas, 'hero_prices',
+                  [('Скидка 10% на первую партию', 'tl', True), ('Без минимального платежа', 'tr', False), ('Цена видна до договора', 'br', False)], facts) + f'''
 <section class="white"><div class="wrap">
+ <div class="sec-head rv"><div class="l"><span class="tag"><b>01</b><i>Прайс</i></span><h2>Из чего складывается цена</h2></div><p class="lead muted">Итог за единицу — сумма операций. Хранение считается по объёму и начинается после бесплатного периода.</p></div>
+ {form}
  <div class="pt">{groups}</div>
  <div class="pnote"><p>Цены указаны за операцию, без НДС. Скидка 10% на первую партию. Минимального объёма и ежемесячного платежа нет.</p><p>Это справочный прайс, не публичная оферта. Точная стоимость зависит от габаритов и объёмов и фиксируется в приложении к договору.</p></div>
  <p class="links"><a href="{AGENCY}ceny/" target="_blank" rel="noopener">Цены на маркетинг, контент и интернет-магазин — у агентства Madrocks ↗</a></p>
