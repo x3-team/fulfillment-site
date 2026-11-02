@@ -108,7 +108,6 @@ def footer(r, slug=None):
   <div><span class="mono">Свой канал</span>{col(GROUPS[1])}{col(GROUPS[2])}</div>
   <div><span class="mono">Компания</span><a href="{r}uslugi/">Все услуги</a><a href="{r}#cases">Кейсы</a><a href="{r}ceny/">Цены</a><a href="{r}#process">Как мы работаем</a><a href="{r}kontakty/">Контакты</a><a href="{r}kontakty/#rekvizity">Реквизиты</a><a href="{FF}" target="_blank" rel="noopener">Фулфилмент ↗</a></div></div>
  <div class="legal"><span>© 2026 {BRAND} · ИП Зозуля М. А. · ИНН 710709737470 · Работаем по ЭДО</span><span class="docs"><a href="{r}dokumenty/politika/">Политика обработки персональных данных</a><a href="{r}dokumenty/soglasie/">Согласие на обработку данных</a><a href="{r}dokumenty/cookies/">Cookies</a><a href="{r}dokumenty/soglashenie/">Пользовательское соглашение</a></span></div>
- <div class="made"><a href="https://solentica.agency/" target="_blank" rel="noopener">Сайт сделан в студии <b>Solentica</b><i aria-hidden="true">↗</i></a></div>
 </div></footer>
 
 <div class="dock"><div class="wrap wide"><p>Растим продажи — от карточки до своего магазина.</p><a href="{cta_href(r, slug)}">Заказать бесплатный аудит<i>{DOCK_ARR}</i></a></div></div>
