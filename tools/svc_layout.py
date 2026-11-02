@@ -20,7 +20,8 @@ CSS = '''
 .hdr .nav a[aria-current]{color:var(--ink)}
 .crumbs{color:var(--ink5)}.crumbs ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 10px}
 .crumbs li{display:flex;gap:10px;align-items:center}.crumbs li+li::before{content:"/";color:var(--ink3)}
-.crumbs a:hover{color:var(--acc)}.crumbs [aria-current]{color:var(--ink)}
+.crumbs a{color:var(--acc);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--acc) 40%,transparent);text-decoration-thickness:1px;text-underline-offset:4px;padding:6px 0;margin:-6px 0;transition:color .15s,text-decoration-color .15s}
+.crumbs a:hover,.crumbs a:focus-visible{color:var(--acc6);text-decoration-color:currentColor}.crumbs [aria-current]{color:var(--ink)}
 /* первый экран: сетка, большое синее слово, изометрическая сцена */
 .ph{position:relative;padding:20px 0 clamp(40px,5vw,64px);background-color:var(--paper);overflow:clip;isolation:isolate}
 .ph::before{content:"";position:absolute;inset:0;z-index:-1;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:80px 80px;background-position:center top;opacity:.55;-webkit-mask-image:linear-gradient(#000 20%,transparent 96%);mask-image:linear-gradient(#000 20%,transparent 96%)}
