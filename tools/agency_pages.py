@@ -204,7 +204,7 @@ def service_page(s):
     facts = [(e(s['price']), s['price_note'], 'rub')] + FACTS[k]
     kick = f'<span class="tag"><b>{n:02d}</b><i>{e(s["group"])}</i></span><span class="mono">{e(s["term"])}</span>'
     ctas = f'<a class="btn primary" href="{cta_href(r, k)}"><span>Заказать бесплатный аудит</span><em>{ARR}</em></a><a class="btn ghost" href="#tarify"><span>Цены</span></a>'
-    body = L.hero(crumbs(r, [(BRAND, r), ('Услуги', r + 'uslugi/'), (s['short'], None)]), kick, s['h1'], BIG[k], s['lead'], ctas, ART[k], chips(s), facts) + f'''
+    body = L.hero(crumbs(r, [('Главная', r), ('Услуги', r + 'uslugi/'), (s['short'], None)]), kick, s['h1'], BIG[k], s['lead'], ctas, ART[k], chips(s), facts) + f'''
 <section class="white"><div class="wrap">
  <div class="sec-head rv"><div class="l"><span class="tag"><b>01</b><i>Что входит</i></span><h2>Что входит в услугу</h2></div><p class="lead muted">Можно заказать услугу целиком или отдельные пункты. Состав работ фиксируем в договоре.</p></div>
  <div class="inc">{L.includes(s['includes'], INC_ICONS[k])}</div>
@@ -267,7 +267,7 @@ def index_page():
                   ('flow_link', 'Учёт и аналитика', 'Интеграции, маржа по SKU.', f'{r}uslugi/skvoznaya-analitika/')])
     title = 'Услуги для селлеров: маркетплейсы, интернет-магазин, маркетинг — Madrocks agency'
     desc = 'Все услуги digital-агентства «Madrocks agency» для селлеров: подключение кабинетов WB и Ozon, инфографика, продвижение, SEO карточек, интернет-магазин, маркетинг, интеграции и аналитика.'
-    body = L.hero(crumbs(r, [(BRAND, r), ('Услуги', None)]), kick, 'Услуги для селлеров маркетплейсов и интернет-магазинов', 'Услуги',
+    body = L.hero(crumbs(r, [('Главная', r), ('Услуги', None)]), kick, 'Услуги для селлеров маркетплейсов и интернет-магазинов', 'Услуги',
                   'Восемь направлений, которые закрывают весь путь селлера: от первой карточки до собственного магазина. Любую услугу можно заказать отдельно.',
                   ctas, 'ag_hero_services', [('Карточки · реклама · аналитика', 'tl', False), ('Свой интернет-магазин', 'tr', False), ('Связка с фулфилментом', 'br', True)], facts) + f'''
 <section class="white"><div class="wrap">
@@ -318,7 +318,7 @@ def prices_page(src):
     ctas = f'<a class="btn primary" href="{cta_href(r)}"><span>Заказать бесплатный аудит</span><em>{ARR}</em></a><a class="btn ghost" href="#pakety"><span>Пакеты</span></a>'
     title = 'Цены на продвижение на маркетплейсах, контент и интернет-магазин — Madrocks agency'
     desc = 'Прайс digital-агентства Madrocks agency: подключение кабинетов от 30 000 ₽, инфографика от 1 500 ₽ за слайд, продвижение от 40 000 ₽ в месяц, интернет-магазин от 350 000 ₽. Пакеты и цены «от».'
-    body = L.hero(crumbs(r, [(BRAND, r), ('Цены', None)]), kick, 'Цены на услуги агентства для селлеров', 'Цены',
+    body = L.hero(crumbs(r, [('Главная', r), ('Цены', None)]), kick, 'Цены на услуги агентства для селлеров', 'Цены',
                   'Пакеты с понятной ценой и прайс по услугам. Точную стоимость считаем после бесплатного аудита и фиксируем в договоре.', ctas, 'ag_hero_prices',
                   [('Без процента от оборота', 'tl', False), ('Рекламный бюджет — напрямую площадке', 'tr', False), ('Цена фиксируется до старта', 'br', True)], facts) + f'''
 <section class="white" id="pakety"><div class="wrap">

@@ -72,7 +72,7 @@ def kontakty():
              f'<a class="kc" href="{ap.TG}" target="_blank" rel="noopener"><div class="r"><span class="mono">Telegram</span><em>{A}</em></div><b>Написать менеджеру</b><p>Ответим на вопросы по услугам и срокам.</p></a>'
              f'<a class="kc" href="{ap.FF}" target="_blank" rel="noopener"><div class="r"><span class="mono">Фулфилмент</span><em>{A}</em></div><b>Товар в деле ↗</b><p>Склад, FBS и FBO в связке с маркетингом.</p></a>')
     body = f'''<section class="paper kh"><div class="wrap">
- {ap.crumbs(r, [(BRAND, r), ('Контакты', None)])}
+ {ap.crumbs(r, [('Главная', r), ('Контакты', None)])}
  <div class="l"><span class="tag acc"><b>01</b><i>Контакты</i></span><h1>Контакты</h1><p class="lead">Digital-агентство {e(BRAND)}. Оставьте заявку на бесплатный аудит или напишите в Telegram — пришлём план с бюджетом и сроками.</p></div>
  <div class="kcards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">{cards}</div>
 </div></section>
