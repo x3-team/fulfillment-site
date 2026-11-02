@@ -28,6 +28,12 @@
 
 Агентство: `agency/uslugi/…` и `agency/ceny/` генерирует `python3 tools/agency_pages.py` (тексты и прайс —
 `tools/agency_services.py`, пакеты — `const PLANS` в `agency/index.html`).
+
+Вёрстка этих страниц у обоих сайтов общая — `tools/svc_layout.py` (первый экран с большим синим словом и сценой,
+полоса фактов, карточки услуг, «Что входит» и этапы с картинками, CSS). Изометрические иллюстрации рисует код:
+кит `tools/iso_kit.py` (тот же, что для сцен на главной) и сцены `tools/iso_scenes.py` (`python3 tools/iso_scenes.py out.html`
+соберёт лист со всеми сценами для просмотра), линейные иконки — `tools/icons.py`. Какое слово, сцена, факты и иконки
+у какой услуги — словари `BIG`, `ART`, `FACTS`, `INC_ICONS`, `WHO_ICONS`, `STEP_ART` в начале генераторов (ключ — slug).
 Он же через `tools/agency_legal.py` собирает `agency/kontakty/` и `agency/dokumenty/`: оператор и реквизиты те же,
 что у фулфилмента (константы в `tools/legal_pages.py` и `REQ` в `tools/contacts_page.py`), тексты документов — общий
 шаблон `docs()` из `legal_pages.py` с формулировками агентства.
