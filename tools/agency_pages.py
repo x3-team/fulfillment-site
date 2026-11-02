@@ -365,6 +365,8 @@ def main():
             print(f'  - {s["short"]} · {a}: {b} {c}')
     for p in plans(src):
         print(f'  - Пакет «{p[0]}»: от {p[2]} {p[3]}')
+    import cachebust  # метки ?v= у CSS/JS, см. tools/cachebust.py
+    cachebust.main()
 
 
 if __name__ == '__main__':

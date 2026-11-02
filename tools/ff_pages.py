@@ -335,6 +335,8 @@ def main():
         for g, a, b, c in ph:
             print(f'  - {g} · {a}: {b} {c}')
     seo.main()
+    import cachebust  # метки ?v= у CSS/JS, см. tools/cachebust.py
+    cachebust.main()
 
 
 if __name__ == '__main__':
