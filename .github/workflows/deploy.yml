@@ -55,6 +55,10 @@ jobs:
       - uses: actions/checkout@v4
         if: steps.cfg.outputs.ok == 'true'
 
+      - name: Метки версий CSS/JS (иначе браузер держит старые стили 45 дней)
+        if: steps.cfg.outputs.ok == 'true'
+        run: python3 tools/cachebust.py
+
       - name: Установить lftp
         if: steps.cfg.outputs.ok == 'true'
         run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp >/dev/null
