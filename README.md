@@ -79,3 +79,7 @@ UTM-метки и источник перехода запоминаются н�
 Сайт открыт на домене https://tovarvdele.ru/ (хостинг reg.ru), он же прописан в `site.base_url`
 в `data/seo.json` и в `BASE` в `tools/contacts_page.py` и `tools/legal_pages.py`. При смене домена поменять
 все три и перезапустить генераторы.
+
+
+## Админка
+Лёгкая админка на PHP в `admin/` (калькулятор, контакты, FAQ, SEO, откат). Установка и создание админа — [admin/README.md](admin/README.md).

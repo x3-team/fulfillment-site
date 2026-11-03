@@ -1,0 +1,9 @@
+# Админка: только index.php доступен из веба, служебное закрыто.
+Options -Indexes
+DirectoryIndex index.php
+<FilesMatch "^(lib\.php|config\.local\.php|.*\.(json|log|md|tmp.*))$">
+  Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+  Header always set X-Robots-Tag "noindex, nofollow"
+</IfModule>
